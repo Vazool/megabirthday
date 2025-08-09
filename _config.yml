@@ -1,0 +1,16 @@
+title: Megabirthday
+description: Celebrate every 1,000 days of life
+url: https://megabirthday.me
+author: John Crook
+plugins:
+  - jekyll-remote-theme
+remote_theme: jekyll/minima
+
+# Navigation for the minima theme
+minima:
+  skin: classic
+  social_links:
+    - { platform: github, user_url: "https://github.com/<your-username>/megabirthday" }
+
+# Collections and defaults (posts already work out of the box)
+markdown: kramdown
