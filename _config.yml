@@ -10,7 +10,7 @@ remote_theme: jekyll/minima
 minima:
   skin: classic
   social_links:
-    - { platform: github, user_url: "https://github.com/<your-username>/megabirthday" }
+    - { platform: github, user_url: "https://github.com/Vazool/megabirthday" }
 
 # Collections and defaults (posts already work out of the box)
 markdown: kramdown
