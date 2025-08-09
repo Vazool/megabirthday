@@ -1,0 +1,14 @@
+/* Megabirthday skin */
+$brand-color: #6b5b95;           // primary accent (links, highlights)
+$brand-color-light: #9f8ec1;
+$brand-color-dark: #4c3f6e;
+
+$background-color: #fffdf9;      // warm off‑white page bg
+$text-color: #1f2430;            // near‑black body text
+
+$link-base-color: $brand-color;
+$link-visited-color: $brand-color-dark;
+$link-hover-color: darken($brand-color, 10%);
+
+$border-color: #e9e2f8;          // subtle dividers
+$code-background-color: #f6f3ff; // code blocks / inline code
