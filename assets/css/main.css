@@ -1,0 +1,77 @@
+
+/* Import font definitions */
+@import url("/assets/css/fonts.css");
+
+/* Colour Palette */
+:root {
+  --warm-teal: #4B9E9E;
+  --dusty-rose: #C97A85;
+  --burnt-amber: #D38B36;
+  --terracotta: #C8643B;
+  --moss-green: #7A8B50;
+  --smoky-navy: #3E5A73;
+  --muted-lavender: #8C7CA8;
+  --warm-grey: #A69D94;
+  --off-white: #F4F0EC;
+  --charcoal: #3C3C3C;
+}
+
+/* Base Styles */
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--charcoal);
+  background: var(--off-white);
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: var(--font-head);
+  line-height: 1.25;
+  color: var(--smoky-navy);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Links */
+a {
+  color: var(--warm-teal);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--dusty-rose);
+  text-decoration: underline;
+}
+
+/* Buttons */
+button, .btn {
+  font-family: var(--font-body);
+  background: var(--burnt-amber);
+  color: white;
+  font-weight: 600;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover, .btn:hover {
+  background: var(--dusty-rose);
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+.max-width {
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
