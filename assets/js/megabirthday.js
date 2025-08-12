@@ -1,47 +1,71 @@
 (function () {
-  function pad(n){ return n.toString().padStart(2,"0"); }
-
-  function nextMegabirthday(dobDate){
-    const MS_DAY = 24*60*60*1000;
-    const today = new Date();
-    const daysLived = Math.floor((today - dobDate) / MS_DAY);
-    const nextK = Math.ceil((daysLived + 1) / 1000) * 1000; // next multiple of 1000
-    const daysToGo = nextK - daysLived;
-    const target = new Date(today.getTime() + daysToGo * MS_DAY);
-    return { nextK, daysToGo, target };
+  // Helper to make a UTC date (avoids DST/timezone quirks)
+  function makeUTCDate(y, m, d) {
+    return new Date(Date.UTC(y, m, d));
   }
 
-  function formatDate(dt){
-    const y = dt.getFullYear();
-    const m = pad(dt.getMonth() + 1);
-    const d = pad(dt.getDate());
-    return `${y}-${m}-${d}`;
+  // Parse yyyy-mm-dd from <input type="date"> safely into UTC
+  function parseInputDate(value) {
+    const [yyyy, mm, dd] = value.split("-").map(Number);
+    if (!yyyy || !mm || !dd) return null;
+    return makeUTCDate(yyyy, mm - 1, dd);
   }
 
-  function suffix(n){
-    const j = n % 10, k = n % 100;
-    if (j === 1 && k !== 11) return "st";
-    if (j === 2 && k !== 12) return "nd";
-    if (j === 3 && k !== 13) return "rd";
-    return "th";
+  // Add N days in UTC
+  function addDaysUTC(dateUTC, days) {
+    const msPerDay = 24 * 60 * 60 * 1000;
+    return new Date(dateUTC.getTime() + days * msPerDay);
   }
 
-  function onCalc(){
-    const dob = document.getElementById("dob").value;
-    const out = document.getElementById("result");
-    if (!dob) { out.textContent = "Please choose a date of birth."; return; }
-    const dobDate = new Date(dob + "T00:00:00");
-    const { nextK, daysToGo, target } = nextMegabirthday(dobDate);
-    const nth = nextK / 1000;
-    out.innerHTML = `
-      <p>Your next megabirthday is your <strong>${nth}${suffix(nth)}</strong> (day ${nextK}).</p>
-      <p>Date: <strong>${formatDate(target)}</strong></p>
-      <p>Countdown: <strong>${daysToGo} days</strong> to go.</p>
+  // Difference in whole days between two UTC dates
+  function diffDaysUTC(aUTC, bUTC) {
+    const msPerDay = 24 * 60 * 60 * 1000;
+    return Math.floor((aUTC - bUTC) / msPerDay);
+  }
+
+  // Format to UK date
+  function formatUK(dateUTC) {
+    return dateUTC.toLocaleDateString("en-GB", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  }
+
+  function ordinal(n) {
+    const s = ["th", "st", "nd", "rd"], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+
+  const form = document.getElementById("mb-form");
+  const result = document.getElementById("result");
+
+  if (!form || !result) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const dobInput = document.getElementById("dob");
+    const dob = parseInputDate(dobInput.value);
+    if (!dob) {
+      result.textContent = "Please enter a valid date of birth.";
+      return;
+    }
+
+    const today = makeUTCDate(
+      new Date().getUTCFullYear(),
+      new Date().getUTCMonth(),
+      new Date().getUTCDate()
+    );
+
+    const livedDays = diffDaysUTC(today, dob); // days since DOB
+    const nextIndex = Math.floor(livedDays / 1000) + 1; // next 1000-day index
+    const nextDate = addDaysUTC(dob, nextIndex * 1000);
+    const daysUntil = diffDaysUTC(nextDate, today);
+
+    result.innerHTML = `
+      <p>Your next megabirthday is your <strong>${ordinal(nextIndex * 1000)}</strong> day</p>
+      <p><strong>${formatUK(nextDate)}</strong> (${daysUntil} days to go)</p>
     `;
-  }
-
-  document.addEventListener("DOMContentLoaded", function(){
-    const btn = document.getElementById("calc-btn");
-    if (btn) btn.addEventListener("click", onCalc);
   });
 })();
