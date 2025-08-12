@@ -35,6 +35,62 @@ main{
   padding-block: clamp(2rem, 4vw, 4rem);
 }
 
+/* NAV SECTION STARTS*/
+
+/* Header bar */
+.site-header{
+  background: var(--smoky-navy);
+  color: #fff;
+  /* make unsticky by commenting next TWO lines */
+  position: sticky;
+     top: 0;
+  z-index: 100;
+}
+
+/* Inner layout */
+.header-inner{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding-block: .8rem;
+}
+
+/* Logo */
+.logo{
+  font-family: var(--font-head);
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: #fff;
+  text-decoration: none;
+}
+.logo:hover{ opacity: .9; }
+
+/* Nav */
+.site-nav{ display: flex; gap: 1rem; }
+.site-nav a{
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: .35rem .6rem;
+  border-radius: 10px;
+}
+.site-nav a:hover,
+.site-nav a:focus-visible{
+  background: rgba(255,255,255,.14);
+  outline: none;
+}
+.site-nav a.is-active{
+  background: rgba(255,255,255,.22);
+}
+
+/* Small screens – stack neatly */
+@media (max-width: 640px){
+  .header-inner{ grid-template-columns: 1fr; row-gap: .6rem; }
+  .site-nav{ gap: .5rem; }
+}
+
+/*NAV SECTION ENDS*/
+
 body {
   font-family: var(--font-body);
   font-size: 17px;
