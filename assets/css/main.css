@@ -111,6 +111,9 @@ h1, h2, h3 {
   margin-bottom: 0.5em;
 }
 
+/* Maintains the same left alignment as the nav/footer but constrains the right edge so your eyes don’t have to travel as far  */
+.prose > p, .prose > ul, .prose > ol { max-width: 70ch; }
+
 /* Links */
 a {
   color: var(--warm-teal);
