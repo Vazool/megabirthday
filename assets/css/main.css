@@ -81,6 +81,24 @@ main{
   z-index: 100;
 }
 
+.hero{ padding-block: clamp(2rem, 5vw, 4rem); }
+.lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
+
+.calc{ display: flex; gap: .5rem; align-items: center; margin-top: 1rem; }
+.calc input[type="date"]{
+  padding: .5rem .6rem;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 8px;
+  background: #fff;
+}
+.calc-result{ margin-top: 1rem; font-weight: 500; }
+
+.visually-hidden{
+  position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+
 .header-inner{
   display: grid;
   grid-template-columns: 1fr auto;
