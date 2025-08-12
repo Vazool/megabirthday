@@ -10,25 +10,30 @@
   <!-- CSS: load fonts first, then main styles -->
   <link rel="stylesheet" href="/assets/css/fonts.css">
   <link rel="stylesheet" href="/assets/css/main.css">
-
-  <!-- Optional: favicon later -->
-  <!-- <link rel="icon" href="/assets/favicon.ico"> -->
 </head>
 <body>
+
+  <!-- HEADER -->
   <header class="site-header">
-    <div class="max-width">
+    <div class="container header-inner">
       <a href="/" class="logo">megabirthday.me</a>
-      <!-- simple placeholder nav -->
-      <nav><a href="/about/">About</a> · <a href="/blog/">Blog</a></nav>
+      <nav class="site-nav">
+        <a href="/about/">About</a>
+        <a href="/blog/">Blog</a>
+      </nav>
     </div>
   </header>
 
-  <main class="max-width">
+  <!-- MAIN CONTENT -->
+  <main class="container">
     {{ content }}
   </main>
 
-  <footer class="site-footer text-center">
-    <div class="max-width">© {{ site.time | date: "%Y" }} megabirthday.me</div>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">© {{ site.time | date: "%Y" }} megabirthday.me</div>
   </footer>
+
 </body>
 </html>
+
