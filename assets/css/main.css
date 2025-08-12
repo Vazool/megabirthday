@@ -17,6 +17,23 @@
 html {
   font-size: 100%;
 }
+/* Layout tokens */
+:root{
+  --container: 1100px;
+  --space-2: 1rem;
+}
+
+/* Centring container */
+.container{
+  max-width: var(--container);
+  margin-inline: auto;   /* centres the block */
+  padding-inline: var(--space-2);
+}
+
+/* Nice vertical spacing for main */
+main{
+  padding-block: clamp(2rem, 4vw, 4rem);
+}
 
 body {
   font-family: var(--font-body);
