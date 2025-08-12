@@ -1,0 +1,23 @@
+---
+layout: default
+---
+
+<section class="hero">
+  <div class="container">
+    <h1>Welcome to Megabirthday</h1>
+    <p class="lead">Celebrate every 1,000 days of life</p>
+
+    <form class="calc" id="mb-form" action="#result" method="get" novalidate>
+      <label for="dob" class="visually-hidden">Date of birth</label>
+      <input type="date" id="dob" name="dob" required aria-label="Date of birth">
+      <button class="btn" type="submit">Calculate</button>
+    </form>
+
+    <div id="result" class="calc-result" aria-live="polite"></div>
+
+    <p class="note">Tip: try today’s date to see when your next mega lands</p>
+  </div>
+</section>
+
+<!-- Calculator script -->
+<script src="/assets/js/megabirthday.js" defer></script>
