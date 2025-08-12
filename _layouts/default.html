@@ -14,12 +14,18 @@
 <body>
 
   <!-- HEADER -->
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <div class="container header-inner">
-      <a href="/" class="logo">megabirthday.me</a>
-      <nav class="site-nav">
-        <a href="/about/">About</a>
-        <a href="/blog/">Blog</a>
+      <a href="/" class="logo" aria-label="Megabirthday home">
+        megabirthday.me
+        <!-- swap for an SVG later:
+        <img src="/assets/logo.svg" alt="Megabirthday" height="28">
+        -->
+      </a>
+
+      <nav class="site-nav" role="navigation" aria-label="Primary">
+        <a href="/about/" class="{% if page.url == '/about/' %}is-active{% endif %}">About</a>
+        <a href="/blog/"  class="{% if page.url contains '/blog' %}is-active{% endif %}">Blog</a>
       </nav>
     </div>
   </header>
@@ -38,5 +44,6 @@
 
 </body>
 </html>
+
 
 
