@@ -3,14 +3,217 @@ layout: home
 title: Home
 ---
 
-<h1>Welcome to Megabirthday</h1>
-<p>Celebrate every 1,000 days of life.</p>
+<!-- HERO: two-column on desktop, stacked on mobile -->
+<section class="mb-hero">
+  <div class="mb-hero__grid">
+    <!-- Left: welcome copy -->
+    <div class="mb-hero__left">
+      <h1 class="mb-hero__title">Welcome to Megabirthday</h1>
+      <p class="mb-hero__lead">
+        We celebrate every <strong>1,000 days</strong> of life. Pop your date of birth in the calculator
+        to find your next megabirthday and how long until the party.
+      </p>
+      <p class="mb-hero__sub">
+        Minimalist design, clean palette, and a playful way to mark time. More coming soon.
+      </p>
+    </div>
 
-<h1>Megabirthday calculator</h1>
-<input type="date" id="dob" />
-<button id="calc-btn">Calculate</button>
-<div id="result" style="margin-top:1rem;"></div>
+    <!-- Right: calculator -->
+    <div class="mb-hero__right">
+      <div class="mb-card">
+        <h2 class="mb-card__title">Megabirthday Calculator</h2>
+        <label class="mb-field">
+          <span>Date of birth</span>
+          <input id="dob" type="date" inputmode="numeric" placeholder="YYYY-MM-DD" />
+        </label>
+        <button id="calcBtn" class="mb-btn" type="button" aria-live="polite">Calculate</button>
 
-<script src="/assets/js/megabirthday.js"></script>
+        <div id="result" class="mb-result" aria-live="polite"></div>
+        <p class="mb-footnote">
+          We calculate using calendar days (UTC) to avoid time‑zone wobble.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<p>🚧 Full site coming soon – October 2025</p>
+<style>
+  /* ===== Megabirthday scoped styles (safe to paste in a Markdown page) ===== */
+  
+  :root{
+  /* Brand */
+    --terracotta: #C8643B;
+    --amber:      #D38B36;
+    --rose:       #C97A85;
+    --charcoal:   #3C3C3C;
+
+  /* Page background off-white */
+    --offwhite:   #F4F0EC;
+
+  /* Neutrals derived from Charcoal (no new hex codes) */
+    --charcoal-rgb: 60,60,60;
+    --ink:        rgba(var(--charcoal-rgb), 0.92); /* body text */
+    --ink-soft:   rgba(var(--charcoal-rgb), 0.70); /* secondary text */
+    --ring:       rgba(var(--charcoal-rgb), 0.22); /* borders/dividers */
+    --card-bg:    #FFFFFF;                          /* keep cards white */
+
+  .mb-hero{
+    background: var(--offwhite);
+    padding: clamp(2rem, 6vw, 5rem) 1rem;
+  }
+  .mb-hero__grid{
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: center;
+  }
+  .mb-hero__title{
+    margin: 0 0 .5rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .mb-hero__lead{
+    margin: 0 0 .75rem;
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    color: var(--ink-soft);
+  }
+  .mb-hero__sub{
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  /* Card */
+  .mb-card{
+    background: var(--card-bg);
+    border: 1px solid var(--ring);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 6%);
+  }
+  .mb-card__title{
+    margin: 0 0 .75rem;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .mb-field{
+    display: grid;
+    gap: .35rem;
+    margin: 0 0 .75rem;
+    font-size: .95rem;
+    color: var(--ink);
+  }
+  .mb-field input[type="date"]{
+    appearance: none;
+    width: 100%;
+    padding: .6rem .7rem;
+    border: 1px solid var(--ring);
+    border-radius: 10px;
+    background: white;
+    color: var(--ink);
+  }
+  .mb-btn{
+    display: inline-block;
+    padding: .65rem .9rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--terracotta);
+    color: #fff;
+  }
+  .mb-btn:focus-visible{ outline: 2px solid black; outline-offset: 2px; }
+  .mb-result{
+    margin-top: .9rem;
+    padding-top: .6rem;
+    border-top: 1px dashed var(--ring);
+    color: var(--ink);
+    min-height: 2.2em; /* keeps layout steady before first result */
+  }
+  .mb-footnote{
+    margin: .6rem 0 0;
+    font-size: .85rem;
+    color: var(--ink-soft);
+  }
+
+  /* Responsive: stack on small screens (text first, calculator below) */
+  @media (max-width: 820px){
+    .mb-hero__grid{ grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  (function(){
+    const $ = sel => document.querySelector(sel);
+    const dobInput = $('#dob');
+    const btn = $('#calcBtn');
+    const out = $('#result');
+
+    const MS_PER_DAY = 24*60*60*1000;
+
+    function toISODateUTC(d){
+      // Ensure we format as YYYY-MM-DD in local-friendly way
+      const y = d.getUTCFullYear();
+      const m = String(d.getUTCMonth()+1).padStart(2,'0');
+      const day = String(d.getUTCDate()).padStart(2,'0');
+      return `${y}-${m}-${day}`;
+    }
+    function ordinal(n){
+      const mod100 = n % 100;
+      const mod10 = n % 10;
+      if (mod100 >= 11 && mod100 <= 13) return `${n}th`;
+      return `${n}${({1:'st',2:'nd',3:'rd'})[mod10] || 'th'}`;
+    }
+    function daysBetweenUTC(a, b){
+      // strip to UTC midnight to avoid DST drift
+      const aUTC = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
+      const bUTC = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
+      return Math.floor((bUTC - aUTC) / MS_PER_DAY);
+    }
+    function addDaysUTC(d, n){
+      const utc = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+      return new Date(utc + n*MS_PER_DAY);
+    }
+
+    function calc(){
+      const val = dobInput.value;
+      if (!val){
+        out.textContent = 'Please pick your date of birth.';
+        return;
+      }
+      const [y,m,day] = val.split('-').map(Number);
+      const dob = new Date(Date.UTC(y, m-1, day));
+      const today = new Date();
+      // Today at UTC midnight for stable math
+      const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+      if (dob > todayUTC){
+        out.textContent = 'That date is in the future.';
+        return;
+      }
+
+      const lived = daysBetweenUTC(dob, todayUTC);
+      const nextK = Math.floor(lived/1000) + 1;                 // next thousandth
+      const targetDays = nextK * 1000;
+      const targetDate = addDaysUTC(dob, targetDays);
+      const daysToGo = daysBetweenUTC(todayUTC, targetDate);
+
+      if (daysToGo === 0){
+        out.innerHTML = `🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${toISODateUTC(targetDate)}).`;
+      } else if (daysToGo < 0) {
+        // Safety: if birthday rolled past due to clock skew
+        const nextNext = nextK + 1;
+        const nextDate = addDaysUTC(dob, nextNext*1000);
+        const nextToGo = daysBetweenUTC(todayUTC, nextDate);
+        out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${toISODateUTC(nextDate)}</strong> (${nextToGo} days).`;
+      } else {
+        out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${toISODateUTC(targetDate)}</strong> — <strong>${daysToGo}</strong> days to go.`;
+      }
+    }
+
+    btn.addEventListener('click', calc);
+    // Optional: live update when date changes
+    dobInput.addEventListener('change', calc);
+  })();
+</script>
