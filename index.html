@@ -146,6 +146,13 @@ title: Home
     color: var(--ink);
     min-height: 2.2em; /* keeps layout steady before first result */
   }
+  /* Hide the framing until there’s content */
+  .mb-result:empty{
+    border-top: 0;
+    padding-top: 0;
+    min-height: 0;
+    display: none; /* optional but nice */
+  }
   .mb-footnote{
     margin: .6rem 0 0;
     font-size: .85rem;
