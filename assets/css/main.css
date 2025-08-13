@@ -111,6 +111,13 @@ main{
 /* everything inside respects width (prevents overflow) */
 .mb-card, .mb-card * { box-sizing: border-box; }
 
+.mb-hide{ display:none; }
+.mb-link{
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--warm-teal); font-weight: 600; text-decoration: underline;
+}
+.mb-link:hover{ color: var(--dusty-rose); }
+
 /* field wrapper (optional nicety) */
 .mb-field{
   display: grid;
