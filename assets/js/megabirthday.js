@@ -39,41 +39,44 @@
       const base = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
       return new Date(base + n*MS_PER_DAY);
     }
-
     function calc(){
-      const val = dobInput.value;
-      if (!val){
-        out.textContent = 'Please pick your date of birth.';
-        return;
-      }
-      const [y,m,day] = val.split('-').map(Number);
-      const dob = new Date(Date.UTC(y, m-1, day));
-      const now = new Date();
-      const todayUTC = new Date(Date.UTC(
-        now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()
-      ));
-      if (dob > todayUTC){
-        out.textContent = 'That date is in the future.';
-        return;
-      }
+  // Use the browser-parsed Date from the <input type="date">
+  const d = dobInput.valueAsDate;   // either a Date (at local midnight) or null
+  if (!d){
+    out.textContent = 'Please pick your date of birth.';
+    return;
+  }
 
-      const lived = daysBetweenUTC(dob, todayUTC);
-      const nextK = Math.floor(lived/1000) + 1;
-      const target = addDaysUTC(dob, nextK*1000);
-      const toGo = daysBetweenUTC(todayUTC, target);
+  // Normalise DOB to UTC midnight (stable maths across time zones/DST)
+  const dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
 
-      if (toGo === 0){
-        out.innerHTML = `🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${toISODateUTC(target)}).`;
-      } else if (toGo < 0){
-        const nextNext = nextK + 1;
-        const nxt = addDaysUTC(dob, nextNext*1000);
-        const nxtToGo = daysBetweenUTC(todayUTC, nxt);
-        out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${toISODateUTC(nxt)}</strong> (${nxtToGo} days).`;
-      } else {
-        out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${toISODateUTC(target)}</strong>. Just <strong>${toGo}</strong> days to go.`;
-      }
-    }
+  // Today at UTC midnight
+  const now = new Date();
+  const todayUTC = new Date(Date.UTC(
+    now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()
+  ));
 
+  if (dobUTC > todayUTC){
+    out.textContent = 'That date is in the future.';
+    return;
+  }
+
+  const lived  = daysBetweenUTC(dobUTC, todayUTC);
+  const nextK  = Math.floor(lived / 1000) + 1;
+  const target = addDaysUTC(dobUTC, nextK * 1000);
+  const toGo   = daysBetweenUTC(todayUTC, target);
+
+  if (toGo === 0){
+    out.innerHTML = `🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${toISODateUTC(target)}).`;
+  } else if (toGo < 0){
+    const nextNext = nextK + 1;
+    const nxt      = addDaysUTC(dobUTC, nextNext * 1000);
+    const nxtToGo  = daysBetweenUTC(todayUTC, nxt);
+    out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${toISODateUTC(nxt)}</strong> (${nxtToGo} days).`;
+  } else {
+    out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${toISODateUTC(target)}</strong> — <strong>${toGo}</strong> days to go.`;
+  }
+}
     // Attach once
     form?.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
     btn?.addEventListener('click', calc);
