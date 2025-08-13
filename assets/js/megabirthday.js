@@ -13,7 +13,10 @@
     const dobInput = document.getElementById('dob');
     const btn = document.getElementById('calcBtn');
     const out = document.getElementById('result');
-
+    
+    // Prevent choosing a future date (sets max="YYYY-MM-DD")
+    if (dobInput) dobInput.max = new Date().toISOString().slice(0, 10);
+    
     // If this page doesn't have the calculator, do nothing
     if (!dobInput || !out) return;
 
