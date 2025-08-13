@@ -3,19 +3,21 @@ layout: default
 ---
 
 <section class="hero">
-    <h1>Welcome to Megabirthday</h1>
-    <p class="lead">Celebrate every 1,000 days of life</p>
+  <h1>Welcome to Megabirthday</h1>
+  <p class="lead">Celebrate every 1,000 days of life</p>
 
-    <form class="calc" id="mb-form" action="#result" method="get" novalidate>
-      <label for="dob" class="visually-hidden">Date of birth</label>
-      <input type="date" id="dob" name="dob" required aria-label="Date of birth">
-      <button class="btn" type="submit">Calculate</button>
-    </form>
+  <form class="calc" id="mb-form" action="#result" method="get" novalidate>
+    <label for="dob" class="visually-hidden">Date of birth</label>
+    <input type="date" id="dob" name="dob" required aria-label="Date of birth">
+    <button class="btn" type="submit">Calculate</button>
+  </form>
 
-    <div id="result" class="calc-result" aria-live="polite"></div>
+  <div id="result" class="calc-result" aria-live="polite"></div>
 
-    <p class="note">Tip: enter your date of birth to see your next megabirthday</p>
+  <p class="note">Tip: enter your date of birth to see your next megabirthday</p>
 </section>
 
+{{ content }}  <!-- THIS makes anything in index.md appear -->
+
 <!-- Calculator script -->
-<script src="/assets/js/megabirthday.js" defer></script>
+<script src="{{ '/assets/js/megabirthday.js' | relative_url }}" defer></script>
