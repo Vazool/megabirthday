@@ -81,37 +81,73 @@ main{
   z-index: 100;
 }
 
-.mb-hero{ padding-block: clamp(2rem, 5vw, 4rem);}
-
-/* Top-align the two columns on desktop */
-@media (min-width: 821px){
-  .mb-hero__grid{ align-items: start; }   /* was: center */
-  .mb-hero__right{ align-self: start; }   /* belt-and-braces */
+/* HERO */
+.mb-hero{
+  padding-block: clamp(2rem, 5vw, 4rem);
+  background: var(--off-white);
 }
-/* Keep form controls inside the card width */
+.mb-hero__grid{
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;   /* two columns on desktop */
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;                     /* top-align both columns */
+}
+@media (max-width: 820px){
+  .mb-hero__grid{ grid-template-columns: 1fr; }  /* stack on mobile */
+}
+
+/* CARD */
+.mb-card{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 6%);
+  max-width: 480px;        /* stops over-wide cards on big screens */
+  overflow: hidden;        /* clips any 1px rounding artifacts */
+}
+/* everything inside respects width (prevents overflow) */
 .mb-card, .mb-card * { box-sizing: border-box; }
 
+/* field wrapper (optional nicety) */
+.mb-field{
+  display: grid;
+  gap: .35rem;
+  margin: 0 0 .75rem;
+  font-size: .95rem;
+  color: var(--charcoal);
+}
+
+/* inputs/selects/textarea */
 .mb-card .mb-field input,
 .mb-card .mb-field select,
-.mb-card .mb-field textarea,
-.mb-card .mb-field input[type="date"]{
+.mb-card .mb-field textarea{
   display: block;
   width: 100%;
   max-width: 100%;
-  min-width: 0;              /* prevents flex/grid overflow */
+  min-width: 0;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  border-radius: 10px;       /* match your design (optional) */
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 10px;
+  padding: .6rem .7rem;
+  background: #fff;
+  color: var(--charcoal);
 }
 
-/* Leave room for the calendar icon so text doesn’t crash into it */
+/* date input specifics (merge of your two blocks) */
 .mb-card .mb-field input[type="date"]{
-  padding-right: 2.25rem;    /* adjust to 2.0–2.5rem if needed */
+  padding-right: 2.25rem;  /* space for calendar icon */
+  line-height: normal;
+  height: 2.5rem;
 }
-
-/* If a 1-px edge still shows (rounding), clip it */
-.mb-card{ overflow: hidden; }
+/* optional: reduce icon’s intrinsic padding on WebKit */
+.mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{
+  margin-right: .25rem;
+}
 
 .lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
 
