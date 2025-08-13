@@ -91,22 +91,27 @@ main{
 /* Keep form controls inside the card width */
 .mb-card, .mb-card * { box-sizing: border-box; }
 
-.mb-field input[type="date"],
-.mb-field input,
-.mb-field select,
-.mb-field textarea{
+.mb-card .mb-field input,
+.mb-card .mb-field select,
+.mb-card .mb-field textarea,
+.mb-card .mb-field input[type="date"]{
   display: block;
   width: 100%;
   max-width: 100%;
+  min-width: 0;              /* prevents flex/grid overflow */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  border-radius: 10px;       /* match your design (optional) */
 }
 
-/* Optional: leave room for the calendar icon so text never collides */
-.mb-field input[type="date"]{
-  padding-right: 2.25rem; /* tweak to taste */
+/* Leave room for the calendar icon so text doesn’t crash into it */
+.mb-card .mb-field input[type="date"]{
+  padding-right: 2.25rem;    /* adjust to 2.0–2.5rem if needed */
 }
+
+/* If a 1-px edge still shows (rounding), clip it */
+.mb-card{ overflow: hidden; }
 
 .lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
 
