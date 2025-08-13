@@ -81,7 +81,7 @@ main{
   z-index: 100;
 }
 
-.hero{ padding-block: clamp(2rem, 5vw, 4rem);}
+.mb-hero{ padding-block: clamp(2rem, 5vw, 4rem);}
 
 /* Top-align the two columns on desktop */
 @media (min-width: 821px){
