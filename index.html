@@ -24,18 +24,28 @@ title: Home
         <h2 class="mb-card__title">Megabirthday Calculator</h2>
         
         <form id="mb-form" class="mb-form" novalidate onsubmit="return false">
+          
           <label class="mb-field">
             <span>Date of birth</span>
             <input
               id="dob"
               name="dob"
               type="date"
-              autocomplete="bday"
+              autocomplete="bday" />
+            
+            <input id="dobText"
+              name="dobText"
+              type="text"
               inputmode="numeric"
-            />
+              placeholder="DD/MM/YYYY"
+              class="mb-hide"
+              autocomplete="bday" />
           </label>
 
+          <button id="typeToggle" class="mb-link" type="button">Prefer typing?</button>
+          
           <button id="calcBtn" class="mb-btn" type="submit">Calculate</button>
+          
         </form>
 
 <div id="result" class="mb-result" aria-live="polite"></div>
