@@ -22,11 +22,14 @@ title: Home
     <div class="mb-hero__right">
       <div class="mb-card">
         <h2 class="mb-card__title">Megabirthday Calculator</h2>
-        <label class="mb-field">
-          <span>Date of birth</span>
-          <input id="dob" type="date" inputmode="numeric" placeholder="YYYY-MM-DD" />
-        </label>
-        <button id="calcBtn" class="mb-btn" type="button" aria-live="polite">Calculate</button>
+        
+        <form id="mb-form" class="mb-form" novalidate>
+          <label class="mb-field">
+            <span>Date of birth</span>
+            <input id="dob" type="date" inputmode="numeric" placeholder="YYYY-MM-DD" />
+          </label>
+          <button id="calcBtn" class="mb-btn" type="button" aria-live="polite">Calculate</button>
+        </form>form>
 
         <div id="result" class="mb-result" aria-live="polite"></div>
         <p class="mb-footnote">
@@ -56,7 +59,8 @@ title: Home
     --ink-soft:   rgba(var(--charcoal-rgb), 0.70); /* secondary text */
     --ring:       rgba(var(--charcoal-rgb), 0.22); /* borders/dividers */
     --card-bg:    #FFFFFF;                          /* keep cards white */
-
+  }
+  
   .mb-hero{
     background: var(--offwhite);
     padding: clamp(2rem, 6vw, 5rem) 1rem;
