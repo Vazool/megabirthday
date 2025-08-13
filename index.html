@@ -26,10 +26,21 @@ title: Home
         <form id="mb-form" class="mb-form" novalidate>
           <label class="mb-field">
             <span>Date of birth</span>
-            <input id="dob" type="date" inputmode="numeric" placeholder="YYYY-MM-DD" />
+            <input
+              id="dob"
+              name="dob"
+              type="date"
+              autocomplete="bday"
+              inputmode="numeric"            <!-- optional; ignored by most date pickers -->
+              placeholder="YYYY-MM-DD"       <!-- optional; often not shown on date inputs -->
+             />
           </label>
-          <button id="calcBtn" class="mb-btn" type="button" aria-live="polite">Calculate</button>
-        </form>form>
+
+          <button id="calcBtn" class="mb-btn" type="submit">Calculate</button>
+        </form>
+
+<div id="result" class="mb-result" aria-live="polite"></div>
+
 
         <div id="result" class="mb-result" aria-live="polite"></div>
         <p class="mb-footnote">
