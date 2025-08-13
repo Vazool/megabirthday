@@ -81,7 +81,14 @@ main{
   z-index: 100;
 }
 
-.hero{ padding-block: clamp(2rem, 5vw, 4rem); }
+.hero{ padding-block: clamp(2rem, 5vw, 4rem);}
+
+/* Top-align the two columns on desktop */
+@media (min-width: 821px){
+  .mb-hero__grid{ align-items: start; }   /* was: center */
+  .mb-hero__right{ align-self: start; }   /* belt-and-braces */
+}
+
 .lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
 
 .calc{ display: flex; gap: .5rem; align-items: center; margin-top: 1rem; }
