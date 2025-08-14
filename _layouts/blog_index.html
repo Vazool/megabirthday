@@ -1,0 +1,19 @@
+---
+layout: default
+---
+<article class="prose">
+  <h1>{{ page.title | default: "Blog" }}</h1>
+  {% if page.subtitle %}<p class="lead">{{ page.subtitle }}</p>{% endif %}
+
+  <ul class="blog-list">
+    {% assign posts = site.posts | sort: 'date' | reverse %}
+    {% for post in posts %}
+      <li>
+        <h2 style="margin:0 0 .25rem;"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <div class="blog-meta">{{ post.date | date: "%-d %B %Y" }}</div>
+        <p>{{ post.excerpt | strip_html | truncate: 180 }}</p>
+        <a href="{{ post.url | relative_url }}">Read more →</a>
+      </li>
+    {% endfor %}
+  </ul>
+</article>
