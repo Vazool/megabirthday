@@ -125,6 +125,23 @@ main{
   }
 }
 
+/* polish the burger button (desktop + mobile) */
+.nav-toggle{
+  background: none;
+  border: 0;
+  color: #fff;
+  padding: .35rem;
+  border-radius: 10px;
+  line-height: 0;
+  cursor: pointer;
+}
+.nav-toggle svg{ display:block; }
+.nav-toggle:hover,
+.nav-toggle:focus-visible{
+  background: rgba(255,255,255,.14);
+  outline: none;
+}
+
 /* HERO */
 .mb-hero{
   padding-block: clamp(2rem, 5vw, 4rem);
