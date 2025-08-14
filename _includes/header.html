@@ -1,0 +1,26 @@
+<header class="site-header" data-nav data-open="false">
+  <div class="container header-inner">
+    <a href="{{ '/' | relative_url }}" class="logo">megabirthday.me</a>
+
+    <!-- Mobile hamburger -->
+    <button class="nav-toggle" id="navToggle"
+            aria-expanded="false" aria-controls="site-menu">
+      <span class="visually-hidden">Menu</span>
+      <!-- simple icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"
+           focusable="false" role="img">
+        <path d="M3 6h18M3 12h18M3 18h18"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav id="site-menu" class="site-nav" aria-label="Main">
+      <a href="{{ '/about/'   | relative_url }}"
+         class="{% if page.url == '/about/' %}is-active{% endif %}">About</a>
+      <a href="{{ '/blog/'    | relative_url }}"
+         class="{% if page.url contains '/blog' %}is-active{% endif %}">Blog</a>
+      <a href="{{ '/contact/' | relative_url }}"
+         class="{% if page.url == '/contact/' %}is-active{% endif %}">Contact</a>
+    </nav>
+  </div>
+</header>
