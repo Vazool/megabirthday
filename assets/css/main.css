@@ -27,23 +27,24 @@
    =========== */
 html { font-size: 100%; }
 
-body {
+body{
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size: clamp(16px, 1.1vw + 0.2rem, 18px); /* fluid base */
   line-height: 1.6;
   color: var(--charcoal);
   background: var(--off-white);
   margin: 0;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-head);
-  line-height: 1.25;
-  color: var(--smoky-navy);
-  font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
+h1{ font-family: var(--font-head); font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; margin: 0 0 .6rem; color: var(--smoky-navy); }
+h2{ font-family: var(--font-head); font-weight: 600;
+    font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2;  margin: 0 0 .6rem; color: var(--smoky-navy); }
+h3{ font-family: var(--font-head); font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin: 0 0 .5rem; color: var(--smoky-navy); }
+
+/* optional: consistent spacing inside content blocks */
+.prose > * + *{ margin-top: var(--space-2); }
 
 /* ================
    3) LAYOUT
