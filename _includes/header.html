@@ -21,29 +21,4 @@
          class="{% if page.url == '/contact/' %}is-active{% endif %}">Contact</a>
     </nav>
   </div>
-
-  <!-- TEMP INLINE OVERRIDES: ensure burger hides on desktop and menu toggles on mobile -->
-  <style>
-    /* Desktop: burger hidden; menu visible */
-    .site-header .nav-toggle{ display:none !important; }
-    .site-header .site-nav{ display:flex !important; gap:1rem; align-items:center; }
-
-    /* Mobile: two columns (logo | burger), menu hidden by default */
-    @media (max-width: 820px){
-      .header-inner{
-        display:grid; grid-template-columns: 1fr auto; align-items:center; row-gap:.4rem;
-      }
-      .site-header .nav-toggle{
-        display:inline-flex !important; justify-self:end; align-items:center;
-        background:none; border:0; color:#fff; padding:.35rem; border-radius:10px; line-height:0; cursor:pointer;
-      }
-      .site-header .site-nav{
-        display:none !important;
-        grid-column:1 / -1; flex-direction:column; gap:.5rem;
-        background: var(--smoky-navy); padding:.5rem 0; margin-top:.25rem; border-radius:12px;
-      }
-      /* Show menu when header[data-open="true"] */
-      .site-header[data-open="true"] .site-nav{ display:flex !important; }
-    }
-  </style>
 </header>
