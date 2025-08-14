@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<article class="prose">
+  <header class="page-header" style="margin-bottom: var(--space-3);">
+    <h1>{{ page.title }}</h1>
+    <div class="blog-meta">{{ page.date | date: "%-d %B %Y" }}</div>
+  </header>
+
+  {{ content }}
+
+  <hr style="margin: var(--space-4) 0; opacity:.2;">
+  <p>
+    {% if page.previous %}← <a href="{{ page.previous.url | relative_url }}">{{ page.previous.title }}</a>{% endif %}
+    {% if page.next %}<span style="float:right;"><a href="{{ page.next.url | relative_url }}">{{ page.next.title }}</a> →</span>{% endif %}
+  </p>
+</article>
