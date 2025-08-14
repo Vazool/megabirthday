@@ -142,6 +142,10 @@ main{
   outline: none;
 }
 
+/* Normalize top start across About / Blog / Contact */
+.page-header{ margin-block: 0 var(--space-3); }   /* no top margin, only bottom */
+prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin */
+
 /* HERO */
 .mb-hero{
   padding-block: clamp(2rem, 5vw, 4rem);
