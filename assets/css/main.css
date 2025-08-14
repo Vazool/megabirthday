@@ -236,6 +236,14 @@ button:hover, .btn:hover { background: var(--dusty-rose); }
   text-align: center;
 }
 
+/* Blog List CSS helpers */
+.blog-list{ list-style:none; padding:0; margin:0; display:grid; gap: 1rem; }
+.blog-list li{
+  border:1px solid rgba(0,0,0,.08); background:#fff; border-radius:12px; padding:1rem;
+}
+.blog-meta{ color: rgba(0,0,0,.6); font-size:.95rem; }
+.prose img{ max-width:100%; height:auto; border-radius:12px; }
+
 /* ================
    6) UTILITIES
    ================ */
