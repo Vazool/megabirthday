@@ -4,24 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{{ page.title | default: site.title | default: "megabirthday.me" }}</title>
-  <link rel="stylesheet" href="/assets/css/fonts.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="{{ '/assets/css/fonts.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css'  | relative_url }}">
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="logo">megabirthday.me</a>
-      <nav class="site-nav">
-        <a href="/about/" class="{% if page.url == '/about/' %}is-active{% endif %}">About</a>
-        <a href="/blog/"  class="{% if page.url contains '/blog' %}is-active{% endif %}">Blog</a>
-      </nav>
-    </div>
-  </header>
+  {%- include header.html -%}
 
   <main>
     <div class="container">
-      {% include header.html %}
       {{ content }}
     </div>
   </main>
@@ -30,11 +21,8 @@
     <div class="container">© {{ site.time | date: "%Y" }} megabirthday.me</div>
   </footer>
 
+  <!-- JS: load at the end; defer = run after HTML is parsed -->
+  <script src="{{ '/assets/js/megabirthday.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/site.js'         | relative_url }}" defer></script>
 </body>
 </html>
-
-
-
-
-
-
