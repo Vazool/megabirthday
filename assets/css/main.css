@@ -38,6 +38,12 @@ html { scrollbar-gutter: stable; }
   html { overflow-y: scroll; } /* always reserve the gutter */
 }
 
+/* Global, accessible focus ring */
+:focus-visible{
+  outline: 2px solid var(--warm-teal);
+  outline-offset: 2px;
+}
+
 body{
   font-family: var(--font-body);
   font-size: clamp(16px, 1.1vw + 0.2rem, 18px); /* fluid base */
@@ -45,6 +51,11 @@ body{
   color: var(--charcoal);
   background: var(--off-white);
   margin: 0;
+}
+
+/* Slightly larger base on small phones */
+@media (max-width: 420px){
+  body{ font-size: 17.5px; }  /* was ~16–17px; nudge up a bit */
 }
 
 h1{ font-family: var(--font-head); font-weight: 600;
@@ -166,6 +177,13 @@ main{
   }
 }
 
+  /* Stronger focus on the dark header */
+  .site-header a:focus-visible,
+  .nav-toggle:focus-visible{
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
 /* polish the burger button (desktop + mobile) */
 .nav-toggle{
   background: none;
@@ -180,12 +198,11 @@ main{
 .nav-toggle:hover,
 .nav-toggle:focus-visible{
   background: rgba(255,255,255,.14);
-  outline: none;
 }
 
 /* Normalize top start across About / Blog / Contact */
 .page-header{ margin-block: 0 var(--space-3); }   /* no top margin, only bottom */
-prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin */
+.prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin */
 
 @media (max-width: 820px){
   .site-nav a{
@@ -349,7 +366,6 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
 }
 .site-nav a:is(:hover, :focus-visible){
   background: rgba(255,255,255,.14);
-  outline: none;
 }
 .site-nav a.is-active{
   background: rgba(255,255,255,.22);
@@ -367,7 +383,6 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
 .site-nav a:focus-visible{
   color:#fff;
   background: rgba(255,255,255,.14);
-  outline: none;
 }
 
 /* Logo: keep it simple */
