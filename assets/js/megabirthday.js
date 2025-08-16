@@ -171,4 +171,6 @@ dobText?.addEventListener('paste', (e) => {
 
 // Expose for quick console checks
 window.MB = Object.assign(window.MB || {}, { calc, setMode });
+
+});
 })();
