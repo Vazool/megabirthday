@@ -31,9 +31,14 @@ title: Home
         <input id="dob" name="dob" type="date" autocomplete="bday" />
 
         <!-- typing mode (hidden by default) -->
-        <input id="dobText" name="dobText" type="text"
-               inputmode="numeric" placeholder="DD/MM/YYYY"
-               class="mb-hide" autocomplete="bday" />
+        <input id="dobText"
+          name="dobText"
+          type="text"
+          inputmode="numeric"
+          maxlength="10"
+          placeholder="DD/MM/YYYY"
+          class="mb-hide"
+          autocomplete="bday" />
       </label>
 
       <!-- one row: left = Calculate, right = Prefer typing? -->
