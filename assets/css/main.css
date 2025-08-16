@@ -43,6 +43,14 @@ h2{ font-family: var(--font-head); font-weight: 600;
 h3{ font-family: var(--font-head); font-weight: 600;
     font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin: 0 0 .5rem; color: var(--smoky-navy); }
 
+/* Hero heading should look like every H1 */
+.mb-hero__title{
+  color: var(--smoky-navy);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  margin: 0 0 .6rem;
+}
+
 /* optional: consistent spacing inside content blocks */
 .prose > * + *{ margin-top: var(--space-2); }
 
