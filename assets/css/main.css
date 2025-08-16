@@ -528,3 +528,28 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     display: flex;
   }
 }
+/* === FINAL override: result area should not jump the layout === */
+.mb-card { --result-lines: 3; } /* try 2–3 depending on how many lines your copy wraps */
+
+/* use #result to bump specificity and win the cascade */
+#result.mb-result{
+  display: block !important;                 /* always occupies space */
+  opacity: 0;                                /* hidden until we show it */
+  transition: opacity 140ms ease;
+  border-top: 1px dashed transparent;        /* invisible until shown */
+  padding-top: .6rem;
+  min-height: calc(1em * var(--result-lines, 2) + .6rem + 1px); /* reserve space */
+  color: var(--charcoal);
+}
+#result.mb-result.is-visible{
+  opacity: 1;
+  border-top-color: rgba(0,0,0,.28);
+}
+
+/* hard-override any legacy :empty rule if it still exists somewhere */
+#result.mb-result:empty{
+  display: block !important;
+  min-height: calc(1em * var(--result-lines, 2) + .6rem + 1px) !important;
+  border-top-color: transparent !important;
+  padding-top: .6rem !important;
+}
