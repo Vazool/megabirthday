@@ -87,25 +87,26 @@
     }
 
     // ---------- main calc ----------
-    function calc(){
-      let dobUTC = null;
 
-      if (typingMode && dobText && dobText.value.trim()){
-        const parsed = parseDOBFromText(dobText.value);
-        if (!parsed){
-          out.textContent = 'Please enter as DD/MM/YYYY.';
-          return;
-        }
-        dobUTC = parsed;
-      } else if (dobInput.value){
-        const d = dobInput.valueAsDate || new Date(dobInput.value + 'T00:00:00Z');
-        dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-      } else {
-        out.textContent = 'Please pick your date of birth.';
-        return;
-      }
+   // was: function calc(){
+function calc({ silent = false } = {}){
+  let dobUTC = null;
 
-      // today at UTC midnight
+  if (typingMode && dobText && dobText.value.trim()){
+    const parsed = parseDOBFromText(dobText.value);
+    if (!parsed){ if (!silent) out.textContent = 'Please enter as DD/MM/YYYY.'; return; }
+    dobUTC = parsed;
+  } else if (dobInput.value){
+    // only proceed when YYYY-MM-DD is complete
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dobInput.value)){ if (!silent) return; else return; }
+    const d = dobInput.valueAsDate || new Date(dobInput.value + 'T00:00:00Z');
+    dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  } else {
+    if (!silent) out.textContent = 'Please pick your date of birth.';
+    return;
+  }
+
+     // today at UTC midnight
       const now = new Date();
       const todayUTC = new Date(Date.UTC(
         now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()
@@ -137,11 +138,23 @@
     setMode(false, { focus: false });
 
     // events
-    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
+    // Button / form: always run full calc
     form.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
-    btn.addEventListener('click', (e) => { e.preventDefault(); calc(); });
-    dobInput.addEventListener('change', calc);
-    dobText?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); calc(); } });
+    btn.addEventListener('click',  (e) => { e.preventDefault(); calc(); });
+
+    // Picker: calc when a complete date is chosen; ignore partial typing
+    dobInput.addEventListener('change', () => calc()); // fires after picking
+    dobInput.addEventListener('input',  () => {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dobInput.value)) calc({ silent: true });    
+    });
+
+    // Typing mode: calc as soon as DD/MM/YYYY parses cleanly
+    dobText?.addEventListener('input', () => {
+      if (parseDOBFromText(dobText.value)) calc({ silent: true });
+    });
+
+    // Toggle keeps your existing line
+    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
 
     // expose for quick console checks
     window.MB = Object.assign(window.MB || {}, { calc, setMode });
