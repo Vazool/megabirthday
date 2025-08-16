@@ -93,6 +93,22 @@ main{
 
 .lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
 
+/* Lock normal page content to the same base size as <body> */
+.page.prose{
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.1vw + 0.2rem, 18px); /* mirror body’s fluid base */
+  line-height: 1.6;
+  color: var(--charcoal);
+}
+
+/* Ensure children don’t shrink via rem/percent quirks */
+.page.prose p,
+.page.prose li,
+.page.prose a{
+  font-size: 1em;          /* inherit exactly from .page.prose */
+  line-height: inherit;
+}
+
 /* ================
    5) COMPONENTS
    ================ */
