@@ -68,7 +68,7 @@ h3{ font-family: var(--font-head); font-weight: 600;
 /* Hero heading should look like every H1 */
 .mb-hero__title{
   color: var(--smoky-navy);
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-size: clamp(2rem, 4vw, 3.1rem);
   line-height: 1.15;
   margin: 0 0 .6rem;
 }
@@ -239,7 +239,7 @@ main{
   max-width: none;   /* was: var(--container) */
   margin: 0;        /* was: 0 auto */
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 480px);
   gap: clamp(1rem, 3vw, 2rem);
   align-items: start;
 }
@@ -256,7 +256,7 @@ main{
   border-radius: var(--card-radius);
   box-shadow: 0 1px 6px rgb(0 0 0 / 6%);
   padding: 1.25rem;
-  max-width: 480px;        /* cap on very wide screens */
+  max-width: none;        /* the column already caps at 480px */
   overflow: hidden;        /* clip rounding artefacts */
 }
 .mb-card *{ box-sizing: border-box; }
