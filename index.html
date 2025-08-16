@@ -18,46 +18,39 @@ title: Home
       </p>
     </div>
 
-    <!-- Right: calculator -->
-    <div class="mb-hero__right">
-      <div class="mb-card">
-        <h2 class="mb-card__title">Find your next Megabirthday</h2>
-        
-        <form id="mb-form" class="mb-form" novalidate onsubmit="return false">
-          
-          <label class="mb-field">
-            <span>Date of birth</span>
-            <input
-              id="dob"
-              name="dob"
-              type="date"
-              autocomplete="bday" />
-            
-            <input id="dobText"
-              name="dobText"
-              type="text"
-              inputmode="numeric"
-              placeholder="DD/MM/YYYY"
-              class="mb-hide"
-              autocomplete="bday" />
-          </label>
+<!-- Right: calculator -->
+<div class="mb-hero__right">
+  <div class="mb-card">
+    <h2 class="mb-card__title">Find your next Megabirthday</h2>
 
-          <button id="typeToggle" class="mb-link" type="button">Prefer typing?</button>
-          
-          <button id="calcBtn" class="mb-btn" type="submit">Calculate</button>
-          
-        </form>
+    <form id="mb-form" class="mb-form" novalidate onsubmit="return false">
+      <label class="mb-field">
+        <span>Date of birth</span>
 
-<div id="result" class="mb-result" aria-live="polite"></div>
+        <!-- picker -->
+        <input id="dob" name="dob" type="date" autocomplete="bday" />
 
+        <!-- typing mode (hidden by default) -->
+        <input id="dobText" name="dobText" type="text"
+               inputmode="numeric" placeholder="DD/MM/YYYY"
+               class="mb-hide" autocomplete="bday" />
+      </label>
 
-        <div id="result" class="mb-result" aria-live="polite"></div>
-        <p class="mb-footnote">
-          We calculate using calendar days (UTC) to avoid time‑zone wobble.
-        </p>
+      <!-- one row: left = Calculate, right = Prefer typing? -->
+      <div class="mb-form__row">
+        <button id="calcBtn" class="mb-btn" type="submit">Calculate</button>
+        <button id="typeToggle" class="mb-link" type="button">Prefer typing?</button>
       </div>
-    </div>
+    </form>
+
+    <!-- keep ONE result box, outside the form -->
+    <div id="result" class="mb-result" aria-live="polite"></div>
+
+    <p class="mb-footnote">
+      We calculate using calendar days (UTC) to avoid time-zone wobble.
+    </p>
   </div>
+</div>
 </section>
 
 <style>
