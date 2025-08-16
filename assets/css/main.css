@@ -338,18 +338,20 @@ main{
 .mb-hide{ display: none !important; }
 
 /* result area */
+.mb-card{ --result-lines: 2; } /* adjust to 1–3 if your copy changes */
+
 .mb-result{
-  margin-top: .9rem;
+  display: block;                          /* always takes space */
+  opacity: 0;                              /* hidden until we show it */
+  transition: opacity 140ms ease;
+  border-top: 1px dashed rgba(0,0,0,0);    /* transparent until shown */
   padding-top: .6rem;
-  border-top: 1px dashed rgba(0,0,0,.22);
+  min-block-size: calc(1em * var(--result-lines) + .6rem + 1px);
   color: var(--charcoal);
-  min-height: 2.2em;           /* keeps layout steady */
 }
-.mb-result:empty{
-  border-top: 0;
-  padding-top: 0;
-  min-height: 0;
-  display: none;
+.mb-result.is-visible{
+  opacity: 1;
+  border-top-color: rgba(0,0,0,.28);
 }
 
 /* a11y helper */
