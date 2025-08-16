@@ -575,8 +575,3 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
-
-/* TEMP QA: outlines to compare left edges — remove after checking */
-.site-header .container{ outline: 1px solid magenta; outline-offset: 0; }
-main .container{ outline: 1px solid cyan; outline-offset: 0; }
-.mb-hero__grid{ outline: 1px dashed lime; outline-offset: 0; }
