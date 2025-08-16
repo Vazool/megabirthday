@@ -67,6 +67,7 @@ main{
 .prose > ol {
   max-width: 70ch; /* comfortable reading measure */
 }
+.lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
 
 /* ================
    5) COMPONENTS
@@ -173,7 +174,7 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
   .mb-hero__grid{ grid-template-columns: 1fr; }  /* stack on mobile */
 }
 
-/* ───── Calculator Card (tidy) ───── */
+/* CALCULATOR CARD */
 .mb-card{
   --card-radius: 16px;
   background: #fff;
@@ -230,6 +231,12 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
   align-items: center;
   justify-content: space-between;
   gap: .75rem;
+}
+
+/* wrapping for small screens */
+@media (max-width: 360px){
+  .mb-form__row{ flex-wrap: wrap; }
+  .mb-form__row .mb-link{ margin-left: auto; }
 }
 
 /* link button style */
