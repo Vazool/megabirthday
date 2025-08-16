@@ -320,25 +320,26 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
 a { color: var(--warm-teal); text-decoration: none; }
 a:hover { color: var(--dusty-rose); text-decoration: underline; }
 
-/* Header links: stay white on hover/focus */
-.site-header a{
-  color: #fff;
-  text-decoration: none;
-}
-.site-header a:hover,
-.site-header a:focus-visible{
-  color: #fff;                      /* stop dusty-rose in the header */
-  text-decoration: none;
-  background: rgba(255,255,255,.14); /* subtle hover affordance */
+/* Header links stay white */
+.site-header a{ color:#fff; text-decoration:none; }
+
+/* Only nav items get the hover pill */
+.site-nav a:hover,
+.site-nav a:focus-visible{
+  color:#fff;
+  background: rgba(255,255,255,.14);
   outline: none;
 }
 
-/* Logo behaviour */
+/* Logo: keep it simple */
 .logo{ color:#fff; text-decoration:none; }
 .logo:hover,
 .logo:focus-visible{
-  color:#fff; text-decoration:none; opacity:.9;
+  color:#fff;
+  opacity:.9;               /* no background on logo */
+  text-decoration:none;
 }
+
 
 /* Buttons */
 button, .btn {
