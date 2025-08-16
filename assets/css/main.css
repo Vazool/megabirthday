@@ -177,12 +177,18 @@ main{
   }
 }
 
-  /* Stronger focus on the dark header */
-  .site-header a:focus-visible,
-  .nav-toggle:focus-visible{
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
+/* Focus rings in the header */
+.site-nav a:focus-visible,
+.nav-toggle:focus-visible{
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.logo:focus-visible{
+  outline: 2px solid #fff;   /* still accessible */
+  outline-offset: 3px;       /* a touch of breathing room */
+  border-radius: 6px;        /* softer corners around the wordmark */
+}
 
 /* polish the burger button (desktop + mobile) */
 .nav-toggle{
@@ -211,6 +217,14 @@ main{
   }
   .site-nav a.is-active{
     background: rgba(255,255,255,.18);
+  }
+}
+
+/* Desktop: keep the logo from stretching across its grid column */
+@media (min-width: 821px){
+  .logo{
+    justify-self: start;   /* stop grid stretch */
+    display: inline-block; /* box = text width */
   }
 }
 
