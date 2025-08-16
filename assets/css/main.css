@@ -293,26 +293,20 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
   padding-block: .8rem;
 }
 
+/* ── Header brand + nav (compact) ─────────────────────────── */
+
 .logo{
   font-family: var(--font-head);
   font-weight: 700;
-  letter-spacing: .2px;     /* can be 0 */
+  letter-spacing: .2px;
   color: #fff;
   text-decoration: none;
+  line-height: 1;
 
-  /* new bits */
-  font-size: 1.12em;        /* ~12% bump so serif matches nav optically */
-  line-height: 1;           /* keep the header row height steady */
+  /* small optical bump so the serif matches the sans links */
+  font-size: clamp(1.08em, 1em + 0.6vw, 1.18em);
 }
-
-/* a touch more presence on desktop */
-@media (min-width: 821px){
-  .logo{ font-size: 1.18em; }  /* try 1.15–1.20em to taste */
-}
-
-/* keep the existing hover, plus ensure color stays white */
-.logo:hover,
-.logo:focus-visible{
+.logo:is(:hover, :focus-visible){
   opacity: .9;
   color: #fff;
   text-decoration: none;
@@ -326,13 +320,10 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
   padding: .35rem .6rem;
   border-radius: 10px;
 }
-
-.site-nav a:hover,
-.site-nav a:focus-visible{
+.site-nav a:is(:hover, :focus-visible){
   background: rgba(255,255,255,.14);
   outline: none;
 }
-
 .site-nav a.is-active{
   background: rgba(255,255,255,.22);
 }
