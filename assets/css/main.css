@@ -401,3 +401,40 @@ button:hover, .btn:hover { background: var(--dusty-rose); }
   .header-inner{ grid-template-columns: 1fr; row-gap: .6rem; }
   .site-nav{ gap: .5rem; }
 }
+
+/* Mobile header: force logo + burger on one line */
+@media (max-width: 820px){
+  .header-inner{
+    display: flex !important;   /* override any grid */
+    align-items: center;        /* vertical centering */
+    flex-wrap: wrap;            /* allows the menu to live on a new line */
+    gap: .4rem;
+  }
+
+  .logo{
+    order: 0;
+  }
+
+  .nav-toggle{
+    order: 1;
+    display: inline-flex;
+    margin-left: auto;          /* pushes burger to the far right */
+    align-items: center;
+  }
+
+  .site-nav{
+    order: 2;
+    width: 100%;
+    display: none;              /* hidden until opened */
+    flex-direction: column;
+    gap: .5rem;
+    background: var(--smoky-navy);
+    padding: .5rem 0;
+    margin-top: .25rem;
+    border-radius: 12px;
+  }
+
+  [data-nav][data-open="true"] .site-nav{
+    display: flex;
+  }
+}
