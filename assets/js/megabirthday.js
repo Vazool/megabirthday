@@ -1,5 +1,5 @@
+// megabirthday.js — stable init, UK output, picker + typing modes
 (() => {
-  // stop double init if script included twice
   if (window.__MB_CALC_INIT__) return;
   window.__MB_CALC_INIT__ = true;
 
@@ -9,41 +9,32 @@
   }
 
   ready(() => {
-    // ------- element lookups -------
     const form      = document.getElementById('mb-form');
-    const dobInput  = document.getElementById('dob');       // <input type="date">
-    const dobText   = document.getElementById('dobText');   // <input type="text"> (typing mode)
-    const typeToggle= document.getElementById('typeToggle');// "Prefer typing?" button
-    const btn       = document.getElementById('calcBtn');   // Calculate button
+    const dobInput  = document.getElementById('dob');
+    const dobText   = document.getElementById('dobText');
+    const btn       = document.getElementById('calcBtn');
+    const typeToggle= document.getElementById('typeToggle');
     const out       = document.getElementById('result');
 
-    setMode(false, { focus: false });    // ← was setMode(false);
-    
-    // if this page doesn't have the calculator, bail
-    if (!out) return;
+    // If this page doesn't have the calculator, bail quietly
+    if (!form || !dobInput || !btn || !out) return;
 
-    // prevent choosing a future date
-    if (dobInput) dobInput.max = new Date().toISOString().slice(0, 10);
-
-    // ------- hard guards against page navigation -------
-    form?.addEventListener('submit', (e) => e.preventDefault());
-    dobInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); calc(); }});
-    dobText?.addEventListener('keydown',  (e) => { if (e.key === 'Enter'){ e.preventDefault(); calc(); }});
+    // Prevent future dates in the picker
+    dobInput.max = new Date().toISOString().slice(0,10);
 
     const MS_PER_DAY = 24*60*60*1000;
 
-    // ------- helpers -------
+    // ---------- helpers ----------
     function ordinal(n){
       const m100 = n % 100, m10 = n % 10;
       if (m100 >= 11 && m100 <= 13) return `${n}th`;
       return `${n}${({1:'st',2:'nd',3:'rd'})[m10] || 'th'}`;
     }
-    function formatDateLongUK(dt){
-      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    function formatDateLongUK(dt){ // 23rd January 2028
       const day = dt.getUTCDate();
-      const month = months[dt.getUTCMonth()];
-      const year = dt.getUTCFullYear();
-      return `${ordinal(day)} ${month} ${year}`;
+      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const dSuffix = ordinal(day).replace(/\d+/, '');
+      return `${day}${dSuffix} ${months[dt.getUTCMonth()]} ${dt.getUTCFullYear()}`;
     }
     function daysBetweenUTC(a, b){
       const A = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
@@ -54,134 +45,105 @@
       const base = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
       return new Date(base + n*MS_PER_DAY);
     }
-    // iso "yyyy-mm-dd" -> "dd/mm/yyyy" (for prefill when swapping modes)
-    function isoToUK(iso){
+    function isoToUK(iso){ // "YYYY-MM-DD" -> "DD/MM/YYYY"
       if (!iso) return '';
-      const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`;
+      const [y,m,d] = iso.split('-');
+      return `${d}/${m}/${y}`;
     }
-    // parse DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY, or YYYY-MM-DD -> Date (UTC) or null
-    function parseDOBFromText(s){
-      if (!s) return null;
-      s = s.trim();
-      let m;
-      if ((m = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/))){
-        let d = +m[1], mo = +m[2], y = +m[3]; if (y < 100) y += (y >= 50 ? 1900 : 2000);
-        if (mo<1||mo>12||d<1||d>31) return null;
-        const dt = new Date(Date.UTC(y, mo-1, d));
-        if (dt.getUTCFullYear()!==y || dt.getUTCMonth()!==mo-1 || dt.getUTCDate()!==d) return null;
-        return dt;
-      }
-      if ((m = s.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/))){
-        let y = +m[1], mo = +m[2], d = +m[3];
-        if (mo<1||mo>12||d<1||d>31) return null;
-        const dt = new Date(Date.UTC(y, mo-1, d));
-        if (dt.getUTCFullYear()!==y || dt.getUTCMonth()!==mo-1 || dt.getUTCDate()!==d) return null;
-        return dt;
-      }
-      return null;
+    function parseDOBFromText(s){ // "DD/MM/YYYY" (allows -, . too)
+      const m = String(s).trim().match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+      if (!m) return null;
+      const d = +m[1], mo = +m[2]-1, y = +m[3];
+      const dt = new Date(Date.UTC(y, mo, d));
+      // guard invalids (e.g., 31/02/2020)
+      if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo || dt.getUTCDate() !== d) return null;
+      return dt;
     }
     function safeFocus(el, prevent = true){
       if (!el) return;
       try { el.focus(prevent ? { preventScroll: true } : undefined); }
       catch { el.focus(); }
-}
- 
-    // ------- mode management (this is the part you asked about) -------
-    let typingMode = false; // false = use date picker; true = use text input
+    }
 
-// was: function setMode(isTyping){
-function setMode(isTyping, { focus = true } = {}){
-  typingMode = isTyping;
-
-  if (typingMode){
-    dobText?.classList.remove('mb-hide');  if (dobText) dobText.disabled = false;
-    dobInput?.classList.add('mb-hide');    if (dobInput) dobInput.disabled = true;
-
-    if (dobInput?.value) dobText.value = isoToUK(dobInput.value);
-    if (typeToggle) typeToggle.textContent = 'Use date picker';
-    if (focus) safeFocus(dobText);   // 👈 no scroll jump
-  } else {
-    dobInput?.classList.remove('mb-hide'); if (dobInput) dobInput.disabled = false;
-    dobText?.classList.add('mb-hide');     if (dobText) dobText.disabled = true;
-
-    const dt = parseDOBFromText(dobText?.value || '');
-    if (dt && dobInput) dobInput.value = dt.toISOString().slice(0,10);
-    if (typeToggle) typeToggle.textContent = 'Prefer typing?';
-    if (focus) safeFocus(dobInput);  // 👈 no scroll jump
-  }
-}
-
-    // initial mode: picker
-    setMode(false);
-
-    // toggle button
-    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
-
-    // ------- calculator -------
-    function calc(){
-      // 1) Read DOB from active mode
-      let dobUTC;
+    // ---------- mode management ----------
+    let typingMode = false;
+    function setMode(isTyping, { focus = true } = {}){
+      typingMode = isTyping;
 
       if (typingMode){
-        const dt = parseDOBFromText(dobText?.value || '');
-        if (!dt){ out.textContent = 'Please enter date as DD/MM/YYYY.'; return; }
-        dobUTC = dt; // already UTC
+        dobText?.classList.remove('mb-hide');  if (dobText) dobText.disabled = false;
+        dobInput?.classList.add('mb-hide');    if (dobInput) dobInput.disabled = true;
+        if (dobInput?.value) dobText.value = isoToUK(dobInput.value);
+        if (typeToggle) typeToggle.textContent = 'Use date picker';
+        if (focus) safeFocus(dobText);
       } else {
-        const d = dobInput?.valueAsDate; // local midnight or null
-        if (!d){ out.textContent = 'Please pick your date of birth.'; return; }
+        dobInput?.classList.remove('mb-hide'); if (dobInput) dobInput.disabled = false;
+        dobText?.classList.add('mb-hide');     if (dobText) dobText.disabled = true;
+        const dt = parseDOBFromText(dobText?.value || '');
+        if (dt && dobInput) dobInput.value = dt.toISOString().slice(0,10);
+        if (typeToggle) typeToggle.textContent = 'Prefer typing?';
+        if (focus) safeFocus(dobInput);
+      }
+    }
+
+    // ---------- main calc ----------
+    function calc(){
+      let dobUTC = null;
+
+      if (typingMode && dobText && dobText.value.trim()){
+        const parsed = parseDOBFromText(dobText.value);
+        if (!parsed){
+          out.textContent = 'Please enter as DD/MM/YYYY.';
+          return;
+        }
+        dobUTC = parsed;
+      } else if (dobInput.value){
+        const d = dobInput.valueAsDate || new Date(dobInput.value + 'T00:00:00Z');
         dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      } else {
+        out.textContent = 'Please pick your date of birth.';
+        return;
       }
 
-      // 2) Today at UTC midnight
+      // today at UTC midnight
       const now = new Date();
-      const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      const todayUTC = new Date(Date.UTC(
+        now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()
+      ));
 
       if (dobUTC > todayUTC){
         out.textContent = 'That date is in the future.';
         return;
       }
 
-      // 3) Megabirthday maths
-      const lived  = daysBetweenUTC(dobUTC, todayUTC);
-      const nextK  = Math.floor(lived / 1000) + 1;
-      const target = addDaysUTC(dobUTC, nextK * 1000);
-      const toGo   = daysBetweenUTC(todayUTC, target);
-      const dayWord = (toGo === 1 ? 'day' : 'days');
+      const lived = daysBetweenUTC(dobUTC, todayUTC);
+      const nextK = Math.floor(lived/1000) + 1;
+      const target = addDaysUTC(dobUTC, nextK*1000);
+      const toGo = daysBetweenUTC(todayUTC, target);
 
-      // 4) Output
       if (toGo === 0){
         out.innerHTML = `🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${formatDateLongUK(target)}).`;
       } else if (toGo < 0){
         const nextNext = nextK + 1;
-        const nxt      = addDaysUTC(dobUTC, nextNext * 1000);
-        const nxtToGo  = daysBetweenUTC(todayUTC, nxt);
-        const nxtDayWord = (nxtToGo === 1 ? 'day' : 'days');
-        out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${formatDateLongUK(nxt)}</strong>. Just <strong>${nxtToGo}</strong> ${nxtDayWord} to go!`;
+        const nxt = addDaysUTC(dobUTC, nextNext*1000);
+        const nxtToGo = daysBetweenUTC(todayUTC, nxt);
+        out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${formatDateLongUK(nxt)}</strong>. Just <strong>${nxtToGo}</strong> days to go!`;
       } else {
-        out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${formatDateLongUK(target)}</strong>. Just <strong>${toGo}</strong> ${dayWord} to go!`;
+        out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${formatDateLongUK(target)}</strong>. Just <strong>${toGo}</strong> days to go!`;
       }
     }
 
-    // wire up calculate actions
-    btn?.addEventListener('click', (e) => { e.preventDefault(); calc(); });
+    // init (no autofocus to avoid mobile scroll jump)
+    setMode(false, { focus: false });
 
-    // read ?dob= from URL (if present), prefill & calculate, then clean URL
-    try {
-      const params = new URLSearchParams(location.search);
-      const q = params.get('dob');
-      if (q){
-        // decide which mode based on format
-        if (/^\d{4}-\d{2}-\d{2}$/.test(q)){       // ISO → picker
-          if (dobInput){ dobInput.value = q; setMode(false); }
-        } else {                                  // non-ISO → typing
-          if (dobText){ dobText.value = q; setMode(true); }
-        }
-        calc();
-        history.replaceState({}, '', location.pathname);
-      }
-    } catch(_) {}
+    // events
+    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
+    form.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
+    btn.addEventListener('click', (e) => { e.preventDefault(); calc(); });
+    dobInput.addEventListener('change', calc);
+    dobText?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); calc(); } });
 
-    // expose for console debugging (optional)
+    // expose for quick console checks
     window.MB = Object.assign(window.MB || {}, { calc, setMode });
   });
 })();
