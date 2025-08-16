@@ -101,7 +101,7 @@
         const d = dobInput.valueAsDate || new Date(dobInput.value + 'T00:00:00Z');
         dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
       } else {
-        showText('Please pick your date of birth.');
+        showText('Please enter or pick your date of birth.');
         return;
       }
 
