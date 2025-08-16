@@ -73,7 +73,7 @@ h3{ font-family: var(--font-head); font-weight: 600;
   margin: 0 0 .6rem;
 }
 
-/* optional: consistent spacing inside content blocks */
+/* Consistent spacing inside content blocks */
 .prose > * + *{ margin-top: var(--space-2); }
 
 /* ================
@@ -294,7 +294,7 @@ main{
 .mb-card .mb-field input[type="date"]{
   padding-right: 2.25rem;           /* room for calendar icon */
 }
-/* (optional) WebKit icon nudge */
+/* WebKit icon nudge */
 .mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{
   margin-right: .25rem;
 }
@@ -313,14 +313,26 @@ main{
   .mb-form__row .mb-link{ margin-left: auto; }
 }
 
-/* link button style */
+/* Link-style toggle (Prefer typing?) */
 .mb-link{
-  background: none; border: 0; padding: 0;
+  background: transparent;
+  border: 0;
   color: var(--warm-teal);
-  font-weight: 600; text-decoration: underline;
+  font-weight: 600;
+  text-decoration: underline;
   cursor: pointer;
+
+  /* bigger tap target without moving text */
+  position: relative;
+  padding: .25rem .15rem;
+  margin: -.25rem -.15rem;
 }
-.mb-link:hover{ color: var(--dusty-rose); }
+.mb-link:hover{ color: var(--dusty-rose); text-decoration: underline; }
+.mb-link:focus-visible{
+  outline: 2px solid var(--warm-teal);
+  outline-offset: 2px;
+  border-radius: 6px; /* optional, soft corners for the ring */
+}
 
 /* hide the alternate input when inactive */
 .mb-hide{ display: none !important; }
