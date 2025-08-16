@@ -17,6 +17,8 @@
     const btn       = document.getElementById('calcBtn');   // Calculate button
     const out       = document.getElementById('result');
 
+    setMode(false, { focus: false });    // ← was setMode(false);
+    
     // if this page doesn't have the calculator, bail
     if (!out) return;
 
@@ -78,46 +80,42 @@
       }
       return null;
     }
-
+    function safeFocus(el, prevent = true){
+      if (!el) return;
+      try { el.focus(prevent ? { preventScroll: true } : undefined); }
+      catch { el.focus(); }
+}
+ 
     // ------- mode management (this is the part you asked about) -------
     let typingMode = false; // false = use date picker; true = use text input
 
-    function setMode(isTyping){
-      typingMode = isTyping;
+// was: function setMode(isTyping){
+function setMode(isTyping, { focus = true } = {}){
+  typingMode = isTyping;
 
-      if (typingMode){
-        // show text; hide picker
-        dobText?.classList.remove('mb-hide');
-        if (dobText) dobText.disabled = false;
+  if (typingMode){
+    dobText?.classList.remove('mb-hide');  if (dobText) dobText.disabled = false;
+    dobInput?.classList.add('mb-hide');    if (dobInput) dobInput.disabled = true;
 
-        dobInput?.classList.add('mb-hide');
-        if (dobInput) dobInput.disabled = true;
+    if (dobInput?.value) dobText.value = isoToUK(dobInput.value);
+    if (typeToggle) typeToggle.textContent = 'Use date picker';
+    if (focus) safeFocus(dobText);   // 👈 no scroll jump
+  } else {
+    dobInput?.classList.remove('mb-hide'); if (dobInput) dobInput.disabled = false;
+    dobText?.classList.add('mb-hide');     if (dobText) dobText.disabled = true;
 
-        // prefill typing field from picker if present
-        if (dobInput?.value) dobText.value = isoToUK(dobInput.value);
-        if (typeToggle) typeToggle.textContent = 'Use date picker';
-        dobText?.focus();
-      } else {
-        // show picker; hide text
-        dobInput?.classList.remove('mb-hide');
-        if (dobInput) dobInput.disabled = false;
-
-        dobText?.classList.add('mb-hide');
-        if (dobText) dobText.disabled = true;
-
-        // carry typed value across if valid
-        const dt = parseDOBFromText(dobText?.value || '');
-        if (dt && dobInput) dobInput.value = dt.toISOString().slice(0,10);
-        if (typeToggle) typeToggle.textContent = 'Prefer typing?';
-        dobInput?.focus();
-      }
-    }
+    const dt = parseDOBFromText(dobText?.value || '');
+    if (dt && dobInput) dobInput.value = dt.toISOString().slice(0,10);
+    if (typeToggle) typeToggle.textContent = 'Prefer typing?';
+    if (focus) safeFocus(dobInput);  // 👈 no scroll jump
+  }
+}
 
     // initial mode: picker
     setMode(false);
 
     // toggle button
-    typeToggle?.addEventListener('click', () => setMode(!typingMode));
+    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
 
     // ------- calculator -------
     function calc(){
