@@ -137,26 +137,21 @@ function calc({ silent = false } = {}){
     // init (no autofocus to avoid mobile scroll jump)
     setMode(false, { focus: false });
 
-    // events
-    // Button / form: always run full calc
+    // EVENTS — manual only
+    typeToggle?.addEventListener('click', () =>
+      setMode(!typingMode, { focus: true })
+    );
+
+    // Submit button or Enter = run calc
     form.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
     btn.addEventListener('click',  (e) => { e.preventDefault(); calc(); });
 
-    // Picker: calc when a complete date is chosen; ignore partial typing
-    dobInput.addEventListener('change', () => calc()); // fires after picking
-    dobInput.addEventListener('input',  () => {
-      if (/^\d{4}-\d{2}-\d{2}$/.test(dobInput.value)) calc({ silent: true });    
+    // Optional: Enter inside either input also submits
+    dobInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); calc(); }
+    });
+    dobText?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); calc(); }
     });
 
-    // Typing mode: calc as soon as DD/MM/YYYY parses cleanly
-    dobText?.addEventListener('input', () => {
-      if (parseDOBFromText(dobText.value)) calc({ silent: true });
-    });
-
-    // Toggle keeps your existing line
-    typeToggle?.addEventListener('click', () => setMode(!typingMode, { focus: true }));
-
-    // expose for quick console checks
-    window.MB = Object.assign(window.MB || {}, { calc, setMode });
-  });
 })();
