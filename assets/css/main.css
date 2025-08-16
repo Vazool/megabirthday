@@ -528,17 +528,25 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     display: flex;
   }
 }
-/* === FINAL override: result area should not jump the layout === */
-.mb-card { --result-lines: 3; } /* try 2–3 depending on how many lines your copy wraps */
+/* === FINAL (no jiggle) ========================================= */
+.mb-card { --result-lines: 3; }                   /* desktop/tablet */
+@media (max-width: 420px){
+  .mb-card { --result-lines: 4; }                 /* small phones wrap more */
+}
 
-/* use #result to bump specificity and win the cascade */
 #result.mb-result{
-  display: block !important;                 /* always occupies space */
-  opacity: 0;                                /* hidden until we show it */
+  display: block !important;                      /* always occupies space */
+  opacity: 0;
   transition: opacity 140ms ease;
-  border-top: 1px dashed transparent;        /* invisible until shown */
+  border-top: 1px dashed transparent;             /* border exists in both states */
   padding-top: .6rem;
-  min-height: calc(1em * var(--result-lines, 2) + .6rem + 1px); /* reserve space */
+  line-height: 1.45;                              /* stable line metric */
+
+  /* Fallback reserve using em (older browsers) */
+  min-height: calc(1.45em * var(--result-lines, 3) + .6rem + 1px);
+
+  /* Preferred: use the new 'lh' unit (most modern browsers) */
+  min-height: calc(1lh * var(--result-lines, 3) + .6rem + 1px);
   color: var(--charcoal);
 }
 #result.mb-result.is-visible{
@@ -546,10 +554,8 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   border-top-color: rgba(0,0,0,.28);
 }
 
-/* hard-override any legacy :empty rule if it still exists somewhere */
+/* Neutralise any legacy :empty rule if it still lingers */
 #result.mb-result:empty{
   display: block !important;
-  min-height: calc(1em * var(--result-lines, 2) + .6rem + 1px) !important;
   border-top-color: transparent !important;
-  padding-top: .6rem !important;
 }
