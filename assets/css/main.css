@@ -271,12 +271,16 @@ main{
 }
 
 /* inputs */
+/* unify input heights so picker ↔ typing doesn't shift */
+.mb-card{ --input-h: 2.5rem; }  /* tweak to taste (2.5–2.75rem) */
+
 .mb-card .mb-field input,
 .mb-card .mb-field select,
 .mb-card .mb-field textarea{
   width: 100%;
   min-width: 0;
-  padding: .6rem .7rem;
+  height: var(--input-h);
+  padding: 0 .7rem;                 /* vertical centering without wobble */
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 10px;
   background: #fff;
@@ -284,14 +288,13 @@ main{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  line-height: 1;                   /* prevents extra ascent differences */
 }
 
-/* date input niceties */
 .mb-card .mb-field input[type="date"]{
-  height: 2.5rem;
-  line-height: normal;
-  padding-right: 2.25rem;      /* space for calendar icon */
+  padding-right: 2.25rem;           /* room for calendar icon */
 }
+/* (optional) WebKit icon nudge */
 .mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{
   margin-right: .25rem;
 }
@@ -410,18 +413,35 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
 
 
 /* Buttons */
-button, .btn {
+/* Primary action button (Calculate) */
+.mb-btn{
   font-family: var(--font-body);
   background: var(--burnt-amber);
-  color: white;
+  color: #fff;
   font-weight: 600;
   padding: 0.5em 1em;
-  border: none;
+  border: 0;
   border-radius: 8px;
   cursor: pointer;
 }
+.mb-btn:hover{ background: var(--dusty-rose); }
 
-button:hover, .btn:hover { background: var(--dusty-rose); }
+/* Link-style toggle (Prefer typing?) — never filled */
+.mb-link{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--warm-teal);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.mb-link:hover,
+.mb-link:focus-visible{
+  background: transparent;          /* kill any inherited button hover */
+  color: var(--dusty-rose);
+  text-decoration: underline;
+}
 
 /* Footer */
 .site-footer{
