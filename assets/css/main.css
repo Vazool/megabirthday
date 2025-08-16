@@ -296,11 +296,27 @@ prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin 
 .logo{
   font-family: var(--font-head);
   font-weight: 700;
-  letter-spacing: .2px;
+  letter-spacing: .2px;     /* can be 0 */
+  color: #fff;
+  text-decoration: none;
+
+  /* new bits */
+  font-size: 1.12em;        /* ~12% bump so serif matches nav optically */
+  line-height: 1;           /* keep the header row height steady */
+}
+
+/* a touch more presence on desktop */
+@media (min-width: 821px){
+  .logo{ font-size: 1.18em; }  /* try 1.15–1.20em to taste */
+}
+
+/* keep the existing hover, plus ensure color stays white */
+.logo:hover,
+.logo:focus-visible{
+  opacity: .9;
   color: #fff;
   text-decoration: none;
 }
-.logo:hover{ opacity: .9; }
 
 .site-nav{ display: flex; gap: 1rem; }
 .site-nav a{
