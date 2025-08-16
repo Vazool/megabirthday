@@ -28,6 +28,17 @@
 
     function showText(s){ out.classList.add('is-visible'); out.textContent = s; }
     function showHTML(s){ out.classList.add('is-visible'); out.innerHTML  = s; }
+
+    // --- mask DD/MM/YYYY as the user types (mobile-friendly) ---
+    function formatDobDigits(str){
+      const v = String(str).replace(/\D/g, '').slice(0, 8); // keep 8 digits max
+      if (v.length <= 2) return v;
+      if (v.length <= 4) return v.slice(0,2) + '/' + v.slice(2);
+      return v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+    }
+    function maskDobInputFrom(el, raw){
+      el.value = formatDobDigits(raw);
+}
     
     function ordinal(n){
       const m100 = n % 100, m10 = n % 10;
@@ -132,23 +143,32 @@
     // init (avoid autofocus to stop mobile scroll jump)
     setMode(false, { focus: false });
 
-    // -------- EVENTS — manual only --------
-    typeToggle?.addEventListener('click', () =>
-      setMode(!typingMode, { focus: true })
-    );
+// -------- EVENTS — manual only --------
+typeToggle?.addEventListener('click', () =>
+  setMode(!typingMode, { focus: true })
+);
 
-    form.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
-    btn.addEventListener('click',  (e) => { e.preventDefault(); calc(); });
+form.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
+btn.addEventListener('click',  (e) => { e.preventDefault(); calc(); });
 
-    // Optional: Enter inside either input also submits
-    dobInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); calc(); }
-    });
-    dobText?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); calc(); }
-    });
+// Optional: Enter inside either input also submits
+dobInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); calc(); }
+});
+dobText?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); calc(); }
+});
 
-    // Expose for quick console checks
-    window.MB = Object.assign(window.MB || {}, { calc, setMode });
-  });
+// Typing field: auto-insert slashes (no auto-calc)
+dobText?.addEventListener('input', (e) => {
+  maskDobInputFrom(dobText, e.target.value);
+});
+dobText?.addEventListener('paste', (e) => {
+  e.preventDefault();
+  const t = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+  maskDobInputFrom(dobText, t);
+});
+
+// Expose for quick console checks
+window.MB = Object.assign(window.MB || {}, { calc, setMode });
 })();
