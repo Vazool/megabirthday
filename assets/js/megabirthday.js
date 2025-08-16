@@ -25,6 +25,10 @@
     const MS_PER_DAY = 86400000;
 
     // -------- helpers --------
+
+    function showText(s){ out.classList.add('is-visible'); out.textContent = s; }
+    function showHTML(s){ out.classList.add('is-visible'); out.innerHTML  = s; }
+    
     function ordinal(n){
       const m100 = n % 100, m10 = n % 10;
       if (m100 >= 11 && m100 <= 13) return `${n}th`;
@@ -91,13 +95,13 @@
 
       if (typingMode && dobText && dobText.value.trim()){
         const parsed = parseDOBFromText(dobText.value);     // expects DD/MM/YYYY
-        if (!parsed){ out.textContent = 'Please enter as DD/MM/YYYY.'; return; }
+        if (!parsed){ showText('Please enter as DD/MM/YYYY.'); return; }
         dobUTC = parsed;
       } else if (dobInput.value && /^\d{4}-\d{2}-\d{2}$/.test(dobInput.value)){
         const d = dobInput.valueAsDate || new Date(dobInput.value + 'T00:00:00Z');
         dobUTC = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
       } else {
-        out.textContent = 'Please pick your date of birth.';
+        showText('Please pick your date of birth.');
         return;
       }
 
@@ -106,7 +110,7 @@
         now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()
       ));
 
-      if (dobUTC > todayUTC){ out.textContent = 'That date is in the future.'; return; }
+      if (dobUTC > todayUTC){ showText('That date is in the future.'); return; }
 
       const lived  = daysBetweenUTC(dobUTC, todayUTC);
       const nextK  = Math.floor(lived/1000) + 1;
@@ -114,14 +118,14 @@
       const toGo   = daysBetweenUTC(todayUTC, target);
 
       if (toGo === 0){
-        out.innerHTML = `🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${formatDateLongUK(target)}).`;
+        showHTML(`🎉 Today is your <strong>${ordinal(nextK)}</strong> megabirthday (${formatDateLongUK(target)}).`);
       } else if (toGo < 0){
         const nextNext = nextK + 1;
         const nxt = addDaysUTC(dobUTC, nextNext*1000);
         const nxtToGo = daysBetweenUTC(todayUTC, nxt);
-        out.innerHTML = `Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${formatDateLongUK(nxt)}</strong>. Just <strong>${nxtToGo}</strong> days to go!`;
+        showHTML(`Your <strong>${ordinal(nextNext)}</strong> megabirthday is on <strong>${formatDateLongUK(nxt)}</strong>. Just <strong>${nxtToGo}</strong> days to go!`);
       } else {
-        out.innerHTML = `Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${formatDateLongUK(target)}</strong>. Just <strong>${toGo}</strong> days to go!`;
+        showHTML(`Your <strong>${ordinal(nextK)}</strong> megabirthday is on <strong>${formatDateLongUK(target)}</strong>. Just <strong>${toGo}</strong> days to go!`);
       }
     }
 
