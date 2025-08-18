@@ -597,24 +597,32 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   box-shadow: none !important;
 }
 
-/* ======================================
-   HERO CARD (wraps text + calculator)
-   ====================================== */
-.wallpaper-test .mb-hero.hero-card {
+/* ===============================
+   HERO FROSTED CARD
+   =============================== */
+
+/* Transparent container */
+.wallpaper-test main .container {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Frosted hero section */
+.wallpaper-test #home-hero {
   position: relative;
   border-radius: 18px;
   background: rgba(252, 252, 248, 0.80); /* off-white w/ opacity */
   border: 1px solid rgba(72, 88, 92, 0.18);
   box-shadow: 0 6px 24px rgba(0,0,0,0.10);
   overflow: hidden;
-  margin-left: -48px; /* bleed left past content column */
+  margin-left: -48px; /* bleed left past content line */
   margin-right: 0;
   padding: 24px 28px;
 }
 
 /* Frosted blur when supported */
 @supports ((-webkit-backdrop-filter: blur(6px)) or (backdrop-filter: blur(6px))) {
-  .wallpaper-test .mb-hero.hero-card {
+  .wallpaper-test #home-hero {
     background: rgba(252, 252, 248, 0.65);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
@@ -622,20 +630,20 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
 }
 
 /* Text legibility */
-.wallpaper-test .mb-hero.hero-card h1,
-.wallpaper-test .mb-hero.hero-card h2,
-.wallpaper-test .mb-hero.hero-card p {
+.wallpaper-test #home-hero h1,
+.wallpaper-test #home-hero h2,
+.wallpaper-test #home-hero p {
   color: #2b2f31;
 }
 
-/* ======================================
-   CALCULATOR CARD (stays white)
-   ====================================== */
+/* Calculator stays white */
 .wallpaper-test .calc-card {
-  background: #ffffff;
+  background: #fff;
   border: 1px solid rgba(72, 88, 92, 0.12);
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
 }
 
 /* ======================================
@@ -663,3 +671,36 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   .wallpaper-test .mb-hero.hero-card { margin-left: -24px; }
 }
 
+/* Your layout uses .container — make it transparent in wallpaper mode */
+.wallpaper-test main .container {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Apply the frost to your real hero element */
+.wallpaper-test .mb-hero.hero-card {
+  position: relative;
+  border-radius: 18px;
+  background: rgba(252,252,248,0.80);
+  border: 1px solid rgba(72,88,92,0.18);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+  overflow: hidden;
+  margin-left: -48px;
+  margin-right: 0;
+  padding: 24px 28px;
+}
+@supports ((-webkit-backdrop-filter: blur(6px)) or (backdrop-filter: blur(6px))) {
+  .wallpaper-test .mb-hero.hero-card {
+    background: rgba(252,252,248,0.65);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* Keep calculator card white */
+.wallpaper-test .calc-card {
+  background: #fff;
+  border: 1px solid rgba(72,88,92,0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
