@@ -577,130 +577,247 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
 }
 
 /* ===============================
-   WALLPAPER TEST SANDBOX
+   WALLPAPER TEST — FINAL BLOCK
    =============================== */
 
-/* Wallpaper tiling */
-.wallpaper-test {
+/* 0) Vars */
+.wallpaper-test{
   --mb-tile-url: url('/assets/images/MB_tile_image_v2.png');
+  --hero-bleed: 24px;     /* how far the hero card starts earlier on the left (desktop) */
+  --hero-pad-y: 24px;     /* top/bottom padding inside the hero */
+  --hero-blur: 10px;      /* backdrop blur strength */
+}
+
+/* 1) Tiled wallpaper */
+.wallpaper-test{
   background-image: var(--mb-tile-url);
   background-repeat: repeat;
-  background-size: calc(100% / 6) auto; /* 6 tiles across by default */
+  background-size: calc(100% / 6) auto;  /* desktop: 6 across */
   background-position: top center;
 }
 
-/* Transparentize the default content wrapper */
-.wallpaper-test .page-content,
-.wallpaper-test .wrapper .post,
-.wallpaper-test main[role="main"] {
+/* 2) Let wallpaper show behind content */
+.wallpaper-test main .container{
   background: transparent !important;
   box-shadow: none !important;
+  overflow: visible;
 }
 
-/* ===============================
-   HERO FROSTED CARD
-   =============================== */
-
-/* Transparent container */
-.wallpaper-test main .container {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Frosted hero section */
-.wallpaper-test #home-hero {
+/* 3) Frosted hero card (id="home-hero") */
+.wallpaper-test #home-hero{
   position: relative;
   border-radius: 18px;
-  background: rgba(252, 252, 248, 0.80); /* off-white w/ opacity */
-  border: 1px solid rgba(72, 88, 92, 0.18);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
-  overflow: hidden;
-  margin-left: -48px; /* bleed left past content line */
-  margin-right: 0;
-  padding: 24px 28px;
-}
-
-/* Frosted blur when supported */
-@supports ((-webkit-backdrop-filter: blur(6px)) or (backdrop-filter: blur(6px))) {
-  .wallpaper-test #home-hero {
-    background: rgba(252, 252, 248, 0.65);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-  }
-}
-
-/* Text legibility */
-.wallpaper-test #home-hero h1,
-.wallpaper-test #home-hero h2,
-.wallpaper-test #home-hero p {
-  color: #2b2f31;
-}
-
-/* Calculator stays white */
-.wallpaper-test .calc-card {
-  background: #fff;
-  border: 1px solid rgba(72, 88, 92, 0.12);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-
-}
-
-/* ======================================
-   RESPONSIVE TILE DENSITY + HERO ADJUST
-   ====================================== */
-
-/* Large tablet / small laptop: 4 tiles across */
-@media (max-width: 1024px) {
-  .wallpaper-test { background-size: calc(100% / 4) auto; }
-  .wallpaper-test .mb-hero.hero-card { margin-left: -36px; }
-}
-
-/* Phones: 3 tiles across */
-@media (max-width: 640px) {
-  .wallpaper-test { background-size: calc(100% / 3) auto; }
-  .wallpaper-test .mb-hero.hero-card {
-    margin-left: -32px;
-    background: rgba(252, 252, 248, 0.85); /* a touch more opaque */
-  }
-}
-
-/* Very small phones: 2 tiles across */
-@media (max-width: 380px) {
-  .wallpaper-test { background-size: calc(100% / 2) auto; }
-  .wallpaper-test .mb-hero.hero-card { margin-left: -24px; }
-}
-
-/* Your layout uses .container — make it transparent in wallpaper mode */
-.wallpaper-test main .container {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Apply the frost to your real hero element */
-.wallpaper-test .mb-hero.hero-card {
-  position: relative;
-  border-radius: 18px;
-  background: rgba(252,252,248,0.80);
   border: 1px solid rgba(72,88,92,0.18);
   box-shadow: 0 6px 24px rgba(0,0,0,0.10);
-  overflow: hidden;
-  margin-left: -48px;
-  margin-right: 0;
-  padding: 24px 28px;
+
+  /* card bleeds left; content aligns to container lines */
+  margin-left: calc(-1 * var(--hero-bleed));
+  padding: var(--hero-pad-y) var(--space-2) var(--hero-pad-y)
+           calc(var(--space-2) + var(--hero-bleed));
+
+  /* light scrim + base tint (keeps text legible) */
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,0) 60%),
+    rgba(252,252,248,0.60);
 }
-@supports ((-webkit-backdrop-filter: blur(6px)) or (backdrop-filter: blur(6px))) {
-  .wallpaper-test .mb-hero.hero-card {
-    background: rgba(252,252,248,0.65);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+
+/* 3a) Real blur when supported */
+@supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))){
+  .wallpaper-test #home-hero{
+    -webkit-backdrop-filter: blur(var(--hero-blur));
+    backdrop-filter: blur(var(--hero-blur));
   }
 }
 
-/* Keep calculator card white */
-.wallpaper-test .calc-card {
+/* 4) Keep the hero grid capped to the site container */
+.wallpaper-test #home-hero .mb-hero__grid{
+  max-width: var(--container);
+  margin-inline: 0; /* alignment handled by hero padding */
+}
+
+/* 5) Calculator stays white */
+.wallpaper-test .calc-card{
   background: #fff;
   border: 1px solid rgba(72,88,92,0.12);
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+@media (min-width: 641px){
+  .wallpaper-test #home-hero{
+    /* equal bleed left + right */
+    margin-left:  calc(-1 * var(--hero-bleed));
+    margin-right: calc(-1 * var(--hero-bleed));
+
+    /* content rails match the container on both sides */
+    padding-left:  calc(var(--space-2) + var(--hero-bleed));
+    padding-right: calc(var(--space-2) + var(--hero-bleed));
+  }
+
+  /* keep grid on those rails & flush calculator to the right */
+  .wallpaper-test #home-hero .mb-hero__grid{ margin-inline: 0 !important; }
+  .wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
+}
+
+
+/* 6) Responsiveness */
+/* tile density */
+@media (max-width:1024px){ .wallpaper-test{ background-size: calc(100%/4) auto; } }
+@media (max-width:640px) { .wallpaper-test{ background-size: calc(100%/3) auto; } }
+@media (max-width:380px) { .wallpaper-test{ background-size: calc(100%/2) auto; } }
+
+/* tablet: gentler bleed */
+@media (max-width:1024px){
+  .wallpaper-test{ --hero-bleed: 36px; }
+}
+
+/* phones: symmetric slivers + centered feel */
+@media (max-width:640px){
+  .wallpaper-test #home-hero{
+    margin-left: -10px;                 /* container has 16px side padding */
+    margin-right: -10px;                /* leaves ~6px sliver each side */
+    padding-left: calc(var(--space-2) + 10px);
+    padding-right: calc(var(--space-2) + 10px);
+    border-radius: 18px;                /* reassert rounding */
+  }
+}
+/* === ALIGNMENT PACK ===================================== */
+
+/* 1) Ensure the hero grid is not re-centering itself */
+.wallpaper-test #home-hero .mb-hero__grid{
+  margin-inline: 0 !important;   /* beats any earlier 'margin: 0 auto' */
+}
+
+/* 2) Make the calculator's outer edge flush to the right rail */
+.wallpaper-test #home-hero .mb-hero__right{
+  justify-self: end;             /* grid item hugs the right padding edge */
+}
+
+
+/* === OPTIONAL: perfect interior symmetry on desktop/tablet =========
+   Bleed the card on the RIGHT by the same amount and compensate padding.
+   This keeps both rails aligned AND makes left/right interior padding equal.
+   Remove this block if you want left-only bleed.
+*/
+
+@media (min-width: 641px){
+  .wallpaper-test #home-hero{
+    margin-right: calc(-1 * var(--hero-bleed));              
+    padding-right: calc(var(--space-2) + var(--hero-bleed));  
+  }
+}
+
+/* === Header rails match container rails (desktop/tablet) === */
+@media (min-width: 821px){
+  .site-header .header-inner{
+    max-width: var(--container);      /* same width as main .container */
+    margin-inline: auto;              /* center on page */
+    padding-inline: var(--space-2);   /* same side padding as container */
+    display: flex;                    /* simple layout: logo | nav */
+    align-items: center;
+  }
+
+  /* Logo hugs the left rail; nav hugs the right rail */
+  .site-header .logo{ margin-right: auto; display: inline-block; }
+  .site-header .site-nav{ margin-left: auto; padding-right: 0; }
+  .site-header .site-nav a:last-child{ margin-right: 0; } /* no phantom gap */
+}
+
+/* Ensure hero content still sits on the same rails */
+.wallpaper-test #home-hero .mb-hero__grid{
+  max-width: var(--container);
+  margin-inline: 0; /* rails already set by hero padding */
+}
+
+/* Calculator column flush to right rail */
+.wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
+
+/* Optional 1px optical nudge, if needed */
+@media (min-width: 821px){
+  .site-header .header-inner{ padding-right: calc(var(--space-2) + 1px); }
+}
+/* smaller bleed */
+.wallpaper-test{ --hero-bleed: 24px; }
+
+/* desktop/tablet: card bleeds both sides, content aligns to container rails */
+@media (min-width: 641px){
+  .wallpaper-test #home-hero{
+    margin-left:  calc(-1 * var(--hero-bleed));
+    margin-right: calc(-1 * var(--hero-bleed));
+    /* IMPORTANT: no +bleed here */
+    padding-left:  var(--space-2);
+    padding-right: var(--space-2);
+  }
+
+  /* grid sits on those rails; calc hugs right rail */
+  .wallpaper-test #home-hero .mb-hero__grid{ max-width: var(--container); margin-inline: 0; }
+  .wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
+}
+
+/* header uses the same rails */
+@media (min-width: 821px){
+  .site-header .header-inner{
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--space-2);
+    display: flex;
+    align-items: center;
+  }
+  .site-header .logo{ margin-right: auto; display: inline-block; }
+  .site-header .site-nav{ margin-left: auto; padding-right: 0; }
+  .site-header .site-nav a:last-child{ margin-right: 0; }
+}
+/* ===== Rail + Gutter Alignment Pack ===== */
+
+/* Use wider rails just for the wallpaper test pages */
+.wallpaper-test{
+  --rail-pad: calc(var(--space-2) * 1.6 - 1px); /* 50% wider than default container pad */
+  --hero-bleed: 24px;                     /* modest symmetric bleed */
+}
+
+/* Header uses the same rails as the hero */
+@media (min-width: 821px){
+  .site-header .header-inner{
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--rail-pad);  /* << wider gutters */
+    display: flex;
+    align-items: center;
+  }
+  .site-header .logo{ margin-right: auto; display: inline-block; }
+  .site-header .site-nav{ margin-left: auto; }
+
+  /* Make the last label ("Contact") sit ON the right rail (no right padding) */
+  .site-header .site-nav a:last-child{
+    padding-right: 0;
+    margin-right: 0;
+  }
+}
+
+/* Desktop/tablet hero: symmetric bleed; content on the new rails */
+@media (min-width: 641px){
+  .wallpaper-test #home-hero{
+    margin-left:  calc(-1 * var(--hero-bleed));
+    margin-right: calc(-1 * var(--hero-bleed));
+    padding-left:  var(--rail-pad);   /* << wider gutters, no +bleed */
+    padding-right: var(--rail-pad);
+  }
+  .wallpaper-test #home-hero .mb-hero__grid{
+    max-width: var(--container);
+    margin-inline: 0 !important;     /* never recenter */
+  }
+  .wallpaper-test #home-hero .mb-hero__right{
+    justify-self: end;                /* calc card flush to right rail */
+  }
+}
+
+/* Phones: keep your good centered look + equal slivers */
+@media (max-width: 640px){
+  .wallpaper-test #home-hero{
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left:  calc(var(--rail-pad) + 10px);  /* match header rail + sliver */
+    padding-right: calc(var(--rail-pad) + 10px);
+    border-radius: 18px;
+  }
 }
