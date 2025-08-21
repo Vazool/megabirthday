@@ -123,6 +123,39 @@ main{
 /* ================
    5) COMPONENTS
    ================ */
+/* ==============================
+   COMPONENTS: About/Contact Layout
+   ============================== */
+
+.about-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1000px;
+  padding: 1rem;
+}
+
+.about-text { flex: 2; }
+
+.about-image { flex: 1; text-align: center; }
+
+.about-image img {
+  width: 250px;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-attribution {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .about-wrapper { flex-direction: column; }
+  .about-image { margin-top: 1rem; }
+}
 
 /* Header / Nav */
 .site-header{
