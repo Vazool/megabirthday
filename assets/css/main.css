@@ -717,10 +717,10 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     align-items: center;
   }
 
-  /* Logo hugs the left rail; nav hugs the right rail */
-  .site-header .logo{ margin-right: auto; display: inline-block; }
-  .site-header .site-nav{ margin-left: auto; padding-right: 0; }
-  .site-header .site-nav a:last-child{ margin-right: 0; } /* no phantom gap */
+/* Logo hugs the left rail; nav group hugs the right rail */
+.site-header .logo {
+  margin-right: auto;
+  display: inline-block;
 }
 
 /* Ensure hero content still sits on the same rails */
@@ -763,10 +763,12 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     display: flex;
     align-items: center;
   }
-  .site-header .logo{ margin-right: auto; display: inline-block; }
-  .site-header .site-nav{ margin-left: auto; padding-right: 0; }
-  .site-header .site-nav a:last-child{ margin-right: 0; }
+
+.site-header .site-nav {
+  margin-left: auto;
+  padding-right: 0; /* nav group sits flush to the right rail */
 }
+   
 /* ===== Rail + Gutter Alignment Pack ===== */
 
 /* Use wider rails just for the wallpaper test pages */
@@ -787,11 +789,11 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   .site-header .logo{ margin-right: auto; display: inline-block; }
   .site-header .site-nav{ margin-left: auto; }
 
-  /* Make the last label ("Contact") sit ON the right rail (no right padding) */
-  .site-header .site-nav a:last-child{
-    padding-right: 0;
-    margin-right: 0;
-  }
+/* Nav links spacing (all links treated the same) */
+.site-header .site-nav a {
+  padding: 5.6px 9.6px; /* vertical, horizontal padding */
+  margin: 0;            /* no weird per-link margins */
+}
 }
 
 /* Desktop/tablet hero: symmetric bleed; content on the new rails */
