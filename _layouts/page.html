@@ -7,8 +7,22 @@ layout: default
       <h1>{{ page.title }}</h1>
       {% if page.subtitle %}
       <p class="lead">{{ page.subtitle }}</p>
-    {% endif %}
+      {% endif %}
   </header>
 
-  {{ content }}
+  <div class="about-wrapper">
+    <div class="about-text">
+      {{ content }}
+    </div>
+
+    {% if page.image %}
+    <div class="about-image">
+      <img src="{{ page.image }}" alt="{{ page.title }} illustration">
+      {% if page.attribution %}
+        <p class="image-attribution">{{ page.attribution | markdownify }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
 </article>
+
