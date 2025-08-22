@@ -859,4 +859,10 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
   padding-right: var(--space-2);
 }
 
-   
+/* Align container text with page header at wider screens */
+@media (min-width: 769px) {
+  .container {
+    padding-left: var(--space-1);   /* or exact value that matches .page-header */
+    padding-right: var(--space-2);
+  }
+}   
