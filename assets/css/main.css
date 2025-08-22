@@ -853,7 +853,13 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     border-radius: 18px;
   }
 }
-/* Temporary fix: align body text under headings */
-.wrapper {
+/* Align text blocks with page headings */
+article.page.prose {
+  margin-left: 0;
   padding-left: 0;
 }
+
+article.page.prose p {
+  margin-left: 0;
+}
+
