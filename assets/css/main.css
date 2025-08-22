@@ -150,9 +150,15 @@ main{
 }
 
 @media (max-width: 768px) {
-  .about-wrapper { flex-direction: column; }
-  .about-image { margin-top: 1rem; }
+  .about-wrapper {
+    flex-direction: column;
+  }
+  .about-image {
+    margin: 1rem auto 0 auto;   /* center the block horizontally */
+    text-align: center;         /* redundant now, but safe to keep */
+  }
 }
+
 
 /* Header / Nav */
 .site-header{
