@@ -853,16 +853,10 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     border-radius: 18px;
   }
 }
-/* Align text blocks with page headings */
+/* Align body text under page headings */
 .container {
-  padding-left: var(--space-1);
+  padding-left: 0;
   padding-right: var(--space-2);
 }
 
-/* Align container text with page header at wider screens */
-@media (min-width: 769px) {
-  .container {
-    padding-left: var(--space-1);   /* or exact value that matches .page-header */
-    padding-right: var(--space-2);
-  }
 }   
