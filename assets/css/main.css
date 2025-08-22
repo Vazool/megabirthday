@@ -123,9 +123,6 @@ main{
 /* ================
    5) COMPONENTS
    ================ */
-/* ==============================
-   COMPONENTS: About/Contact Layout
-   ============================== */
 
 .about-wrapper {
   display: flex;
@@ -133,7 +130,7 @@ main{
   gap: 2rem;
   margin: 2rem auto;
   max-width: 1000px;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .about-text { flex: 2; }
