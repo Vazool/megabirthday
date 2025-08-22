@@ -861,5 +861,6 @@ article.page.prose {
 
 article.page.prose p {
   margin-left: 0;
+  padding-left: 0;
 }
 
