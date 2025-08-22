@@ -128,7 +128,7 @@ main{
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  margin: 0.5rem 0 2rem 0;   /* top, right, bottom, left */
+  margin: 0.3rem 0 2rem 0;   /* top, right, bottom, left */
   max-width: none;
   padding: 0;
 }
