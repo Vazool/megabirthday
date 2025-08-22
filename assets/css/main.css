@@ -128,9 +128,9 @@ main{
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  margin: 2rem auto;
-  max-width: 1000px;
-  padding: 0 !important;
+  margin: 2rem 0;
+  max-width: none;
+  padding: 0;
 }
 
 .about-text { flex: 2; }
