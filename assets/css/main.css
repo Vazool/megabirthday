@@ -856,3 +856,7 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     border-radius: 18px;
   }
 }
+/* Temporary fix: align body text under headings */
+.wrapper {
+  padding-left: 0;
+}
