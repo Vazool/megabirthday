@@ -821,3 +821,9 @@ a:hover { color: var(--dusty-rose); text-decoration: underline; }
     border-radius: 18px;
   }
 }
+@media (max-width: 768px) {
+  .about-image {
+    margin: 1rem auto 0 auto;   /* centers the image block on mobile */
+    text-align: center;         /* harmless fallback */
+  }
+}
