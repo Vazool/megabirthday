@@ -1,868 +1,562 @@
-/* ===========================
-   1) DESIGN TOKENS (variables)
-   =========================== */
-:root {
-  /* Colours */
-  --warm-teal: #4B9E9E;
-  --dusty-rose: #C97A85;
-  --burnt-amber: #D38B36;
-  --terracotta: #C8643B;
-  --moss-green: #7A8B50;
-  --smoky-navy: #3E5A73;
+/* =========================================================
+   1) DESIGN TOKENS
+   ========================================================= */
+:root{
+  /* Brand palette */
+  --warm-teal:      #4B9E9E;
+  --dusty-rose:     #C97A85;
+  --burnt-amber:    #D38B36;
+  --terracotta:     #C8643B;
+  --moss-green:     #7A8B50;
+  --smoky-navy:     #3E5A73;
   --muted-lavender: #8C7CA8;
-  --warm-grey: #A69D94;
-  --off-white: #F4F0EC;
-  --charcoal: #3C3C3C;
+  --warm-grey:      #A69D94;
+  --off-white:      #F4F0EC;
+  --charcoal:       #3C3C3C;
 
-  /* Layout & spacing */
-  --container: 1100px;
-  --space-1: 0.5rem;
+  /* Layout */
+  --container: 1920px;
+  --container-hero: 1600px;         /* hero can be wider without hurting posts/pages */
+  --space-1: .5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
+
+  /* Typography (declared in fonts.css, but referenced here) */
+  /* --font-body, --font-head */
 }
 
-/* ===========
-   2) BASE
-   =========== */
-html { font-size: 100%; }
+/* =========================================================
+   2) BASE / RESET
+   ========================================================= */
+html { font-size: 100%; scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable){ html { overflow-y: scroll; } }
 
-/* Prevent mobile auto-scaling from shrinking some pages */
-html{
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
-html { scrollbar-gutter: stable; }
-@supports not (scrollbar-gutter: stable) {
-  html { overflow-y: scroll; } /* always reserve the gutter */
-}
-
-/* Global, accessible focus ring */
-:focus-visible{
-  outline: 2px solid var(--warm-teal);
-  outline-offset: 2px;
-}
+:focus-visible{ outline: 2px solid var(--warm-teal); outline-offset: 2px; }
 
 body{
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.1vw + 0.2rem, 18px); /* fluid base */
+  font-size: clamp(16px, 1.1vw + .2rem, 18px);
   line-height: 1.6;
   color: var(--charcoal);
   background: var(--off-white);
   margin: 0;
 }
+@media (max-width:420px){ body{ font-size: 17.5px; } }
 
-/* Slightly larger base on small phones */
-@media (max-width: 420px){
-  body{ font-size: 17.5px; }  /* was ~16–17px; nudge up a bit */
-}
+h1,h2,h3{ font-family: var(--font-head); font-weight: 600; color: var(--smoky-navy); margin: 0 0 .6rem; }
+h1{ font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; }
+h2{ font-size: clamp(1.5rem, 2.6vw, 2rem);  line-height: 1.2;  }
+h3{ font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin-bottom: .5rem; }
 
-h1{ font-family: var(--font-head); font-weight: 600;
-    font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; margin: 0 0 .6rem; color: var(--smoky-navy); }
-h2{ font-family: var(--font-head); font-weight: 600;
-    font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2;  margin: 0 0 .6rem; color: var(--smoky-navy); }
-h3{ font-family: var(--font-head); font-weight: 600;
-    font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin: 0 0 .5rem; color: var(--smoky-navy); }
-
-/* Hero heading should look like every H1 */
-.mb-hero__title{
-  color: var(--smoky-navy);
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  line-height: 1.15;
-  margin: 0 0 .6rem;
-}
-
-/* Consistent spacing inside content blocks */
 .prose > * + *{ margin-top: var(--space-2); }
 
-/* ================
+/* Hero H1 matches normal h1 scale */
+.mb-hero__title{ color: var(--smoky-navy); font-size: clamp(2rem, 4vw, 3.1rem); line-height:1.15; margin:0 0 .6rem; }
+
+/* =========================================================
    3) LAYOUT
-   ================ */
+   ========================================================= */
 .container{
   max-width: var(--container);
-  margin-inline: auto;        /* centres content */
-  padding-inline: var(--space-2);
+  margin-inline: auto;
+  padding-inline: var(--space-2);  /* symmetrical rails (fixes right-edge alignment) */
 }
+main{ padding-block: clamp(2rem, 4vw, 4rem); }
 
-main{
-  padding-block: clamp(2rem, 4vw, 4rem);
-}
-
-/* ========================
-   4) TYPOGRAPHY HELPERS
-   ======================== */
-.prose > p,
-.prose > ul,
-.prose > ol {
-  max-width: 70ch; /* comfortable reading measure */
-}
-/* Make page content always follow the body size */
-.page.prose{ font-size: 1em; }              /* inherit body clamp */
-.page.prose p,
-.page.prose li{ font-size: 1em; line-height: 1.6; }
-
-.lead{ font-size: 1.125rem; color: var(--charcoal); margin-bottom: 1rem; }
-
-/* Lock normal page content to the same base size as <body> */
-.page.prose{
+/* Page content inherits body scale */
+.prose{
   font-family: var(--font-body);
-  font-size: clamp(16px, 1.1vw + 0.2rem, 18px); /* mirror body’s fluid base */
-  line-height: 1.6;
+  font-size: 1rem;          /* base; large screens handled in Section 12 */
+  line-height: 1.65;
   color: var(--charcoal);
 }
-
-/* Ensure children don’t shrink via rem/percent quirks */
 .page.prose p,
 .page.prose li,
-.page.prose a{
-  font-size: 1em;          /* inherit exactly from .page.prose */
-  line-height: inherit;
-}
+.page.prose a{ font-size: 1em; line-height: inherit; }
 
-/* ================
-   5) COMPONENTS
-   ================ */
-
-.about-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  margin: 0 0 2rem 0;   /* top, right, bottom, left */
-  max-width: none;
-  padding: 0;
-}
-
-.about-text { flex: 2; }
-
-.about-image { flex: 1; text-align: center; }
-
-.about-image img {
-  width: 250px;
-  max-width: 100%;
-  height: auto;
-}
-
-.image-attribution {
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
-  color: #777;
-}
-
-@media (max-width: 768px) {
-  .about-wrapper {
-    flex-direction: column;
-  }
-  .about-image {
-    margin: 1rem auto 0 auto;   /* center the block horizontally */
-    text-align: center;         /* redundant now, but safe to keep */
-  }
-}
-
-
-/* Header / Nav */
+/* =========================================================
+   4) HEADER / NAV
+   ========================================================= */
 .site-header{
-  background: var(--smoky-navy);
-  color: #fff;
-  /* Make sticky: keep these two lines. To make non-sticky, comment both out. */
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  background: var(--smoky-navy); color:#fff;
+  position: sticky; top: 0; z-index: 100;
 }
-/* Desktop defaults */
-.site-header .site-nav{ display:flex; gap:1rem; align-items:center; }
-.site-header .nav-toggle{ display:none; }
+.header-inner{
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  padding-block: .8rem;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-2);
+}
+.logo{
+  font-family: var(--font-head); font-weight:700; letter-spacing:.2px;
+  color:#fff; text-decoration:none; line-height:1;
+  font-size: clamp(1.08em, 1em + 0.6vw, 1.18em);
+}
+.logo:is(:hover,:focus-visible){ opacity:.9; color:#fff; text-decoration:none; }
 
-/* Mobile behaviour */
-@media (max-width: 820px){
-  .header-inner{
-    display: grid;
-    grid-template-columns: 1fr auto;   /* logo | burger */
-    align-items: center;
-    row-gap: .4rem;
-  }
+.site-nav{ display:flex; gap:1rem; }
+.site-nav a{
+  color:#fff; text-decoration:none; font-weight:600;
+  padding:.35rem .6rem; border-radius:10px;
+}
+.site-nav a:is(:hover,:focus-visible){ background: rgba(255,255,255,.14); }
+.site-nav a.is-active{ background: rgba(255,255,255,.22); }
 
-  .site-header .nav-toggle{
-    display: inline-flex;
-    justify-self: end;
-    align-items: center;
-    background: none;
-    border: 0;
-    color: #fff;
-    padding: .35rem;
-    border-radius: 10px;
-    line-height: 0;
-    cursor: pointer;
-  }
-
-  /* Hide menu by default on mobile */
-  .site-header .site-nav{
-    display: none !important;
-    grid-column: 1 / -1;               /* full width on the next row */
-    flex-direction: column;
-    gap: .5rem;
-    background: var(--smoky-navy);
-    padding: .5rem 0;
-    margin-top: .25rem;
-    border-radius: 12px;
-  }
-
-  /* Show when header has data-open="true" */
-  [data-nav][data-open="true"] .site-nav{
-    display: flex !important;
-  }
+.site-nav a:focus-visible, .nav-toggle:focus-visible, .logo:focus-visible{
+  outline:2px solid #fff; outline-offset:2px; border-radius:6px;
 }
 
-/* Focus rings in the header */
-.site-nav a:focus-visible,
-.nav-toggle:focus-visible{
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-.logo:focus-visible{
-  outline: 2px solid #fff;   /* still accessible */
-  outline-offset: 3px;       /* a touch of breathing room */
-  border-radius: 6px;        /* softer corners around the wordmark */
-}
-
-/* polish the burger button (desktop + mobile) */
-.nav-toggle{
-  background: none;
-  border: 0;
-  color: #fff;
-  padding: .35rem;
-  border-radius: 10px;
-  line-height: 0;
-  cursor: pointer;
-}
+/* Mobile nav */
+.nav-toggle{ display:none; background:none; border:0; color:#fff; padding:.35rem; border-radius:10px; line-height:0; cursor:pointer; }
 .nav-toggle svg{ display:block; }
-.nav-toggle:hover,
-.nav-toggle:focus-visible{
-  background: rgba(255,255,255,.14);
-}
 
-/* Normalize top start across About / Blog / Contact */
-.page-header{ margin-block: 0 var(--space-3); }   /* no top margin, only bottom */
-.prose > :first-child{ margin-top: 0 !important; }/* kill first-child top margin */
-
-@media (max-width: 820px){
-  .site-nav a{
-    display: block;             /* full-width tap target */
-    padding: .6rem .9rem;       /* a bit more finger room */
+@media (max-width:820px){
+  .header-inner{
+    display:flex; align-items:center; flex-wrap:wrap; gap:.4rem;
   }
-  .site-nav a.is-active{
-    background: rgba(255,255,255,.18);
+  .nav-toggle{ display:inline-flex; margin-left:auto; align-items:center; }
+  .site-nav{
+    order:2; width:100%; display:none; flex-direction:column; gap:.5rem;
+    background: var(--smoky-navy); padding:.5rem 0; margin-top:.25rem; border-radius:12px;
   }
+  [data-nav][data-open="true"] .site-nav{ display:flex; }
+  .site-nav a{ display:block; padding:.6rem .9rem; }
+  .site-nav a.is-active{ background: rgba(255,255,255,.18); }
 }
 
-/* Desktop: keep the logo from stretching across its grid column */
-@media (min-width: 821px){
-  .logo{
-    justify-self: start;   /* stop grid stretch */
-    display: inline-block; /* box = text width */
-  }
-}
+/* Normalize page header spacing */
+.page-header{ margin-block: 0 var(--space-3); }
+.prose > :first-child{ margin-top: 0 !important; }
 
-/* HERO */
-.mb-hero{
-  padding-block: clamp(2rem, 5vw, 4rem);
-  background: var(--off-white);
-}
+/* =========================================================
+   5) HERO + CALCULATOR
+   ========================================================= */
+.mb-hero{ padding-block: clamp(2rem, 5vw, 4rem); background: var(--off-white); }
+
+/* Let the hero breathe wider than the rest of the site */
+.mb-hero .container{ max-width: var(--container-hero); }
 
 .mb-hero__grid{
-  width: 100%;
-  max-width: none;   /* was: var(--container) */
-  margin: 0;        /* was: 0 auto */
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 480px);
-  gap: clamp(1rem, 3vw, 2rem);
-  align-items: start;
+  width:100%; display:grid; gap: clamp(1rem, 3vw, 2rem);
+  grid-template-columns: minmax(0,1fr) minmax(320px,480px);
+  align-items:start;
 }
+@media (max-width:820px){ .mb-hero__grid{ grid-template-columns: 1fr; } }
 
-@media (max-width: 820px){
-  .mb-hero__grid{ grid-template-columns: 1fr; }  /* stack on mobile */
-}
-
-/* CALCULATOR CARD */
 .mb-card{
-  --card-radius: 16px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.12);
+  --card-radius: 16px; --input-h: 2.5rem; --result-lines: 3;
+  background:#fff; border:1px solid rgba(0,0,0,.12);
   border-radius: var(--card-radius);
   box-shadow: 0 1px 6px rgb(0 0 0 / 6%);
-  padding: 1.25rem;
-  max-width: none;        /* the column already caps at 480px */
-  overflow: hidden;        /* clip rounding artefacts */
+  padding:1.25rem; max-width:none; overflow:hidden;
 }
 .mb-card *{ box-sizing: border-box; }
-
-/* form layout */
-.mb-form{ display: grid; gap: .75rem; }
-
-/* label + input stack */
-.mb-field{
-  display: grid;
-  gap: .35rem;
-  margin: 0;
-  font-size: .95rem;
-  color: var(--charcoal);
-}
-
-/* inputs */
-/* unify input heights so picker ↔ typing doesn't shift */
-.mb-card{ --input-h: 2.5rem; }  /* tweak to taste (2.5–2.75rem) */
-
+.mb-form{ display:grid; gap:.75rem; }
+.mb-field{ display:grid; gap:.35rem; margin:0; font-size:.95rem; color:var(--charcoal); }
 .mb-card .mb-field input,
 .mb-card .mb-field select,
 .mb-card .mb-field textarea{
-  width: 100%;
-  min-width: 0;
-  height: var(--input-h);
-  padding: 0 .7rem;                 /* vertical centering without wobble */
-  border: 1px solid rgba(0,0,0,.15);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--charcoal);
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  line-height: 1;                   /* prevents extra ascent differences */
+  width:100%; min-width:0; height:var(--input-h);
+  padding:0 .7rem; border:1px solid rgba(0,0,0,.15); border-radius:10px;
+  background:#fff; color:var(--charcoal); appearance:none; line-height:1;
 }
+.mb-card .mb-field input[type="date"]{ padding-right: 2.25rem; }
+.mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{ margin-right:.25rem; }
 
-.mb-card .mb-field input[type="date"]{
-  padding-right: 2.25rem;           /* room for calendar icon */
-}
-/* WebKit icon nudge */
-.mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{
-  margin-right: .25rem;
-}
+.mb-form__row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+@media (max-width:360px){ .mb-form__row{ flex-wrap:wrap; } .mb-form__row .mb-link{ margin-left:auto; } }
 
-/* row with Calculate (left) + Prefer typing? (right) */
-.mb-form__row{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-}
-
-/* wrapping for small screens */
-@media (max-width: 360px){
-  .mb-form__row{ flex-wrap: wrap; }
-  .mb-form__row .mb-link{ margin-left: auto; }
-}
-
-/* Link-style toggle (Prefer typing?) */
 .mb-link{
-  background: transparent;
-  border: 0;
-  color: var(--warm-teal);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-
-  /* bigger tap target without moving text */
-  position: relative;
-  padding: .25rem .15rem;
-  margin: -.25rem -.15rem;
+  background:transparent; border:0; color:var(--warm-teal);
+  font-weight:600; text-decoration:underline; cursor:pointer;
+  position:relative; padding:.25rem .15rem; margin:-.25rem -.15rem;
 }
-.mb-link:hover{ color: var(--dusty-rose); text-decoration: underline; }
-.mb-link:focus-visible{
-  outline: 2px solid var(--warm-teal);
-  outline-offset: 2px;
-  border-radius: 6px; /* optional, soft corners for the ring */
-}
-
-/* hide the alternate input when inactive */
-.mb-hide{ display: none !important; }
-
-/* Result area (no layout jump) */
-.mb-card{ --result-lines: 3; }  /* try 2 or 3 depending on your copy length */
-
-.mb-result{
-  display: block !important;                 /* always occupies space */
-  opacity: 0;                                /* hidden until we show it */
-  transition: opacity 140ms ease;
-  border-top: 1px dashed transparent;        /* invisible until shown */
-  padding-top: .6rem;
-  min-height: calc(1em * var(--result-lines) + .6rem + 1px); /* text + padding */
-  color: var(--charcoal);
-}
-.mb-result.is-visible{
-  opacity: 1;
-  border-top-color: rgba(0,0,0,.28);
-}
-
-/* a11y helper */
-.visually-hidden{
-  position: absolute !important;
-  width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
-
-.header-inner{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  padding-block: .8rem;
-}
-
-/* ── Header brand + nav (compact) ─────────────────────────── */
-
-.logo{
-  font-family: var(--font-head);
-  font-weight: 700;
-  letter-spacing: .2px;
-  color: #fff;
-  text-decoration: none;
-  line-height: 1;
-
-  /* small optical bump so the serif matches the sans links */
-  font-size: clamp(1.08em, 1em + 0.6vw, 1.18em);
-}
-.logo:is(:hover, :focus-visible){
-  opacity: .9;
-  color: #fff;
-  text-decoration: none;
-}
-
-.site-nav{ display: flex; gap: 1rem; }
-.site-nav a{
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  padding: .35rem .6rem;
-  border-radius: 10px;
-}
-.site-nav a:is(:hover, :focus-visible){
-  background: rgba(255,255,255,.14);
-}
-.site-nav a.is-active{
-  background: rgba(255,255,255,.22);
-}
-
-/* Links */
-a { color: var(--warm-teal); text-decoration: none; }
-a:hover { color: var(--dusty-rose); text-decoration: underline; }
-
-/* Header links stay white */
-.site-header a{ color:#fff; text-decoration:none; }
-
-/* Only nav items get the hover pill */
-.site-nav a:hover,
-.site-nav a:focus-visible{
-  color:#fff;
-  background: rgba(255,255,255,.14);
-}
-
-/* Logo: keep it simple */
-.logo{ color:#fff; text-decoration:none; }
-.logo:hover,
-.logo:focus-visible{
-  color:#fff;
-  opacity:.9;               /* no background on logo */
-  text-decoration:none;
-}
-
-
-/* Buttons */
-/* Primary action button (Calculate) */
-.mb-btn{
-  font-family: var(--font-body);
-  background: var(--burnt-amber);
-  color: #fff;
-  font-weight: 600;
-  padding: 0.5em 1em;
-  border: 0;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.mb-btn:hover{ background: var(--dusty-rose); }
-
-/* Link-style toggle (Prefer typing?) — never filled */
-.mb-link{
-  background: transparent;
-  border: 0;
-  padding: 0;
-  color: var(--warm-teal);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.mb-link:hover,
-.mb-link:focus-visible{
-  background: transparent;          /* kill any inherited button hover */
-  color: var(--dusty-rose);
-  text-decoration: underline;
-}
-
-/* Footer */
-.site-footer{
-  border-top: 1px solid rgba(0,0,0,.08);
-  background: var(--off-white);
-  color: var(--charcoal);
-  padding-block: var(--space-3);
-  text-align: center;
-}
-
-/* Blog List CSS helpers */
-.blog-list{ list-style:none; padding:0; margin:0; display:grid; gap: 1rem; }
-.blog-list li{
-  border:1px solid rgba(0,0,0,.08); background:#fff; border-radius:12px; padding:1rem;
-}
-.blog-meta{ color: rgba(0,0,0,.6); font-size:.95rem; }
-.prose img{ max-width:100%; height:auto; border-radius:12px; }
-
-/* ================
-   6) UTILITIES
-   ================ */
-.text-center { text-align: center; }
-.max-width {
-  max-width: 70ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ==================
-   7) MEDIA QUERIES
-   ================== */
-@media (max-width: 640px){
-  .header-inner{ grid-template-columns: 1fr; row-gap: .6rem; }
-  .site-nav{ gap: .5rem; }
-}
-
-/* Mobile header: force logo + burger on one line */
-@media (max-width: 820px){
-  .header-inner{
-    display: flex !important;   /* override any grid */
-    align-items: center;        /* vertical centering */
-    flex-wrap: wrap;            /* allows the menu to live on a new line */
-    gap: .4rem;
-  }
-
-  .logo{
-    order: 0;
-  }
-
-  .nav-toggle{
-    order: 1;
-    display: inline-flex;
-    margin-left: auto;          /* pushes burger to the far right */
-    align-items: center;
-  }
-
-  .site-nav{
-    order: 2;
-    width: 100%;
-    display: none;              /* hidden until opened */
-    flex-direction: column;
-    gap: .5rem;
-    background: var(--smoky-navy);
-    padding: .5rem 0;
-    margin-top: .25rem;
-    border-radius: 12px;
-  }
-
-  [data-nav][data-open="true"] .site-nav{
-    display: flex;
-  }
-}
-/* === FINAL (no jiggle) ========================================= */
-.mb-card { --result-lines: 3; }                   /* desktop/tablet */
-@media (max-width: 420px){
-  .mb-card { --result-lines: 4; }                 /* small phones wrap more */
-}
+.mb-link:hover{ color:var(--dusty-rose); text-decoration:underline; }
+.mb-link:focus-visible{ outline:2px solid var(--warm-teal); outline-offset:2px; border-radius:6px; }
+.mb-hide{ display:none !important; }
 
 #result.mb-result{
-  display: block !important;                      /* always occupies space */
-  opacity: 0;
-  transition: opacity 140ms ease;
-  border-top: 1px dashed transparent;             /* border exists in both states */
-  padding-top: .6rem;
-  line-height: 1.45;                              /* stable line metric */
-
-  /* Fallback reserve using em (older browsers) */
-  min-height: calc(1.45em * var(--result-lines, 3) + .6rem + 1px);
-
-  /* Preferred: use the new 'lh' unit (most modern browsers) */
+  display:block !important; opacity:0; transition:opacity 140ms ease;
+  border-top:1px dashed transparent; padding-top:.6rem; line-height:1.45;
   min-height: calc(1lh * var(--result-lines, 3) + .6rem + 1px);
   color: var(--charcoal);
 }
-#result.mb-result.is-visible{
-  opacity: 1;
-  border-top-color: rgba(0,0,0,.28);
+#result.mb-result.is-visible{ opacity:1; border-top-color: rgba(0,0,0,.28); }
+#result.mb-result:empty{ display:block !important; border-top-color:transparent !important; }
+
+/* =========================================================
+   6) BLOG (index + post)
+   ========================================================= */
+
+/* Grid container lives inside .container in the layout */
+.blog-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-/* Neutralise any legacy :empty rule if it still lingers */
-#result.mb-result:empty{
-  display: block !important;
-  border-top-color: transparent !important;
+/* Cards */
+.blog-card{
+  background:#fff; border:1px solid rgba(0,0,0,.08);
+  border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,.05);
+  padding:1rem;
+  display:flex; flex-direction:column;
 }
-/* Align the Home hero with the site container exactly */
-.mb-hero{
-  padding-left: 0;   /* ensure no accidental horizontal padding */
-  padding-right: 0;
-  margin-left: 0;
-  margin-right: 0;
+.blog-thumb{
+  width:100%; aspect-ratio:1 / 1; object-fit:cover;
+  border-radius:.5rem; margin-bottom:1rem;
 }
-.mb-hero__grid{
-  width: 100% !important;
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+.blog-card h2{ margin:.5rem 0 .25rem; font-size:1.2rem; }
+.blog-meta{ color: rgba(0,0,0,.6); font-size:.95rem; margin-bottom:.75rem; }
+
+/* Excerpt: clamp to 4 lines and reserve space so cards equalize */
+.blog-card p{
+  display:-webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;
+  overflow:hidden; text-overflow:ellipsis;
+  flex-grow:1;                /* lets this area expand but keeps footer aligned */
+  min-height: 5.5em;          /* ~4 lines at current size; keeps rows even */
 }
 
-/* ===============================
-   WALLPAPER TEST — FINAL BLOCK
-   =============================== */
+/* Read more baseline alignment */
+.read-more{
+  color: var(--smoky-navy); text-decoration:none; font-weight:500;
+  margin-top:auto; display:inline-block;
+}
+.read-more:is(:hover,:focus-visible){ text-decoration:underline; }
 
-/* 0) Vars */
-.wallpaper-test{
+/*
+
+/* Blog post images – magazine layout 
+.post-hero,
+.post-content img{
+  float: left;
+  width: clamp(260px, 25%, 420px);
+  height: auto;
+  margin: 0 1.25rem 1rem 0;
+  border-radius:.5rem;
+}
+
+/* Mobile override – stack full width again 
+@media (max-width: 640px){
+  .post-content img{
+    float: none;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 1rem 0;
+  }
+}
+
+*/
+
+/* Base: fluid scaling (applies everywhere) */
+.post-hero,
+.post-content img{
+  float: left;
+  width: 30%;
+  max-width: none;
+  height: auto;
+  margin: 0 1.25rem 1rem 0;
+  border-radius: .5rem;
+}
+
+/* Mobile override – stack full width again */
+@media (max-width: 640px){
+  .post-hero,
+  .post-content img{
+    float: none;
+    display: block;
+    width: 100%;
+    margin: 0 0 1rem 0;
+  }
+}
+
+/* Medium desktop (820–1279px) */
+@media (min-width: 820px) and (max-width: 1279px){
+  .post-hero,
+  .post-content img{
+    width: 35%;
+    max-width: 360px;
+  }
+}
+
+/* Standard desktop (1280–1439px) */
+@media (min-width: 1280px) and (max-width: 1439px){
+  .post-hero,
+  .post-content img{
+    width: 33%;
+    max-width: 400px;
+  }
+}
+
+/* Large desktop (1440–1919px) */
+@media (min-width: 1440px) and (max-width: 1919px){
+  .post-hero,
+  .post-content img{
+    width: 30%;
+    max-width: 480px;
+  }
+}
+
+/* Ultra-wide (1920px +) */
+@media (min-width: 1920px){
+  .post-hero,
+  .post-content img{
+    width: 28%;
+    max-width: 560px;
+  }
+}
+
+
+.post-nav{ display:flex; justify-content:space-between; margin-top:2rem; font-size:.9rem; }
+
+/* =========================================================
+   7) ABOUT PAGE COMPONENTS (existing)
+   ========================================================= */
+.about-wrapper{ display:flex; align-items:flex-start; gap:2rem; margin:0 0 2rem 0; max-width:none; padding:0; }
+.about-text{ flex:2; }
+.about-image{ flex:1; text-align:center; }
+/* Base: allow the image to breathe on normal desktops too */
+.about-image img{ width: clamp(260px, 24vw, 420px); max-width:100%; height:auto; }
+
+.image-attribution{ font-size:.75rem; margin-top:.5rem; color:#777; }
+@media (max-width:820px){ .about-wrapper{ flex-direction:column; } .about-image{ margin:1rem auto 0; text-align:center; } }
+
+/* =========================================================
+   8) LINKS, BUTTONS, FOOTER
+   ========================================================= */
+a{ color: var(--warm-teal); text-decoration:none; }
+a:hover{ color: var(--dusty-rose); text-decoration:underline; }
+
+.mb-btn{
+  font-family: var(--font-body);
+  background: var(--burnt-amber); color:#fff; font-weight:600;
+  padding:.5em 1em; border:0; border-radius:8px; cursor:pointer;
+}
+.mb-btn:hover{ background: var(--dusty-rose); }
+
+.site-footer{
+  border-top:1px solid rgba(0,0,0,.08); background:var(--off-white);
+  color:var(--charcoal); padding-block: var(--space-3); text-align:center;
+}
+
+/* =========================================================
+   9) UTILITIES
+   ========================================================= */
+.text-center{ text-align:center; }
+.max-width{ max-width:70ch; margin-inline:auto; }
+.visually-hidden{
+  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* =========================================================
+   10) WALLPAPER TEST (kept, simplified)
+   ========================================================= */
+.wallpaper-test main{
   --mb-tile-url: url('/assets/images/MB_tile_image_v2.png');
-  --hero-bleed: 24px;     /* how far the hero card starts earlier on the left (desktop) */
-  --hero-pad-y: 24px;     /* top/bottom padding inside the hero */
-  --hero-blur: 10px;      /* backdrop blur strength */
-}
+  --hero-bleed: 24px; --hero-pad-y: 24px; --hero-blur: 10px;
 
-/* 1) Tiled wallpaper */
-.wallpaper-test{
   background-image: var(--mb-tile-url);
   background-repeat: repeat;
-  background-size: calc(100% / 6) auto;  /* desktop: 6 across */
+  background-size: calc(100% / 6) auto;   /* desktop density */
   background-position: top center;
 }
 
-/* 2) Let wallpaper show behind content */
-.wallpaper-test main .container{
-  background: transparent !important;
-  box-shadow: none !important;
-  overflow: visible;
-}
+/* let wallpaper through; hero is frosted */
+.wallpaper-test main .container{ background:transparent !important; box-shadow:none !important; overflow:visible; }
 
-/* 3) Frosted hero card (id="home-hero") */
 .wallpaper-test #home-hero{
-  position: relative;
-  border-radius: 18px;
-  border: 1px solid rgba(72,88,92,0.18);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
-
-  /* card bleeds left; content aligns to container lines */
+  position:relative; border-radius:18px;
+  border:1px solid rgba(72,88,92,0.18); box-shadow:0 6px 24px rgba(0,0,0,.10);
   margin-left: calc(-1 * var(--hero-bleed));
-  padding: var(--hero-pad-y) var(--space-2) var(--hero-pad-y)
-           calc(var(--space-2) + var(--hero-bleed));
-
-  /* light scrim + base tint (keeps text legible) */
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,0) 60%),
-    rgba(252,252,248,0.60);
+  padding: var(--hero-pad-y) var(--space-2) var(--hero-pad-y) calc(var(--space-2) + var(--hero-bleed));
+  background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,0) 60%), rgba(252,252,248,0.60);
 }
-
-/* 3a) Real blur when supported */
 @supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))){
-  .wallpaper-test #home-hero{
-    -webkit-backdrop-filter: blur(var(--hero-blur));
-    backdrop-filter: blur(var(--hero-blur));
-  }
+  .wallpaper-test #home-hero{ -webkit-backdrop-filter: blur(var(--hero-blur)); backdrop-filter: blur(var(--hero-blur)); }
 }
-
-/* 4) Keep the hero grid capped to the site container */
-.wallpaper-test #home-hero .mb-hero__grid{
-  max-width: var(--container);
-  margin-inline: 0; /* alignment handled by hero padding */
-}
-
-/* 5) Calculator stays white */
+.wallpaper-test #home-hero .mb-hero__grid{ max-width: var(--container); margin-inline:0; }
 .wallpaper-test .calc-card{
-  background: #fff;
-  border: 1px solid rgba(72,88,92,0.12);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  background:#fff; border:1px solid rgba(72,88,92,0.12); border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
 
-@media (min-width: 641px){
-  .wallpaper-test #home-hero{
-    /* equal bleed left + right */
-    margin-left:  calc(-1 * var(--hero-bleed));
-    margin-right: calc(-1 * var(--hero-bleed));
+/* density + responsiveness */
+@media (max-width:1024px){ .wallpaper-test{ background-size: calc(100%/4) auto; } }
+@media (max-width:640px){  .wallpaper-test{ background-size: calc(100%/3) auto; } }
+@media (max-width:380px){  .wallpaper-test{ background-size: calc(100%/2) auto; } }
 
-    /* content rails match the container on both sides */
-    padding-left:  calc(var(--space-2) + var(--hero-bleed));
+@media (min-width:641px){
+  .wallpaper-test #home-hero{
+    margin-right: calc(-1 * var(--hero-bleed));
     padding-right: calc(var(--space-2) + var(--hero-bleed));
   }
-
-  /* keep grid on those rails & flush calculator to the right */
-  .wallpaper-test #home-hero .mb-hero__grid{ margin-inline: 0 !important; }
   .wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
 }
 
-
-/* 6) Responsiveness */
-/* tile density */
-@media (max-width:1024px){ .wallpaper-test{ background-size: calc(100%/4) auto; } }
-@media (max-width:640px) { .wallpaper-test{ background-size: calc(100%/3) auto; } }
-@media (max-width:380px) { .wallpaper-test{ background-size: calc(100%/2) auto; } }
-
-/* tablet: gentler bleed */
-@media (max-width:1024px){
-  .wallpaper-test{ --hero-bleed: 36px; }
-}
-
-/* phones: symmetric slivers + centered feel */
 @media (max-width:640px){
   .wallpaper-test #home-hero{
-    margin-left: -10px;                 /* container has 16px side padding */
-    margin-right: -10px;                /* leaves ~6px sliver each side */
+    margin-left:-10px; margin-right:-10px;
     padding-left: calc(var(--space-2) + 10px);
     padding-right: calc(var(--space-2) + 10px);
-    border-radius: 18px;                /* reassert rounding */
+    border-radius:18px;
   }
 }
-/* === ALIGNMENT PACK ===================================== */
 
-/* 1) Ensure the hero grid is not re-centering itself */
-.wallpaper-test #home-hero .mb-hero__grid{
-  margin-inline: 0 !important;   /* beats any earlier 'margin: 0 auto' */
+/* =========================================================
+   11) MEDIA QUERIES (misc small tweaks)
+   ========================================================= */
+@media (max-width:640px){
+  .site-nav{ gap:.5rem; }
 }
 
-/* 2) Make the calculator's outer edge flush to the right rail */
-.wallpaper-test #home-hero .mb-hero__right{
-  justify-self: end;             /* grid item hugs the right padding edge */
+/* =========================================================
+   MEDIUM DESKTOP BOOST (820px – 1279px)
+   ========================================================= */
+@media (min-width: 820px) and (max-width: 1279px){
+  /* Slight font bump */
+  body{ font-size: clamp(17px, 1.0vw + .5rem, 19px); }
+
+  /* Hero gets a touch more space */
+  .mb-hero{ padding-block: 3rem; }
+
+  /* Calculator card slightly bigger */
+  .mb-card{ --input-h: 2.7rem; padding: 1.4rem 1.6rem; }
+  .mb-btn{ font-size: 1rem; }
+  .mb-link{ font-size: .95rem; }
+
+  /* Paragraph text on About/Contact */
+  .prose{ font-size: 1.02rem; }
 }
 
+/* =========================================================
+   12) LARGE DESKTOP BOOST (≥1440px, ≥1920px)
+   Scales type, hero grid and controls so 100% zoom feels
+   like your 150–175% mock.
+   ========================================================= */
+@media (min-width: 1440px){
+  /* Scale the whole UI by increasing the rem base */
+  html{ font-size: 112.5%; }  /* 18px rem */
 
-/* === OPTIONAL: perfect interior symmetry on desktop/tablet =========
-   Bleed the card on the RIGHT by the same amount and compensate padding.
-   This keeps both rails aligned AND makes left/right interior padding equal.
-   Remove this block if you want left-only bleed.
-*/
+  /* Body + headings */
+  body{ font-size: clamp(19px, 1.0vw + 0.6rem, 22px); }
+  h1{ font-size: clamp(2.6rem, 3.2vw, 4.0rem); }
+  .mb-hero__title{ font-size: clamp(2.6rem, 3.2vw, 3.9rem); }
 
-@media (min-width: 641px){
+  /* More hero presence */
+  .mb-hero{ padding-block: 5.5rem; }
+
+  /* Wider grid: right card grows, gap a touch larger */
+  .mb-hero__grid{
+    grid-template-columns: minmax(0, 1.3fr) minmax(560px, 800px);
+    gap: 2.25rem;
+  }
+
+  /* Card + form legibility */
+  .mb-card{ padding: 1.8rem 2rem; }
+  .mb-field{ font-size: 1.05rem; }
+  .mb-card .mb-field input,
+  .mb-card .mb-field select,
+  .mb-card .mb-field textarea{
+    height: 3.2rem;
+    font-size: 1.05rem;
+  }
+
+  /* Header doesn’t look tiny vs the hero */
+  .logo{ font-size: clamp(1.25em, 1em + 1.2vw, 1.7em); }
+
+  /* NAV: make links keep up with the bigger logo */
+.site-nav a{
+  font-size: 1.20rem;
+  padding: .65rem 1rem;   /* taller/touch-friendlier */
+}
+
+/* HERO CARD: headline + controls */
+.mb-card h2{                     /* “Find your next Megabirthday” */
+  font-size: clamp(1.8rem, 2.3vw, 2.2rem);
+}
+.mb-card{ --input-h: 3.0rem; }   /* taller inputs at this width */
+.mb-btn{ font-size: 1.05rem; }   /* “Calculate” */
+.mb-link{ font-size: 1.0rem; }   /* “Prefer typing?” */
+
+/* PAGE COPY: About/Contact paragraphs */
+.prose{ font-size: 1.12rem; line-height: 1.65; }
+
+/* (optional) Keep buttons/links decoupled from nav */
+.mb-btn{  font-size: 1.08rem; } /* already looks right—tweak if needed */
+.mb-link{ font-size: 1.02rem; }
+
+/* About + any images inside prose blocks (Contact/About text areas) */
+.about-image img,
+.page.prose img{
+  width: clamp(360px, 28vw, 560px);
+}
+/* BLOG TITLES */
+  .blog-card h2{
+    font-size: 1.35rem;   /* ~22px */
+    line-height: 1.3;
+  }
+/* Blog dates*/
+.blog-card .blog-meta{
+  font-size: 0.95rem;   /* ~17px with your 18px root */
+}  
+}
+
+@media (min-width: 1920px){
+  html{ font-size: 125%; }  /* 20px rem */
+
+  body{ font-size: clamp(20px, 1.05vw + 0.6rem, 23px); }
+  h1{ font-size: 4.4rem; }
+  .mb-hero__title{ font-size: 4.2rem; }
+  .mb-hero{ padding-block: 6rem; }
+
+  /* Use the extra width; right card up to 920px */
+  .mb-hero__grid{
+    grid-template-columns: minmax(0, 1.4fr) minmax(640px, 920px);
+  }
+
+  /* Slightly stronger frosted panel on ultra-wide */
   .wallpaper-test #home-hero{
-    margin-right: calc(-1 * var(--hero-bleed));              
-    padding-right: calc(var(--space-2) + var(--hero-bleed));  
-  }
-}
-
-/* === Header rails match container rails (desktop/tablet) === */
-@media (min-width: 821px){
-  .site-header .header-inner{
-    max-width: var(--container);      /* same width as main .container */
-    margin-inline: auto;              /* center on page */
-    padding-inline: var(--space-2);   /* same side padding as container */
-    display: flex;                    /* simple layout: logo | nav */
-    align-items: center;
+    --hero-bleed: 36px;
+    --hero-pad-y: 34px;
+    --hero-blur: 14px;
   }
 
-/* Logo hugs the left rail; nav group hugs the right rail */
-.site-header .logo {
-  margin-right: auto;
-  display: inline-block;
-}
-
-/* Ensure hero content still sits on the same rails */
-.wallpaper-test #home-hero .mb-hero__grid{
-  max-width: var(--container);
-  margin-inline: 0; /* rails already set by hero padding */
-}
-
-/* Calculator column flush to right rail */
-.wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
-
-/* Optional 1px optical nudge, if needed */
-@media (min-width: 821px){
-  .site-header .header-inner{ padding-right: calc(var(--space-2) + 1px); }
-}
-/* smaller bleed */
-.wallpaper-test{ --hero-bleed: 24px; }
-
-/* desktop/tablet: card bleeds both sides, content aligns to container rails */
-@media (min-width: 641px){
-  .wallpaper-test #home-hero{
-    margin-left:  calc(-1 * var(--hero-bleed));
-    margin-right: calc(-1 * var(--hero-bleed));
-    /* IMPORTANT: no +bleed here */
-    padding-left:  var(--space-2);
-    padding-right: var(--space-2);
+  /* NAV */
+  .site-nav a{
+    font-size: 1.30rem;
+    padding: .7rem 1.05rem;
   }
 
-  /* grid sits on those rails; calc hugs right rail */
-  .wallpaper-test #home-hero .mb-hero__grid{ max-width: var(--container); margin-inline: 0; }
-  .wallpaper-test #home-hero .mb-hero__right{ justify-self: end; }
-}
+  /* HERO CARD */
+  .mb-card h2{
+    font-size: clamp(2rem, 2.1vw, 2.4rem);
+  }
+  .mb-card{ --input-h: 3.2rem; }
+  .mb-btn{ font-size: 1.1rem; }
+  .mb-link{ font-size: 1.06rem; }
 
-/* header uses the same rails */
-@media (min-width: 821px){
-  .site-header .header-inner{
-    max-width: var(--container);
-    margin-inline: auto;
-    padding-inline: var(--space-2);
-    display: flex;
-    align-items: center;
+  /* PAGE COPY */
+  .prose{ font-size: 1.20rem; line-height: 1.7; }
+
+  .about-image img,
+  .page.prose img{
+    width: clamp(420px, 30vw, 640px);
   }
 
-.site-header .site-nav {
-  margin-left: auto;
-  padding-right: 0; /* nav group sits flush to the right rail */
-}
-   
-/* ===== Rail + Gutter Alignment Pack ===== */
-
-/* Use wider rails just for the wallpaper test pages */
-.wallpaper-test{
-  --rail-pad: calc(var(--space-2) * 1.6 - 1px); /* 50% wider than default container pad */
-  --hero-bleed: 24px;                     /* modest symmetric bleed */
-}
-
-/* Header uses the same rails as the hero */
-@media (min-width: 821px){
-  .site-header .header-inner{
-    max-width: var(--container);
-    margin-inline: auto;
-    padding-inline: var(--rail-pad);  /* << wider gutters */
-    display: flex;
-    align-items: center;
+  /* BLOG TITLES */
+  .blog-card h2{
+    font-size: 1.5rem;    /* ~24–25px */
+    line-height: 1.3;
   }
-  .site-header .logo{ margin-right: auto; display: inline-block; }
-  .site-header .site-nav{ margin-left: auto; }
 
-/* Nav links spacing (all links treated the same) */
-.site-header .site-nav a {
-  padding: 5.6px 9.6px; /* vertical, horizontal padding */
-  margin: 0;            /* no weird per-link margins */
+  /* Blog dates*/
+  .blog-card .blog-meta{
+  font-size: 1rem;      /* ~20px with your 20px root */
 }
 }
-
-/* Desktop/tablet hero: symmetric bleed; content on the new rails */
-@media (min-width: 641px){
-  .wallpaper-test #home-hero{
-    margin-left:  calc(-1 * var(--hero-bleed));
-    margin-right: calc(-1 * var(--hero-bleed));
-    padding-left:  var(--rail-pad);   /* << wider gutters, no +bleed */
-    padding-right: var(--rail-pad);
-  }
-  .wallpaper-test #home-hero .mb-hero__grid{
-    max-width: var(--container);
-    margin-inline: 0 !important;     /* never recenter */
-  }
-  .wallpaper-test #home-hero .mb-hero__right{
-    justify-self: end;                /* calc card flush to right rail */
-  }
-}
-
-/* Phones: keep your good centered look + equal slivers */
-@media (max-width: 640px){
-  .wallpaper-test #home-hero{
-    margin-left: -10px;
-    margin-right: -10px;
-    padding-left:  calc(var(--rail-pad) + 10px);  /* match header rail + sliver */
-    padding-right: calc(var(--rail-pad) + 10px);
-    border-radius: 18px;
-  }
-}
-/* Align body text under page headings */
-.container {
-  padding-left: 0;
-  padding-right: var(--space-2);
-}
-
-}   
