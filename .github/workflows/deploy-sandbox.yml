@@ -3,8 +3,8 @@ name: Deploy Sandbox alongside Main
 on:
   push:
     branches:
-      - sandbox
-  workflow_dispatch:
+      - '**'      # 👈 run on ALL branches for now, not just sandbox
+  workflow_dispatch:   # 👈 still lets you run manually from Actions tab
     inputs:
       branch:
         description: 'Branch to deploy'
