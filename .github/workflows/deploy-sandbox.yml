@@ -1,0 +1,56 @@
+name: Deploy Sandbox alongside Main
+
+on:
+  push:
+    branches:
+      - "main"
+      - "sandbox"
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: "sandbox"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the branch that triggered this workflow
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      # 2. Setup Ruby
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      # 3. Install dependencies (use your Gemfile)
+      - name: Install dependencies
+        run: |
+          bundle install --jobs 4 --retry 3
+
+      # 4. Build site into subfolder of _site
+      - name: Build site
+        run: |
+          JEKYLL_ENV=production bundle exec jekyll build -d ./_site/${{ github.ref_name }}
+
+      # 5. Upload entire _site folder as Pages artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      # 6. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
