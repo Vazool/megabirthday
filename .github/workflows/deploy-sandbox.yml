@@ -3,14 +3,14 @@ name: Deploy Sandbox alongside Main
 on:
   push:
     branches:
-      - main
-      - sandbox
+      - "main"
+      - "sandbox"
   workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to deploy'
         required: false
-        default: 'sandbox'
+        default: "sandbox"
 
 jobs:
   build-deploy:
