@@ -5,6 +5,11 @@ on:
     branches:
       - sandbox
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: 'sandbox'
 
 jobs:
   build-deploy:
