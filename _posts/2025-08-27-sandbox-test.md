@@ -25,3 +25,5 @@ And a fucking-gain. 16:16
 Sandbox debug test
 
 I really hope this is it at 16:41
+
+Gemstuff, config.yml... everything
