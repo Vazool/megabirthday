@@ -3,7 +3,8 @@ name: Deploy Sandbox alongside Main
 on:
   push:
     branches:
-      - '**'      # run on ALL branches (for now, until we narrow back down)
+      - main
+      - sandbox
   workflow_dispatch:
     inputs:
       branch:
@@ -22,19 +23,18 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
-      # 2. Setup Ruby (same version as GitHub Pages)
+      # 2. Setup Ruby
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
 
-      # 3. Install the Jekyll dependencies
+      # 3. Install dependencies (use your Gemfile)
       - name: Install dependencies
         run: |
           bundle install --jobs 4 --retry 3
 
-
-      # 4. Build site into a subfolder of _site
+      # 4. Build site into subfolder of _site
       - name: Build site
         run: |
           JEKYLL_ENV=production bundle exec jekyll build -d ./_site/${{ github.ref_name }}
