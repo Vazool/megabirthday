@@ -33,6 +33,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.2'
+          bundler-cache: true   # 👈 forces a fresh setup, avoids stale 3.1.7 cache
 
       # 3. Install dependencies (use your Gemfile)
       - name: Install dependencies
