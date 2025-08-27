@@ -1,0 +1,47 @@
+name: Deploy Sandbox alongside Main
+
+on:
+  push:
+    branches:
+      - sandbox     # 👈 this workflow only runs when you push to the sandbox branch
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the sandbox branch (not main)
+      - name: Checkout sandbox branch
+        uses: actions/checkout@v4
+        with:
+          ref: sandbox
+
+      # 2. Setup Ruby because GitHub Pages runs Jekyll on Ruby
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'   # same as GitHub Pages environment
+
+      # 3. Install the Jekyll dependencies
+      - name: Install dependencies
+        run: |
+          bundle install
+
+      # 4. Build the sandbox site into a SUBFOLDER of _site
+      #    👇 Here's the trick: we tell Jekyll to put its output in ./_site/sandbox
+      #    That way, it lives alongside your main site.
+      - name: Build sandbox site
+        run: |
+          JEKYLL_ENV=production bundle exec jekyll build -d ./_site/sandbox
+
+      # 5. Upload the entire _site folder as the artifact for Pages
+      #    (_site may already contain your main build if Actions are configured for it)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      # 6. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
