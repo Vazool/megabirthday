@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3.2"
+# Lock to the GitHub Pages gem (this bundles the right versions of Jekyll + plugins)
 gem "github-pages", group: :jekyll_plugins
+
+# Extra gem needed when running Jekyll outside of GitHub Pages
 gem "webrick", "~> 1.8"
 
