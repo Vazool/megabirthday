@@ -3,7 +3,8 @@ name: Deploy Sandbox alongside Main
 on:
   push:
     branches:
-      - sandbox     # 👈 this workflow only runs when you push to the sandbox branch
+      - sandbox
+  workflow_dispatch:
 
 jobs:
   build-deploy:
