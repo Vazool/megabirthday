@@ -1,16 +1,8 @@
 name: Deploy Sandbox alongside Main
 
+# Disabled automatic triggers — manual only
 on:
-  push:
-    branches:
-      - main
-      - sandbox
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: false
-        default: sandbox
 
 permissions:
   contents: read
@@ -28,7 +20,7 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
-      # 2. Setup Ruby
+      # 2. Setup Ruby (kept as reference, won’t auto-run anyway)
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
