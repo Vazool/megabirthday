@@ -3,14 +3,14 @@ name: Deploy Sandbox alongside Main
 on:
   push:
     branches:
-      - "main"
-      - "sandbox"
+      - main
+      - sandbox
   workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to deploy'
         required: false
-        default: "sandbox"
+        default: sandbox
 
 permissions:
   contents: read
@@ -33,7 +33,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.2'
-          bundler-cache: true   # 👈 forces a fresh setup, avoids stale 3.1.7 cache
+          bundler-cache: true
 
       # 3. Install dependencies (use your Gemfile)
       - name: Install dependencies
