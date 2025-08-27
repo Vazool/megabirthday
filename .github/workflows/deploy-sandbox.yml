@@ -31,7 +31,8 @@ jobs:
       # 3. Install the Jekyll dependencies
       - name: Install dependencies
         run: |
-          bundle install
+          bundle install --jobs 4 --retry 3
+
 
       # 4. Build site into a subfolder of _site
       - name: Build site
