@@ -155,8 +155,20 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   opacity: .85;
 }
 
-.mb-card .mb-field input[type="date"]{ padding-right: 2.25rem; }
-.mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator{ margin-right:.25rem; }
+/* date input fix: contain width + align icon */
+.mb-card .mb-field input[type="date"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-right: 2rem;  /* consistent space for icon */
+}
+
+/* date picker icon alignment */
+.mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator {
+  margin: 0;
+  padding: 0;
+}
 
 .mb-form__row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
 
