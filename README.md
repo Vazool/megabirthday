@@ -37,7 +37,6 @@ flowchart TD
     LSandbox -->|merge| LMain
     LMain -->|push| RMain
     RMain -->|deploy| Live["Live site (megabirthday.me)"]
-'''
 
 </details>
 
