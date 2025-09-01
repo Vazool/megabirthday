@@ -36,7 +36,8 @@ flowchart TD
     %% Promotion to live
     LSandbox -->|merge| LMain
     LMain -->|push| RMain
-    RMain -->|deploy| Live["Live site (megabirthday.me)"]'''
+    RMain -->|deploy| Live["Live site (megabirthday.me)"]
+```
 
 </details>
 
