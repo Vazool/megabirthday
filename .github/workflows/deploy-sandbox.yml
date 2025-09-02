@@ -1,5 +1,6 @@
 name: Deploy Sandbox alongside Main
 
+
 on:
   push:
     branches:
@@ -28,11 +29,12 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
-      # 2. Setup Ruby
+      # 2. Setup Ruby (kept as reference, won’t auto-run anyway)
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: 3.2
+          bundler-cache: true
 
       # 3. Install dependencies (use your Gemfile)
       - name: Install dependencies

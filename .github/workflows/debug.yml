@@ -1,0 +1,16 @@
+name: Debug Branch Trigger
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print branch info
+        run: |
+          echo "Workflow triggered on branch: ${{ github.ref_name }}"
+          echo "Full ref: ${{ github.ref }}"

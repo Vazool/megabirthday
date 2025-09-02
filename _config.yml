@@ -3,6 +3,7 @@ permalink: pretty
 timezone: Europe/London
 description: Celebrate every 1,000 days of life
 url: https://megabirthday.me
+repository: Vazool/megabirthday
 author: John Crook
 plugins:
   - jekyll-remote-theme
