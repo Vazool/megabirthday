@@ -1,8 +1,17 @@
 name: Deploy Sandbox alongside Main
 
-# Disabled automatic triggers — manual only
+
 on:
+  push:
+    branches:
+      - "main"
+      - "sandbox"
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: "sandbox"
 
 permissions:
   contents: read

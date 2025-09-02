@@ -1,19 +1,28 @@
 ---
 layout: default
 ---
+
 <article class="prose">
   <h1>{{ page.title | default: "Blog" }}</h1>
   {% if page.subtitle %}<p class="lead">{{ page.subtitle }}</p>{% endif %}
 
-  <ul class="blog-list">
+  <!-- No extra .container here -->
+  <div class="blog-grid">
     {% assign posts = site.posts | sort: 'date' | reverse %}
     {% for post in posts %}
-      <li>
-        <h2 style="margin:0 0 .25rem;"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <div class="blog-card">
+        {% if post.image %}
+          <a href="{{ post.url | relative_url }}">
+            <img src="{{ post.image | relative_url }}" alt="" class="blog-thumb">
+          </a>
+        {% endif %}
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <div class="blog-meta">{{ post.date | date: "%-d %B %Y" }}</div>
         <p>{{ post.excerpt | strip_html | truncate: 180 }}</p>
-        <a href="{{ post.url | relative_url }}">Read more →</a>
-      </li>
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more →</a>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 </article>
+
+
