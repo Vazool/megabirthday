@@ -241,22 +241,19 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 /* =========================================================
    8) CONTACT PAGE AND SOCIAL LINKS
    ========================================================= */
-.contact-list, .social-links{
+.contact-list{
   list-style: none;
   padding: 0;
   margin: 0 0 var(--space-3);
 }
-.contact-list li,
-.social-links li{
+.contact-list li{
   margin: 0.4em 0;
 }
-.contact-list a,
-.social-links a{
+.contact-list a{
   text-decoration: none;
   color: var(--link-color);
 }
-.contact-list a:hover,
-.social-links a:hover{
+.contact-list a:hover{
   text-decoration: underline;
 }
 .footnote{
@@ -274,6 +271,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   gap: 1em;
 }
 .social-links li{
+  margin: 0.4em 0;
   display: inline-block;
 }
 .social-links a{
