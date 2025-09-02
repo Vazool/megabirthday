@@ -409,25 +409,6 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .wallpaper-test{ background-size: calc(100%/4) auto; }
 }
 
-/* Stack About/Contact layout on mobile */
-@media (max-width:640px){
-  .about-wrapper{
-    flex-direction: column;        /* stack instead of side-by-side */
-    align-items: flex-start;       /* align to left rail */
-    gap: 1rem;                     /* slightly tighter gap on mobile */
-  }
-  .about-text{ order: 1; }
-  .about-image{
-    order: 2;
-    text-align: left;              /* image aligns to text rail */
-  }
-  .about-image img{
-    width: min(100%, 560px);       /* fill container but don’t exceed a nice max */
-    height: auto;
-    margin-top: .5rem;
-  }
-}
-
 /* 820–1279px (medium desktop) */
 @media (min-width:820px) and (max-width:1279px){
   :root{ --ui-scale: 1.00; }
