@@ -170,6 +170,12 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   padding: 0;
 }
 
+.mb-form{
+  display:block;
+  max-width:100%;
+  margin:0 auto;
+}
+
 .mb-form__row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
 
 .mb-link{
