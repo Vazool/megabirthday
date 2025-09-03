@@ -1,0 +1,14 @@
+{
+  "important": false,
+  "adjoining-classes": false,
+  "box-model": false,
+  "compatible-vendor-prefixes": false,
+  "duplicate-background-images": true,
+  "duplicate-properties": true,
+  "empty-rules": true,
+  "gradients": false,
+  "ids": false,
+  "order-alphabetical": false,
+  "qualified-headings": false,
+  "unique-headings": false
+}

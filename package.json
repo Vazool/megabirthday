@@ -1,0 +1,24 @@
+{
+  "name": "megabirthday",
+  "version": "1.0.0",
+  "description": "Github Repo for megabirthday.me",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:css": "csslint assets/css/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vazool/megabirthday.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vazool/megabirthday/issues"
+  },
+  "homepage": "https://github.com/Vazool/megabirthday#readme",
+  "devDependencies": {
+    "csslint": "^1.0.5"
+  }
+}

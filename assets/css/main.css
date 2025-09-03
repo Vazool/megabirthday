@@ -31,7 +31,6 @@ html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 
 body{
-font-family: var(--font-body);
 font-size: clamp(16px, 1.1vw + .2rem, 18px);
 line-height: 1.6;
 color: var(--charcoal);
@@ -40,7 +39,7 @@ margin: 0;
 overflow-x: hidden; /* prevent horizontal overflow sliver */
 }
 
-h1,h2,h3{ font-family: var(--font-head); font-weight: 600; color: var(--smoky-navy); margin: 0 0 .6rem; }
+h1,h2,h3{ font-weight: 600; color: var(--smoky-navy); margin: 0 0 .6rem; }
 h1{ font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; }
 h2{ font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; }
 h3{ font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin-bottom: .5rem; }
@@ -171,6 +170,12 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   padding: 0;
 }
 
+.mb-form{
+  display:block;
+  max-width:100%;
+  margin:0 auto;
+}
+
 .mb-form__row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
 
 .mb-link{
@@ -241,22 +246,19 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 /* =========================================================
    8) CONTACT PAGE AND SOCIAL LINKS
    ========================================================= */
-.contact-list, .social-links{
+.contact-list{
   list-style: none;
   padding: 0;
   margin: 0 0 var(--space-3);
 }
-.contact-list li,
-.social-links li{
+.contact-list li{
   margin: 0.4em 0;
 }
-.contact-list a,
-.social-links a{
+.contact-list a{
   text-decoration: none;
   color: var(--link-color);
 }
-.contact-list a:hover,
-.social-links a:hover{
+.contact-list a:hover{
   text-decoration: underline;
 }
 .footnote{
@@ -274,6 +276,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   gap: 1em;
 }
 .social-links li{
+  margin: 0.4em 0;
   display: inline-block;
 }
 .social-links a{
@@ -306,8 +309,6 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 /* =========================================================
    10) UTILITIES
    ========================================================= */
-.text-center{ text-align:center; }
-.max-width{ max-width:70ch; margin-inline:auto; }
 .visually-hidden{
   position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
   overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
@@ -407,25 +408,6 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .site-nav a{ display:block; padding:.6rem .9rem; }
   .site-nav a.is-active{ background: rgba(255,255,255,.18); }
   .wallpaper-test{ background-size: calc(100%/4) auto; }
-}
-
-/* Stack About/Contact layout on mobile */
-@media (max-width:640px){
-  .about-wrapper{
-    flex-direction: column;        /* stack instead of side-by-side */
-    align-items: flex-start;       /* align to left rail */
-    gap: 1rem;                     /* slightly tighter gap on mobile */
-  }
-  .about-text{ order: 1; }
-  .about-image{
-    order: 2;
-    text-align: left;              /* image aligns to text rail */
-  }
-  .about-image img{
-    width: min(100%, 560px);       /* fill container but don’t exceed a nice max */
-    height: auto;
-    margin-top: .5rem;
-  }
 }
 
 /* 820–1279px (medium desktop) */
