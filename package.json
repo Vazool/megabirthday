@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Vazool/megabirthday#readme",
   "devDependencies": {
-    "csslint": "^1.0.5"
+    "stylelint": "^16.23.1",
+    "stylelint-config-standard": "^39.0.0"
   }
 }
