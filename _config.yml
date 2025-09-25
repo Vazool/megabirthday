@@ -5,6 +5,10 @@ description: Celebrate every 1,000 days of life
 url: https://megabirthday.me
 repository: Vazool/megabirthday
 author: John Crook
+
+# Social defaults
+twitter_username: megabirthday_me
+
 plugins:
   - jekyll-remote-theme
 remote_theme: jekyll/minima
