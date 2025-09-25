@@ -16,8 +16,9 @@
 
 {% assign page_title       = page.og_title       | default: page.title | default: site.title %}
 {% assign page_desc        = page.og_description | default: page.description | default: site.description %}
-{% assign page_image_rel   = page.og_image       | default: "/assets/images/MB_social_preview.png" %}
-{% assign page_image_abs   = page_image_rel | absolute_url %}
+{% assign page_image_rel   = page.og_image       | default: "/assets/images/MB_social_preview_v1.jpg" %}
+
+  {% assign page_image_abs   = page_image_rel | absolute_url %}
 {% assign page_url_abs     = page.url | absolute_url %}
 {% assign twitter_handle   = site.twitter_username | default: "megabirthday_me" %}
 
