@@ -12,11 +12,15 @@ wallpaper_test: true # toggle for wallpaper
     <div>
       <h1 class="mb-hero__title">Welcome to Megabirthday</h1>
       <p class="mb-hero__lead">
-        We celebrate every <strong>1,000 days</strong> of life. Pop your date of birth in the calculator
+        We celebrate every <strong>1,000 days</strong> of life. Enter your date of birth in the calculator
         to find your next megabirthday and how long until the party.
       <br><br>
-        Step outside of the annual cycle and find a new way to celebrate growth. More coming soon.
-      </p>
+        Step outside of the annual cycle and find a new way to celebrate growth.
+      <br><br>
+        Following its formal launch in October 2025, Megabirthday.me will commence a journey of continuous
+        improvement, with the periodic release of new features and enhancements. Our goal is simple: to 
+        provide the world with a framework for achievement and celebration that it never knew it needed 
+       </p>
     </div>
 
     <!-- Right: calculator -->
@@ -26,7 +30,7 @@ wallpaper_test: true # toggle for wallpaper
 
         <form id="mb-form" class="mb-form" novalidate>
           <label class="mb-field">
-            <span>Date of birth</span>
+            <span>Enter your date of birth</span>
             <input id="dob" name="dob" type="date" autocomplete="bday" />
             <input id="dobText" name="dobText" type="text" inputmode="numeric"
                    maxlength="10" placeholder="DD/MM/YYYY" class="mb-hide" autocomplete="bday" />
@@ -39,7 +43,7 @@ wallpaper_test: true # toggle for wallpaper
         </form>
 
         <div id="result" class="mb-result" aria-live="polite"></div>
-        <p class="mb-footnote">We calculate using calendar days (UTC) to avoid time-zone wobble.</p>
+        <p class="mb-footnote">We calculate using calendar days (UTC) to avoid pesky time-zone wobble.</p>
       </div>
     </div>
 
@@ -145,11 +149,11 @@ wallpaper_test: true # toggle for wallpaper
     min-height: 0;
     display: none; /* optional but nice */
   }
-  .mb-footnote{
+  /*.mb-footnote{ /*this rule now lives in main.css
     margin: .6rem 0 0;
     font-size: .85rem;
     color: var(--ink-soft);
-  }
+  }*/
 
   /* Responsive: stack on small screens (text first, calculator below) */
   @media (max-width: 820px){
