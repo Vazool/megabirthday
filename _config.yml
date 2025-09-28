@@ -3,21 +3,28 @@ permalink: pretty
 timezone: Europe/London
 description: Celebrate every 1,000 days of life
 url: https://megabirthday.me
+baseurl: ""                           # root site
 repository: Vazool/megabirthday
 author: John Crook
 
 # Social defaults
 twitter_username: megabirthday_me
+social_image: /assets/images/MB_social_preview_v1.jpg   # used by og/twitter
+
+theme_color: "#f8f5f0"                # optional; used below if you override <head>
 
 plugins:
   - jekyll-remote-theme
+  - jekyll-sitemap
+  - jekyll-seo-tag                   # lets Minima emit canonical/OG/Twitter
+
 remote_theme: jekyll/minima
 
-# Navigation for the minima theme
+# Minima config
 minima:
   skin: megabirthday
   social_links:
     - { platform: github, user_url: "https://github.com/Vazool/megabirthday" }
 
-# Collections and defaults (posts already work out of the box)
 markdown: kramdown
+

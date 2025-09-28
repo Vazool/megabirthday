@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Charting the Megavergence"
+description: So what exactly is the relationship between megabirthdays and common or garden birthdays. And why should we care?
 date: 2025-08-15
 image: /assets/images/megavergence_boffin.png
 excerpt: "So what exactly is the relationship between megabirthdays and common or garden birthdays. And why should we care? "
