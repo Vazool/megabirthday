@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Megabirthday: the Backstory"
+description: Vazool recounts the origin of the megabirthday concept. And it's even more idiotic than you might imagine.
 date: 2025-08-15
 image: /assets/images/rabbit_hole_tumble.png
 excerpt: "Vazool recounts the origin of the megabirthday concept. And it's even more idiotic than you might imagine."
