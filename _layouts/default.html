@@ -44,25 +44,48 @@
 <meta name="twitter:image:alt" content="{{ page.twitter_alt | default: 'Megabirthday logo with three balloons on terracotta background' }}" />
 <meta name="twitter:site" content="@{{ twitter_handle }}" />
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Megabirthday",
+  "url": "https://megabirthday.me",
+  "logo": "https://megabirthday.me/assets/images/logo.png",
+  "sameAs": [
+    "https://x.com/megabirthday_me",
+    "https://www.instagram.com/megabirthday_me",
+    "https://www.facebook.com/megabirthday_me",
+    "https://www.youtube.com/@megabirthday_me",
+    "https://www.threads.net/@megabirthday_me"
+  ],
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "email": "hello@megabirthday.me",
+    "contactType": "customer support",
+    "areaServed": "GB"
+  }]
+}
+</script>
 
 </head>
 
 <body{% if page.wallpaper_test %} class="wallpaper-test"{% endif %}>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   {%- include header.html -%}
 
-  <main>
+  <main id = "main">
     <div class="container">
       {{ content }}
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">© {{ site.time | date: "%Y" }} megabirthday.me</div>
-  </footer>
-
   <!-- JS: load at the end; defer = run after HTML is parsed -->
   <script src="{{ '/assets/js/megabirthday.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/site.js'         | relative_url }}" defer></script>
+
+  {% include footer.html %}
+
 </body>
 </html>

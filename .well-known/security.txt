@@ -1,0 +1,3 @@
+Contact: mailto:tech@megabirthday.me
+Policy: https://megabirthday.me/privacy/
+Preferred-Languages: en
