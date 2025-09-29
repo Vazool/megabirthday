@@ -6,6 +6,7 @@ url: https://megabirthday.me
 baseurl: ""                           # root site
 repository: Vazool/megabirthday
 author: John Crook
+ga_measurement_id: "G-423K677GMK"
 
 # Social defaults
 twitter_username: megabirthday_me
