@@ -9,3 +9,8 @@ noindex: true
   <h1>Page not found</h1>
   <p>Sorry—this link looks out of date. Try the <a href="/">homepage</a> or the <a href="/blog/">blog</a>.</p>
 </section>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'page_404', path: location.pathname+location.search });
+</script>
