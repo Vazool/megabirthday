@@ -75,7 +75,6 @@ h3{ font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin-bottom: .5
   z-index: 1000;
 }
 
-
 /* =========================================================
    4) LAYOUT
    ========================================================= */
@@ -427,7 +426,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 @supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))){
   .wallpaper-test #home-hero{ backdrop-filter: blur(var(--hero-blur)); }
 }
-.wallpaper-test #home-hero .mb-hero__grid{ max-width: var(--container); margin-inline:0; }
+.wallpaper-test #home-hero .mb-hero__grid{ max-width: var(--container); margin-inline:auto; }
 
 .wallpaper-test .calc-card{
   background:#fff; border:1px solid rgb(72 88 92 / 12%); border-radius:16px; box-shadow:0 4px 16px rgb(0 0 0 / 8%);
@@ -529,7 +528,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 @media (width >=1440px) and (width <=1919px){
   :root{ --ui-scale: 0.95; }                 /* UI text a touch smaller than ≥1920 */
 
-  html{ font-size: 112.5%; }
+  /*html{ font-size: 112.5%; }*/
   body{ font-size: clamp(19px, 1.0vw + 0.6rem, 22px); }
 
   h1{ font-size: clamp(2.6rem, 3.2vw, 4.0rem); }
@@ -549,7 +548,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .mb-card h2{ font-size: clamp(1.8rem, 2.3vw, 2.2rem); }
 
   /* keep logo scaling, but NOT inputs */
-  .logo{ font-size: clamp(1.25em, 1em + 1.2vw, 1.7em); }
+  .logo{ font-size: clamp(1.25rem, 1rem + 1.2vw, 1.7rem); }
 
   /* inputs follow body × --ui-scale (no clamp here) */
   .mb-card .mb-field input,
@@ -575,7 +574,9 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   h1{ font-size: 4.4rem; }
   .mb-hero__title{ font-size: 4.2rem; }
   .mb-hero{ padding-block: 6rem; }
-  .mb-hero__grid{ grid-template-columns: minmax(0, 1.4fr) minmax(640px, 920px); }
+  .mb-hero__grid{
+    grid-template-columns: minmax(0, 1.4fr) minmax(640px, 920px);
+  }
   .wallpaper-test #home-hero{ --hero-bleed: 36px; --hero-pad-y: 34px; --hero-blur: 14px; }
   .site-nav a{ font-size: 1.30rem; padding: .7rem 1.05rem; }
   .mb-card h2{ font-size: clamp(2rem, 2.1vw, 2.4rem); }
@@ -651,18 +652,3 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 /* =========================================================
    END OF FILE
    ========================================================= */
-}
-  }
-}
-  }
-}
-  }
-}
-  }
-}
-  }
-}
-  }
-}
-  }
-}  
