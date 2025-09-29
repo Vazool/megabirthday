@@ -21,3 +21,11 @@ Links to external sites have their own policies. We’re not responsible for the
 
 **Contact**  
 Questions? Email **admin@megabirthday.me**.
+
+## Cookies
+
+This site uses **Google Analytics 4** to help us understand how visitors use the site.  
+Analytics cookies collect information in an anonymous form (e.g. pages visited, time on site).  
+
+By using this site you consent to this use of cookies.  
+You can disable cookies at any time in your browser settings.
