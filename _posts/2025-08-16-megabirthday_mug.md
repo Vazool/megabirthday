@@ -4,6 +4,7 @@ title: "The Purpose of Megabirthday"
 description: Megabirthday is not all it seems. Vazool explains the shocking purpose of megabirthday.me.
 date: 2025-08-16
 image: /assets/images/megabirthday_mug_v2.jpg
+thumb: /assets/images/megabirthday_mug_thumb.jpg
 excerpt: "Megabirthday is not all it seems. Vazool explains the shocking purpose of megabirthday.me."
 ---
 
