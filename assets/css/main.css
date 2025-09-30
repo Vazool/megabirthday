@@ -2,7 +2,7 @@
    1) DESIGN TOKENS
    ========================================================= */
 :root{
-  --warm-teal:      #4B9E9E;
+  --dark-teal:      #1F5C5C;
   --dusty-rose:     #C97A85;
   --burnt-amber:    #D38B36;
   --terracotta:     #C8643B;
@@ -217,13 +217,13 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 .mb-form__row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
 
 .mb-link{
-  background:transparent; border:0; color:var(--warm-teal);
+  background:transparent; border:0; color:var(--dark-teal);
   font-weight:600; text-decoration:underline; cursor:pointer;
   position:relative; padding:.25rem .15rem; margin:-.25rem -.15rem;
   font-size: calc(1em * var(--ui-scale));
 }
 .mb-link:hover{ color:var(--dusty-rose); text-decoration:underline; }
-.mb-link:focus-visible{ outline:2px solid var(--warm-teal); outline-offset:2px; border-radius:6px; }
+.mb-link:focus-visible{ outline:2px solid var(--dark-teal); outline-offset:2px; border-radius:6px; }
 .mb-hide{ display:none !important; }
 
 #result.mb-result{
@@ -297,7 +297,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 
 .contact-list a{
   text-decoration: none;
-  color: var(--warm-teal);
+  color: var(--dark-teal);
 }
 
 .contact-list a:hover{
@@ -329,7 +329,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 .social-links a{
   text-decoration: none;
   font-weight: 500;
-  color: var(--warm-teal);
+  color: var(--dark-teal);
 }
 
 .social-links a:hover{
@@ -340,7 +340,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 /* =========================================================
    10) LINKS, BUTTONS, FOOTER
    ========================================================= */
-a{ color: var(--warm-teal); text-decoration:none; }
+a{ color: var(--dark-teal); text-decoration:none; }
 a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 
 .mb-btn{
@@ -368,7 +368,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 /* Footer links: same behavior as global links, just spaced a touch */
 .site-footer a{
   margin: 0 .4rem;
-  color: var(--warm-teal);
+  color: var(--dark-teal);
   text-decoration: none;
 }
 .site-footer a:hover,
