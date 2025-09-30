@@ -30,12 +30,19 @@ wallpaper_test: true # toggle for wallpaper
         <h2 class="mb-card__title">Find your next Megabirthday</h2>
 
         <form id="mb-form" class="mb-form" novalidate>
-          <label class="mb-field">
-            <span>Enter your date of birth</span>
+          <fieldset class="mb-field">
+            <legend>Enter your date of birth</legend>
+
+            <!-- Date picker -->
+            <label for="dob" class="sr-only">Date of birth (date picker)</label>
             <input id="dob" name="dob" type="date" autocomplete="bday" />
+
+            <!-- Typing mode -->
+            <label for="dobText" class="sr-only">Date of birth (typing mode)</label>
             <input id="dobText" name="dobText" type="text" inputmode="numeric"
-                   maxlength="10" placeholder="DD/MM/YYYY" class="mb-hide" autocomplete="bday" />
-          </label>
+                  maxlength="10" placeholder="DD/MM/YYYY"
+                  class="mb-hide" autocomplete="bday" />
+          </fieldset>
 
           <div class="mb-form__row">
             <button id="calcBtn" class="mb-btn" type="submit">Calculate</button>
@@ -56,7 +63,7 @@ wallpaper_test: true # toggle for wallpaper
   
   :root{
   /* Brand */
-    --terracotta: #C8643B;
+    --terracotta: #B85733; /* was #C8643B */
     --amber:      #D38B36;
     --rose:       #C97A85;
     --charcoal:   #3C3C3C;

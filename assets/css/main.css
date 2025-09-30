@@ -5,7 +5,7 @@
   --dark-teal:      #1F5C5C;
   --dusty-rose:     #C97A85;
   --burnt-amber:    #D38B36;
-  --terracotta:     #C8643B;
+  --terracotta:     #B85733;      /* was #C8643B */
   --moss-green:     #7A8B50;
   --smoky-navy:     #3E5A73;
   --muted-lavender: #8C7CA8;
@@ -73,6 +73,18 @@ h3{ font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.25; margin-bottom: .5
   padding: .5rem .75rem;
   border-radius: .5rem;
   z-index: 1000;
+}
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* =========================================================
@@ -206,6 +218,26 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 .mb-card .mb-field input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0;
   padding: 0;
+}
+
+/* --- Forms: accessibility reset for fieldset/legend inside cards --- */
+.mb-card fieldset {
+  border: 0;
+  margin: 0 0 1rem;  /* bottom margin restores breathing space */
+  padding: 0;
+  min-width: 0;
+}
+
+.mb-card fieldset input:last-of-type {
+  margin-bottom: .5rem; /* optional finer tweak */
+}
+
+.mb-card legend{
+  font-size: calc(1em * var(--ui-scale));
+  font-weight: 500;
+  color: var(--charcoal);
+  margin-bottom: .4em;
+  padding: 0; /* remove default extra padding in some browsers */
 }
 
 .mb-form{
