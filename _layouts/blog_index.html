@@ -13,7 +13,9 @@ layout: default
       <div class="blog-card">
         {% assign thumb = post.thumb | default: post.image %}
         <a href="{{ post.url | relative_url }}">
-          <img src="{{ thumb | relative_url }}" alt="{{ post.title }}" class="blog-thumb"
+          <img src="{{ thumb | relative_url }}"
+              alt="{{ post.image_alt | default: post.title }}"
+              class="blog-thumb"
               {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
         </a>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
