@@ -5,6 +5,7 @@ description: Megabirthday is not all it seems. Vazool explains the shocking purp
 date: 2025-08-16
 image: /assets/images/megabirthday_mug_v2.jpg
 thumb: /assets/images/megabirthday_mug_thumb.jpg
+image_alt:
 excerpt: "Megabirthday is not all it seems. Vazool explains the shocking purpose of megabirthday.me."
 ---
 
