@@ -1,6 +1,19 @@
 <header class="site-header" data-nav data-open="false">
   <div class="container header-inner">
-    <a href="{{ '/' | relative_url }}" class="logo">megabirthday.me</a>
+    <a href="{{ '/' | relative_url }}" class="logo" aria-label="Megabirthday home">
+      <!-- Mobile: favicon -->
+      <span class="logo-icon fav" aria-hidden="true">
+        {% include svg/MB-favicon-mono.svg %}
+      </span>
+
+      <!-- Tablet+: balloons + “1” -->
+      <span class="logo-icon balloons" aria-hidden="true">
+        {% include svg/MB-balloons1-mono.svg %}
+      </span>
+
+      <!-- Wordmark text -->
+      <span class="wordmark">megabirthday.me</span>
+    </a>
 
     <!-- Mobile hamburger -->
     <button class="nav-toggle" id="navToggle"
@@ -22,3 +35,4 @@
     </nav>
   </div>
 </header>
+
