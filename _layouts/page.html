@@ -19,10 +19,11 @@ layout: default
     <div class="about-image">
       <img src="{{ page.image }}" alt="{{ page.title }} illustration">
       {% if page.attribution %}
-        <p class="image-attribution">{{ page.attribution | markdownify }}</p>
+        {% capture credit %}{{ page.attribution | markdownify }}{% endcapture %}
+        {{ credit | replace: '<p>', '<p class="mb-footnote">' }}
       {% endif %}
     </div>
     {% endif %}
   </div>
-</article>
 
+</article>

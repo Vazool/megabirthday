@@ -104,9 +104,12 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
   color: var(--charcoal);
 }
 
-.page.prose p,
+.page.prose p:not(.mb-footnote),
 .page.prose li,
-.page.prose a{ font-size: 1em; line-height: inherit; }
+.page.prose a {
+  font-size: 1em;
+  line-height: inherit;
+}
 
 /* =========================================================
    5) HEADER / NAV
@@ -149,6 +152,37 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 
 .page-header{ margin-block: 0 var(--space-3); }
 .prose > :first-child{ margin-top: 0 !important; }
+
+/* Inline SVG logo: layout + sizing (ADD) */
+.site-header .logo {
+  display: inline-flex;           /* keep your existing font styles on .logo */
+  align-items: center;
+  gap: 10px;
+  color: currentColor;            /* let icons inherit header text color */
+}
+
+/* Make sure inline SVGs scale cleanly and inherit currentColor */
+.site-header .logo-icon svg {
+  display: block;
+  height: 28px;                   /* mobile size */
+  width: auto;
+  /* fill is already `currentColor` in the SVGs; this is here just in case */
+  fill: currentColor;
+}
+
+/* Wordmark text inside the logo */
+.site-header .wordmark {
+  font-weight: 700;
+  /* Slightly firmer mobile legibility than body size */
+  font-size: 1.1875rem;           /* ~17px */
+  letter-spacing: 0.01em;
+}
+
+/* Default visibility (mobile-first) */
+.site-header .logo .fav { display: inline-flex; }
+.site-header .logo .balloons { display: none; }
+
+.site-header .logo { font-size: inherit; }
 
 /* =========================================================
    6) HERO + CALCULATOR
@@ -311,7 +345,7 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 .about-wrapper{ display:flex; align-items:flex-start; gap:2rem; margin:0 0 2rem; }
 .about-text{ flex:2; }
 .about-image{ flex:1; text-align:center; }
-.about-image img{ width: clamp(260px, 24vw, 420px); max-width:100%; height:auto; }
+.about-image img{ width: clamp(130px, 12vw, 210px); max-width:100%; height:auto; }
 .image-attribution{ font-size:.75rem; margin-top:.5rem; color:#777; }
 
 /* ========================================================= 
@@ -420,6 +454,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   opacity: .75;
   margin-top: 0.75rem;
 }
+
 .mb-footnote a {
   opacity: 1;
   text-underline-offset: 2px;
@@ -497,34 +532,52 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   }
 }
 
-/* ≤640px (mobile) */
+/* ≤640px (mobile) — unified */
 @media (width <=640px){
+  /* existing mobile tweaks */
   .site-nav{ gap:.5rem; }
   .mb-hero__grid{ grid-template-columns: 1fr; }
   .post-hero, .post-content img{ float:none; display:block; width:100%; margin:0 0 1rem; }
   .wallpaper-test{ background-size: calc(100%/3) auto; }
-  .wallpaper-test #home-hero{ margin-left:-10px; margin-right:-10px; padding-left: calc(var(--space-2) + 10px); padding-right: calc(var(--space-2) + 10px); }
-}
-
-/* Stack About/Contact layout on mobile */
-@media (width <=640px){
-  .about-wrapper{
-    flex-direction: column;        /* stack instead of side-by-side */
-    align-items: flex-start;       /* align to left rail */
-    gap: 1rem;                     /* slightly tighter gap on mobile */
+  .wallpaper-test #home-hero{
+    margin-left:-10px; margin-right:-10px;
+    padding-left: calc(var(--space-2) + 10px);
+    padding-right: calc(var(--space-2) + 10px);
   }
-  .about-text{ order: 1; }
 
-  .about-image{
+  /* Stack About/Contact */
+  .page.prose .about-wrapper{
+    flex-direction: column;      /* stack instead of side-by-side */
+    align-items: stretch;        /* let children take full width */
+    gap: 1rem;
+  }
+
+  .page.prose .about-text{ order: 1; }
+
+  .page.prose .about-image{
     order: 2;
-    text-align: left;              /* image aligns to text rail */
+    text-align: center;          /* fine for inline content */
+    width: 100%;
   }
 
-  .about-image img{
-    width: min(100%, 560px);       /* fill container but don’t exceed a nice max */
+  /* High-specificity override: centers and sizes the illustration */
+  .page.prose .about-wrapper .about-image img{
+    display: block;              /* allow margin auto centering */
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: clamp(130px, 55vw, 210px); /* half-size mobile clamp */
     height: auto;
     margin-top: .5rem;
   }
+}
+
+/* 768px logo swap (tablet threshold) */
+@media (width >=768px){
+  .site-header .logo-icon svg { height: 32px; }     /* bump icons */
+  .site-header .wordmark { font-size: 1.25rem; }   /* ~18px */
+  .site-header .logo .fav { display: none; }
+  .site-header .logo .balloons { display: inline-flex; }
 }
 
 /* ≤820px (tablet) */
@@ -554,6 +607,8 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 @media (width >=1280px) and (width <=1439px){
   :root{ --ui-scale: 1.03; }
   .post-hero, .post-content img{ width:33%; max-width:400px; }
+  .site-header .logo-icon svg { height: 36px; }
+  .site-header .wordmark { font-size: 1.375rem; } /* ~22px */
 }
 
 /* 1440–1919px (large desktop boost) */
@@ -592,10 +647,23 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .site-nav a{ font-size: 1.20rem; padding: .65rem 1rem; }
   .mb-btn{ font-size: 1.05rem; }
   .prose{ font-size: 1.12rem; line-height: 1.65; }
-  .about-image img, .page.prose img{ width: clamp(360px, 28vw, 560px); }
+  .about-image img, .page.prose img{ width: clamp(180px, 14vw, 280px); }
   .blog-card h2{ font-size: 1.35rem; line-height: 1.3; }
   .blog-card .blog-meta{ font-size: 0.95rem; }
   .post-hero, .post-content img{ width:30%; max-width:480px; }
+}
+
+/* ≥1440px: fluid ramp to ultrawide (replaces your 1440–1919 AND ≥1920 blocks) */
+@media (width >=1440px){
+  /* Icon scales from ~38px at 1440 → ~44px by 1920 and caps there */
+  .site-header .logo-icon svg {
+    height: clamp(38px, 26px + 0.9vw, 44px);
+  }
+
+  /* Wordmark scales from ~23px at 1440 → ~26–27px by 1920 and caps there */
+  .site-header .wordmark {
+    font-size: clamp(1.45rem, 1rem + 0.60vw, 1.65rem);
+  }
 }
 
 /* ≥1920px (ultra-wide) */
@@ -615,7 +683,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .mb-card{ --input-h: 3.2rem; }
   .mb-btn{ font-size: 1.1rem; }
   .prose{ font-size: 1.20rem; line-height: 1.7; }
-  .about-image img, .page.prose img{ width: clamp(420px, 30vw, 640px); }
+  .about-image img, .page.prose img{ width: clamp(210px, 15vw, 320px); }
   .blog-card h2{ font-size: 1.5rem; line-height: 1.3; }
   .blog-card .blog-meta{ font-size: 1rem; }
   .post-hero, .post-content img{ width:28%; max-width:560px; }
