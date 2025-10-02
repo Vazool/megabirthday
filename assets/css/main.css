@@ -18,6 +18,9 @@
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
+  --hero-bleed: 24px;     /* used when wallpaper is ON to bleed the panel */
+  --hero-pad-y: 24px;     /* vertical padding that should exist ALWAYS */
+  --hero-blur: 0px;       /* 0 by default; overridden to 10px when wallpaper is ON */
 }
 
 /* =========================================================
@@ -187,6 +190,21 @@ main{ padding-block: clamp(2rem, 4vw, 4rem); }
 /* =========================================================
    6) HERO + CALCULATOR
    ========================================================= */
+
+/* Always-on hero structure */
+#home-hero{
+  position: relative;
+  border-radius: 18px;          /* keep the curve even with no wallpaper */
+  padding: var(--hero-pad-y) var(--space-2);
+  min-height: 60vh;             /* pick your value: 55–70vh */
+}
+
+/* Always center the inner grid */
+#home-hero .mb-hero__grid{
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
 .mb-hero{ padding-block: clamp(2rem, 5vw, 4rem); background: var(--off-white); }
 .mb-hero .container{ max-width: var(--container-hero); }
 
@@ -471,14 +489,26 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 /* =========================================================
    13) WALLPAPER TEST
    ========================================================= */
+
 .wallpaper-test main{
+  background-image: image-set(
+    url('/assets/images/MB-balloons-wallpaper-v1.webp') type("image/webp"),
+    url('/assets/images/MB-balloons-wallpaper-v1.jpg') type("image/jpeg")
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/*.wallpaper-test main{
   --mb-tile-url: url('/assets/images/MB_tile_image_v2.png');
   --hero-bleed: 24px; --hero-pad-y: 24px; --hero-blur: 10px;
 
   background-image: var(--mb-tile-url);
   background-repeat: repeat;
   background-size: calc(100% / 6) auto;
-  background-position: top left; /* align flush to viewport edge */
+  background-position: top left;
 }
 .wallpaper-test main .container{ background:transparent !important; box-shadow:none !important; overflow:visible; }
 
@@ -497,7 +527,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 
 .wallpaper-test .calc-card{
   background:#fff; border:1px solid rgb(72 88 92 / 12%); border-radius:16px; box-shadow:0 4px 16px rgb(0 0 0 / 8%);
-}
+}*/
 
 /* =========================================================
    14) RESPONSIVENESS LADDER (unified)
@@ -536,7 +566,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
 @media (width <=640px){
   /* existing mobile tweaks */
   .site-nav{ gap:.5rem; }
-  .mb-hero__grid{ grid-template-columns: 1fr; }
+ 
   .post-hero, .post-content img{ float:none; display:block; width:100%; margin:0 0 1rem; }
   .wallpaper-test{ background-size: calc(100%/3) auto; }
   .wallpaper-test #home-hero{
@@ -589,6 +619,7 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .site-nav a{ display:block; padding:.6rem .9rem; }
   .site-nav a.is-active{ background: rgb(255 255 255 / 18%); }
   .wallpaper-test{ background-size: calc(100%/4) auto; }
+  .mb-hero__grid{ grid-template-columns: 1fr !important; }
 }
 
 /* 820–1279px (medium desktop) */
@@ -688,9 +719,310 @@ a:hover{ color: var(--dusty-rose); text-decoration:underline; }
   .blog-card .blog-meta{ font-size: 1rem; }
   .post-hero, .post-content img{ width:28%; max-width:560px; }
 }
+/*=========================================================
+   14a) HERO TWEAKS AROUND TABLET WIDTHS
+   (optional: uncomment to enable)
+   ========================================================= */
+   
+/* Tighten hero + increase wallpaper slivers around tablet widths */
+@media (min-width: 790px) and (max-width: 880px){
+
+  /* 1) Slightly narrower container → nicer side slivers */
+  main .container{
+    max-width: 980px;           /* was likely ~1080–1200 */
+    padding-inline: 20px;       /* keep some gutter */
+    /* keep transparent so slivers show */
+  }
+
+  /* 2) Hero block: more top space, less overall height */
+  #home-hero{
+    margin-top: 20px;           /* ↑ top breathing room (green) */
+    margin-bottom: 20px;        /* prevent huge tail at bottom */
+    min-height: auto;           /* stop the long/tall hero */
+    padding: 18px var(--space-2);
+    /* keep your border-radius, etc. from earlier rules */
+  }
+
+  /* 3) Grid: reduce wrapping so left column isn’t so tall */
+  #home-hero .mb-hero__grid{
+    grid-template-columns: 1.2fr 360px;  /* give text a bit more width */
+    gap: 1.25rem;                        /* slightly tighter vertical rhythm */
+  }
+
+  /* 4) Type trims so lines wrap a touch later */
+  .mb-hero__title{
+    font-size: clamp(2rem, 3.8vw, 2.6rem);
+    margin-bottom: .5rem;
+  }
+  .mb-hero__lead p{ margin-bottom: .6rem; }  /* tighten paragraph flow */
+}
+
+
+/* =========================================================
+   15a) LAYOUT PATCH (Hero + Gutters alignment, Oct 2025)
+   ========================================================= */
+
+/* === Unified spacing tokens === */
+:root{
+  --page-gutter: 32px;      /* breathing room + wallpaper slivers */
+  --page-max: 1200px;
+  --hero-pad-y: 28px;
+  --hero-card-w: 380px;
+}
+
+/* Narrow screens: smaller gutters */
+@media (max-width: 819.98px){
+  :root{
+    --page-gutter: 20px;    /* comfy on phones */
+    --hero-card-w: 100%;
+  }
+}
+
+/* Navbar + page container share gutters */
+header .container,
+main .container{
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+/* Keep slivers visible when wallpaper on */
+.wallpaper-test main .container{
+  background: transparent;
+  box-shadow: none;
+}
+
+/* HERO — base structure */
+#home-hero{
+  min-height: auto !important;                /* content-driven */
+  padding: var(--hero-pad-y) var(--page-gutter);
+  margin-block: 16px;
+  border-radius: 18px;
+}
+#home-hero .mb-hero__grid{
+  display: grid;
+  grid-template-columns: 1.25fr min(var(--hero-card-w), 40%);
+  gap: 1.5rem;
+  max-width: var(--page-max);
+  margin-inline: auto;
+}
+
+/* Stack at 820px and below (tablet landscape & down) */
+@media (max-width: 820px){
+  #home-hero .mb-hero__grid{ grid-template-columns: 1fr; }
+  #home-hero{ padding: 20px var(--page-gutter) 24px; }
+  #home-hero .prose p{ margin-bottom: .7rem; }
+  #home-hero .prose p:last-child{ margin-bottom: 0; }
+}
+
+/* HERO — cosmetics only when wallpaper is on */
+.wallpaper-test #home-hero{
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 0%) 60%),
+    rgb(252 252 248 / 60%);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 10%);
+}
+@supports ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))){
+  .wallpaper-test #home-hero{ backdrop-filter: blur(6px); }
+}
+
+/* =========================================================
+   15b) ULTRA-WIDE + CALC LAYOUT (Consolidated Oct 2025)
+   - merges former 15b + 15c
+   - one source of truth for page width, hero grid, calc card
+   ========================================================= */
+
+/* ---- Global width tokens ---- */
+:root{
+  /* Container width grows with viewport, within bounds */
+  --page-max: clamp(1240px, 82rem + 8vw, 1760px);
+
+  /* Gutters already set elsewhere; we just reuse them */
+  /* --page-gutter: 32px;  (from your layout patch) */
+
+  /* Calculator column target width (desktop baseline) */
+  --hero-card-w: 440px;  /* tweak 440–480 to taste */
+}
+
+/* Extra room on large/ultra-wide */
+@media (min-width: 1440px){ :root{ --hero-card-w: 480px; } }
+@media (min-width: 1680px){ :root{ --hero-card-w: 520px; } }
+@media (min-width: 1920px){ :root{ --hero-card-w: 560px; } } /* fix 1920 title wrap */
+
+/* Optional: allow even wider canvases on giant screens */
+@media (min-width: 1920px){ :root{ --page-max: 1560px; } }
+@media (min-width: 2560px){ :root{ --page-max: 1680px; } }
+
+/* ---- Header uses same width + gutters as main ---- */
+header .header-inner{
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+/* ---- Hero grid: single definition (no duplicates elsewhere) ---- */
+#home-hero .mb-hero__grid{
+  display: grid;
+  /* Guarantee the calc column never shrinks below --hero-card-w,
+     while still permitting a % balance. Adjust 36–40% to taste. */
+  grid-template-columns: 1.15fr max(var(--hero-card-w), 36%);
+  gap: 1.5rem;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  align-items: start;           /* pin children to top in two-column mode */
+  align-content: start;
+}
+
+/* A touch more space between columns on very wide screens */
+@media (min-width: 1440px){
+  #home-hero .mb-hero__grid{ gap: 2rem; }
+}
+
+/* ---- Stack + top-align at <= 820px ---- */
+@media (max-width: 820px){
+  #home-hero .mb-hero__grid{
+    grid-template-columns: 1fr !important; /* force stack */
+    align-items: start !important;
+    row-gap: 1rem;
+  }
+  #home-hero .calc-card{
+    align-self: start !important;
+    margin-top: 0;
+  }
+  #home-hero .prose p:last-child{ margin-bottom: 0; }
+  #home-hero{ align-items: start !important; } /* safety if parent is flex/grid */
+}
+
+/* ---- Calculator title behaviour (desktop/tablet) ---- */
+@media (min-width: 821px){
+  /* Keep on one line; let width rules above do the work */
+  #home-hero .calc-card .mb-card__title{
+    white-space: nowrap;
+    text-wrap: nowrap;
+    overflow-wrap: normal;
+    line-height: 1.15;
+  }
+}
+
+/* ---- Keep homepage slivers visible when wallpaper is on ---- */
+.wallpaper-test main .container{
+  background: transparent;
+  box-shadow: none;
+}
+
+/* =========================================================
+   15c) Stop vertical centering; keep calc pinned to top
+   ========================================================= */
+
+/* Always top-align hero contents */
+#home-hero .mb-hero__grid{
+  align-items: start !important;   /* kill any align-items:center from earlier */
+  align-content: start;            /* safety if content alignment is used */
+  justify-items: stretch;
+}
+
+/* Make sure the calculator sticks to the top in two-column mode */
+@media (min-width: 821px){
+  #home-hero .calc-card{
+    align-self: start !important;
+    margin-top: 0;
+  }
+}
+
+/* When stacked, keep the grid top-aligned too (you already stack at 820) */
+@media (max-width: 820px){
+  #home-hero .mb-hero__grid{
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
+    row-gap: 1rem;
+  }
+  #home-hero .calc-card{ align-self: start !important; }
+  /* trim stray bottom margin on the last paragraph in left column */
+  #home-hero .prose p:last-child{ margin-bottom: 0; }
+}
+
+/* (optional) tiny type nudge if it still barely wraps at some odd width */
+/*
+@media (min-width: 821px) and (max-width: 1180px){
+  #home-hero .calc-card .mb-card__title{ font-size: 1.9rem; }
+}
+*/
+
+/* =========================================================
+   15x) Calculator title: container-driven sizing (no jumps)
+   ========================================================= */
+
+/* 1) Make the calc card a container so its children can size to its width */
+@media (min-width: 821px){
+  #home-hero .calc-card{
+    container-type: inline-size; /* enables cqi units below */
+  }
+}
+
+/* 2) Default desktop/tablet title style (fallback if container units not supported) */
+@media (min-width: 821px){
+  #home-hero .calc-card .mb-card__title{
+    white-space: nowrap;
+    overflow-wrap: normal;
+    line-height: 1.15;
+    font-size: 1.9rem; /* safe baseline */
+  }
+}
+
+/* 3) If container units are supported, scale smoothly to ALWAYS fit one line */
+@supports (width: 1cqi){
+  @media (min-width: 821px){
+    #home-hero .calc-card .mb-card__title{
+      /* Scales with the card’s inline size, not the viewport/global H2 scale */
+      font-size: clamp(1.6rem, 0.9rem + 2.2cqi, 2.2rem);
+    }
+  }
+}
+
+/*Optional for a smidge more card room at cinema widths)*/
+@media (min-width: 1920px){
+  #home-hero .mb-hero__grid{
+    grid-template-columns: 1.12fr max(var(--hero-card-w), 38%);
+  }
+}
+
+
+/* =========================================================
+   15y) Extra-wide boost (stop H1 wrap + widen site)
+   ========================================================= */
+
+/* 1) Make the site wider at ≥1920 and again at ≥2400 */
+@media (min-width: 1920px){
+  :root{ --page-max: 1800px; }                /* was 1560/1680; go wider */
+}
+@media (min-width: 2400px){
+  :root{ --page-max: 1920px; }                /* really wide monitors */
+}
+
+/* 2) Bias the hero grid toward the LEFT text column */
+@media (min-width: 1920px){
+  :root{ --hero-card-w: 520px; }              /* keep the card roomy */
+  #home-hero .mb-hero__grid{
+    /* more to text, a bit less % cap on the card */
+    grid-template-columns: 1.35fr max(var(--hero-card-w), 32%);
+    gap: 2.25rem;
+  }
+}
+
+/* Optional: on ultra-ultra wide, bias even more to the left */
+@media (min-width: 2400px){
+  :root{ --hero-card-w: 540px; }
+  #home-hero .mb-hero__grid{
+    grid-template-columns: 1.5fr max(var(--hero-card-w), 30%);
+  }
+}
+
+/* Header must share the same page width */
+header .header-inner{ max-width: var(--page-max); }
+
 
    /* =========================================================
-   15) DEBUGGING UTILITIES
+   16) DEBUGGING UTILITIES
    Toggle by adding class="is-debug" on <html> (or <body>). Reinstate by rebuilding closing comment tags
    ========================================================= 
 
